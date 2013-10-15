@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  company_id: 1
+  pos_id: 1
+  date: 2013-10-15
+  number: 1
+  value: 9.99
+  vat: 9.99
+  net_value: 9.99
+  cash: 9.99
+  receipt_count: 1
+  created_by: 1
+  updated_by: 1
+
+two:
+  company_id: 1
+  pos_id: 1
+  date: 2013-10-15
+  number: 1
+  value: 9.99
+  vat: 9.99
+  net_value: 9.99
+  cash: 9.99
+  receipt_count: 1
+  created_by: 1
+  updated_by: 1

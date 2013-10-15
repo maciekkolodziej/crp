@@ -1,5 +1,12 @@
 source 'https://rubygems.org'
 
+# Use twitter bootstrap theme - without 'less'
+gem 'twitter-bootstrap-rails'
+
+# Use haml instead of erb
+gem 'haml'
+gem 'haml-rails'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 

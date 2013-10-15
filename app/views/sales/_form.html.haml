@@ -1,0 +1,44 @@
+= form_for @sale, :html => { :class => 'form-horizontal' } do |f|
+  .control-group
+    = f.label :company_id, :class => 'control-label'
+    .controls
+      = f.text_field :company_id, :class => 'text_field'
+  .control-group
+    = f.label :pos_id, :class => 'control-label'
+    .controls
+      = f.text_field :pos_id, :class => 'text_field'
+  .control-group
+    = f.label :date, :class => 'control-label'
+    .controls
+      = f.text_field :date, :class => 'text_field'
+  .control-group
+    = f.label :number, :class => 'control-label'
+    .controls
+      = f.text_field :number, :class => 'text_field'
+  .control-group
+    = f.label :value, :class => 'control-label'
+    .controls
+      = f.text_field :value, :class => 'text_field'
+  .control-group
+    = f.label :vat, :class => 'control-label'
+    .controls
+      = f.text_field :vat, :class => 'text_field'
+  .control-group
+    = f.label :net_value, :class => 'control-label'
+    .controls
+      = f.text_field :net_value, :class => 'text_field'
+  .control-group
+    = f.label :cash, :class => 'control-label'
+    .controls
+      = f.text_field :cash, :class => 'text_field'
+  .control-group
+    = f.label :created_by, :class => 'control-label'
+    .controls
+      = f.text_field :created_by, :class => 'text_field'
+  .control-group
+    = f.label :updated_by, :class => 'control-label'
+    .controls
+      = f.text_field :updated_by, :class => 'text_field'
+  .form-actions
+    = f.submit nil, :class => 'btn btn-primary'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), sales_path, :class => 'btn'
