@@ -18,11 +18,11 @@ ActiveRecord::Schema.define(version: 20131015072658) do
     t.integer  "pos_id"
     t.date     "date"
     t.integer  "number"
-    t.decimal  "value",         precision: 10, scale: 0
-    t.decimal  "vat",           precision: 10, scale: 0
-    t.decimal  "net_value",     precision: 10, scale: 0
-    t.decimal  "cash",          precision: 10, scale: 0
+    t.decimal  "value",                          precision: 10, scale: 2
+    t.decimal  "vat",                            precision: 10, scale: 2
+    t.decimal  "cash",                           precision: 10, scale: 2
     t.integer  "receipt_count"
+    t.binary   "file_content",  limit: 16777215
     t.integer  "created_by"
     t.integer  "updated_by"
     t.datetime "created_at"

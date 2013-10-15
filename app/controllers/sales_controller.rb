@@ -35,6 +35,7 @@ class SalesController < ApplicationController
         format.json { render json: @sale.errors, status: :unprocessable_entity }
       end
     end
+    
   end
 
   # PATCH/PUT /sales/1
@@ -69,6 +70,6 @@ class SalesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def sale_params
-      params.require(:sale).permit(:company_id, :pos_id, :date, :number, :value, :vat, :net_value, :cash, :receipt_count, :created_by, :updated_by)
+      params.require(:sale).permit(:cash, :file)
     end
 end

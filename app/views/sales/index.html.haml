@@ -14,7 +14,6 @@
       %th= model_class.human_attribute_name(:net_value)
       %th= model_class.human_attribute_name(:cash)
       %th= model_class.human_attribute_name(:created_by)
-      %th= model_class.human_attribute_name(:updated_by)
       %th= model_class.human_attribute_name(:created_at)
       %th=t '.actions', :default => t("helpers.actions")
   %tbody
@@ -30,7 +29,6 @@
         %td= sale.net_value
         %td= sale.cash
         %td= sale.created_by
-        %td= sale.updated_by
         %td=l sale.created_at
         %td
           = link_to t('.edit', :default => t("helpers.links.edit")), edit_sale_path(sale), :class => 'btn btn-mini'

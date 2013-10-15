@@ -23,5 +23,6 @@ module Crp
     config.generators do |g|
       g.template_engine :haml
     end
+    config.encoding = "utf-8"
   end
 end

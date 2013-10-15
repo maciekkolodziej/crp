@@ -25,5 +25,6 @@ Crp::Application.configure do
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
-  config.assets.debug = true
+  # config.assets.debug = true <- that was default setting
+  config.assets.debug = false # <- this solves verry slow asset loading issue
 end

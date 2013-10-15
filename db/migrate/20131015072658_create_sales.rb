@@ -5,11 +5,11 @@ class CreateSales < ActiveRecord::Migration
       t.integer :pos_id
       t.date :date
       t.integer :number
-      t.decimal :value
-      t.decimal :vat
-      t.decimal :net_value
-      t.decimal :cash
+      t.decimal :value, :precision => 10, :scale => 2
+      t.decimal :vat, :precision => 10, :scale => 2
+      t.decimal :cash, :precision => 10, :scale => 2
       t.integer :receipt_count
+      t.binary :file_content, :limit => 10.megabyte
       t.integer :created_by
       t.integer :updated_by
 
