@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+# Use Thin server instead of Webrick (verry slow on Windows)
+gem 'thin'
+
 # Use twitter bootstrap theme - without 'less'
 gem 'twitter-bootstrap-rails'
 

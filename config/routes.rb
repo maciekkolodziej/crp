@@ -1,4 +1,5 @@
 Crp::Application.routes.draw do
+  root "sales#index"
   resources :sales
 
   # The priority is based upon order of creation: first created -> highest priority.
