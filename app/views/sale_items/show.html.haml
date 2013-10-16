@@ -1,0 +1,49 @@
+- model_class = SaleItem
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human.titleize
+
+%p
+  %strong= model_class.human_attribute_name(:sale_receipt_id) + ':'
+  %br
+  = @sale_item.sale_receipt_id
+%p
+  %strong= model_class.human_attribute_name(:product_id) + ':'
+  %br
+  = @sale_item.product_id
+%p
+  %strong= model_class.human_attribute_name(:product_name) + ':'
+  %br
+  = @sale_item.product_name
+%p
+  %strong= model_class.human_attribute_name(:quantity) + ':'
+  %br
+  = @sale_item.quantity
+%p
+  %strong= model_class.human_attribute_name(:price) + ':'
+  %br
+  = @sale_item.price
+%p
+  %strong= model_class.human_attribute_name(:value) + ':'
+  %br
+  = @sale_item.value
+%p
+  %strong= model_class.human_attribute_name(:net_value) + ':'
+  %br
+  = @sale_item.net_value
+%p
+  %strong= model_class.human_attribute_name(:vat_symbol) + ':'
+  %br
+  = @sale_item.vat_symbol
+%p
+  %strong= model_class.human_attribute_name(:vat_rate) + ':'
+  %br
+  = @sale_item.vat_rate
+%p
+  %strong= model_class.human_attribute_name(:line_number) + ':'
+  %br
+  = @sale_item.line_number
+
+.form-actions
+  = link_to t('.back', :default => t("helpers.links.back")), sale_items_path, :class => 'btn'
+  = link_to t('.edit', :default => t("helpers.links.edit")), edit_sale_item_path(@sale_item), :class => 'btn'
+  = link_to t('.destroy', :default => t("helpers.links.destroy")), sale_item_path(@sale_item), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'

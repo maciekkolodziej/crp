@@ -1,0 +1,73 @@
+%h1 Demo#index
+%p Find me in app/views/demo/index.html.haml
+
+%h2 Working with match
+%h3 Time and number
+- line = ' F15459¦ #1 1.KASJER                       ˇ08:50'
+%pre= line.inspect
+
+%p line.match('F\d{5}')
+%pre= line.match('F\d{5}').inspect
+
+%p line[1..6].match('F\d{5}')
+%pre= line[1..6].match('F\d{5}')
+
+%p line[1..5]
+%pre= line[1..5]
+
+%p line
+%pre= line.inspect
+
+%p line.match('\d{2}:\d{2}')
+%pre= line.match('\d{2}:\d{2}')
+
+%h3 Receipt item
+- line = ' LATTE 1.00*8.00                           ¨8.00A'
+%pre= line.inspect
+
+- regExp = /¨\d+.\d+[A-C]/
+- value = line.match(regExp)
+- line = line.gsub(regExp, '')
+%pre= value
+%pre= line
+- regExp = /\d+.\d+\*\d+.\d+/
+- value = line.match(regExp)
+- line = line.gsub(regExp, '')
+%pre= value
+%pre= line
+
+%h2 Working with hashes
+array_of_hashes = []
+%pre= array_of_hashes = []
+
+array_of_hashes << {0 => 'Linia tekstu'}
+%pre= array_of_hashes << {0 => 'Linia tekstu'}
+
+array_of_hashes << {1 => 'Druga Linia tekstu'}
+%pre= array_of_hashes << {1 => 'Druga Linia tekstu'}
+
+array_of_hashes.each do hash.inspect
+- array_of_hashes.each do |hash|
+  %pre= hash.inspect
+
+rray_of_hashes.each do hash
+- array_of_hashes.each do |hash|
+  %pre= hash
+  
+%h2 Array of arrays
+%p array_of_arrays ||= []
+- array_of_arrays ||= []
+
+%p array1 = ['123', 'text']
+%p array2 = ['456', 'inny text']
+- array1 = ['123', 'text']
+- array2 = ['456', 'inny text']
+
+%p array_of_arrays << array1
+- array_of_arrays << array1
+
+%p array_of_arrays << array2
+- array_of_arrays << array2
+
+array_of_arrays.inspect
+%pre= array_of_arrays.inspect

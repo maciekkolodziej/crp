@@ -31,7 +31,9 @@
             %ul.nav
               =drop_down "Sales" do
                 =menu_item "Sales", sales_path
-                =menu_item "New", new_sale_path
+                =menu_item "Receipts", sale_receipts_path
+                =menu_item "Items", sale_items_path
+                =menu_item "New sale", new_sale_path
               %li= link_to "Link 2", "/path2"
               %li= link_to "Link 3", "/path3"
               

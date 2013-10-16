@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  receipt_id: 1
+  product_id: 1
+  product_name: MyString
+  quantity: 1
+  value: 9.99
+  net_value: MyString
+  vat_symbol: MyString
+  vat_rate: 9.99
+  line_number: 1
+
+two:
+  receipt_id: 1
+  product_id: 1
+  product_name: MyString
+  quantity: 1
+  value: 9.99
+  net_value: MyString
+  vat_symbol: MyString
+  vat_rate: 9.99
+  line_number: 1

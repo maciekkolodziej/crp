@@ -1,7 +1,10 @@
 Crp::Application.routes.draw do
-  root "sales#index"
-  resources :sales
+  resources :sale_items
 
+  get "demo/index"
+  resources :sale_receipts
+  resources :sales
+  root "sales#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

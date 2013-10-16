@@ -1,0 +1,2 @@
+module SaleReceiptsHelper
+end
