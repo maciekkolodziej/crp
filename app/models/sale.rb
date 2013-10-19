@@ -6,13 +6,17 @@ class Sale < ActiveRecord::Base
   attr_accessor :file
   
   # Validators
-  validates :cash, :numericality => true, :presence => true
+  validates :card_payments, :numericality => true, :presence => true
   validates :file, :presence => true
   
   # Callbacks
   before_save :set_file_content, :read_attributes_from_file
   after_save :create_receipts
-
+  
+  def cash_payments
+    return self.value - self.card_payments.to_f
+  end
+  
   def net_value
     if self.value && self.vat
       return self.value - self.vat
@@ -57,8 +61,17 @@ class Sale < ActiveRecord::Base
       
       # Finds total value
       self.value = @lines[summary_line_no + 20].match('\d+\.?\d*')[0]
-      return true
       
+      # Find receipt_count
+      self.receipt_count = @lines[summary_line_no + 21].match(/\d+/)[0]
+      
+      # Find cancelled_receipt_count
+      self.cancelled_receipt_count = @lines[summary_line_no + 31].match(/\d+/)[0]
+      
+      # Find cancelled_receipt_value
+      self.cancelled_receipt_value = @lines[summary_line_no + 30].match(/\d+.\d+/)[0]
+      
+      return true
     else
       return false
     end

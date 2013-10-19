@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131016065405) do
+ActiveRecord::Schema.define(version: 20131019065245) do
 
   create_table "sale_items", force: true do |t|
     t.integer "sale_receipt_id"
@@ -49,11 +49,14 @@ ActiveRecord::Schema.define(version: 20131016065405) do
     t.integer  "pos_id"
     t.date     "date"
     t.integer  "number"
-    t.decimal  "value",                          precision: 10, scale: 2
-    t.decimal  "vat",                            precision: 10, scale: 2
-    t.decimal  "cash",                           precision: 10, scale: 2
+    t.decimal  "value",                                    precision: 10, scale: 2
+    t.decimal  "vat",                                      precision: 10, scale: 2
+    t.decimal  "card_payments",                            precision: 10, scale: 2
+    t.decimal  "cash_payments",                            precision: 10, scale: 2
     t.integer  "receipt_count"
-    t.binary   "file_content",  limit: 16777215
+    t.integer  "cancelled_receipt_count"
+    t.decimal  "cancelled_receipt_value",                  precision: 10, scale: 2
+    t.binary   "file_content",            limit: 16777215
     t.integer  "created_by"
     t.integer  "updated_by"
     t.datetime "created_at"

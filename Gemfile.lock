@@ -126,6 +126,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  actionmailer
   coffee-rails (~> 4.0.0)
   haml
   haml-rails

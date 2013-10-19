@@ -4,9 +4,9 @@
     .controls
       = f.file_field :file, :class => 'file_field'
   .control-group
-    = f.label :cash, :class => 'control-label'
+    = f.label :card_payments, :class => 'control-label'
     .controls
-      = f.text_field :cash, :class => 'text_field'
+      = f.text_field :card_payments, :class => 'text_field'
   .form-actions
     = f.submit nil, :class => 'btn btn-primary'
     = link_to t('.cancel', :default => t("helpers.links.cancel")), sales_path, :class => 'btn'

@@ -31,9 +31,25 @@
   %br
   = @sale.net_value
 %p
-  %strong= model_class.human_attribute_name(:cash) + ':'
+  %strong= model_class.human_attribute_name(:card_payments) + ':'
   %br
-  = @sale.cash
+  = @sale.card_payments
+%p
+  %strong= model_class.human_attribute_name(:cash_payments) + ':'
+  %br
+  = @sale.cash_payments
+%p
+  %strong= model_class.human_attribute_name(:receipt_count) + ':'
+  %br
+  = @sale.receipt_count
+%p
+  %strong= model_class.human_attribute_name(:cancelled_receipt_count) + ':'
+  %br
+  = @sale.cancelled_receipt_count
+%p
+  %strong= model_class.human_attribute_name(:cancelled_receipt_value) + ':'
+  %br
+  = @sale.cancelled_receipt_value
 %p
   %strong= model_class.human_attribute_name(:created_by) + ':'
   %br
@@ -42,6 +58,14 @@
   %strong= model_class.human_attribute_name(:updated_by) + ':'
   %br
   = @sale.updated_by
+%p
+  %strong= model_class.human_attribute_name(:created_at) + ':'
+  %br
+  = @sale.created_at
+%p
+  %strong= model_class.human_attribute_name(:updated_at) + ':'
+  %br
+  = @sale.updated_at
 
 .form-actions
   = link_to t('.back', :default => t("helpers.links.back")), sales_path, :class => 'btn'

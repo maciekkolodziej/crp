@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+# Use Action Mailer for sending log messages
+gem 'actionmailer'
+
 # Use Thin server instead of Webrick (verry slow on Windows)
 gem 'thin'
 
