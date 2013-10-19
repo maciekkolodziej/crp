@@ -11,7 +11,7 @@ class Sale < ActiveRecord::Base
   
   # Callbacks
   before_save :set_file_content, :read_attributes_from_file
-  after_save :create_receipts
+  after_save :create_receipts, :perform_checks
   
   def cash_payments
     return self.value - self.card_payments.to_f
@@ -31,6 +31,18 @@ class Sale < ActiveRecord::Base
       self.file_content = file.read.encode("UTF-8", invalid: :replace, undef: :replace)
     else
       self.file_content = nil
+    end
+  end
+  
+    # Assure that receipts saved correctly
+  # TODO: Move to private
+  def perform_checks
+    if self.receipt_count != self.sale_receipts.count
+      message = "Receipt count from daily report: #{self.receipt_count}. Receipt records added: #{self.sale_receipts.count}"
+      LogMailer.create("Wrong receipt count in sale: #{self.id}", message).deliver
+      return "#{self.sale_receipts.count}"
+    else 
+      return true
     end
   end
   

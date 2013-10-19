@@ -14,8 +14,20 @@ Crp::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
+  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
+  
+  config.action_mailer.delivery_method = :smtp
+  smtp_pass = File.open("config/passwords/smtp.pass", "r").read
+  config.action_mailer.smtp_settings = {
+    address:              'maciekkolodziej.pl',
+    port:                 587,
+    domain:               'maciekkolodziej.pl',
+    user_name:            'crp',
+    password:             smtp_pass,
+    authentication:       'plain',
+    enable_starttls_auto: true  }
+  
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

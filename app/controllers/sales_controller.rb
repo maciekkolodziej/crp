@@ -1,6 +1,12 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: [:show, :edit, :update, :destroy]
 
+  def check
+    @sale = Sale.first
+    result = @sale.perform_checks
+    redirect_to @sale, notice: "Checks result: #{result}"
+  end
+
   # GET /sales
   # GET /sales.json
   def index

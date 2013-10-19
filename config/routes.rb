@@ -2,6 +2,7 @@ Crp::Application.routes.draw do
   resources :sale_items
 
   get "demo/index"
+  get "sales/check"
   resources :sale_receipts
   resources :sales
   root "sales#index"
