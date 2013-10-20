@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131019065245) do
+ActiveRecord::Schema.define(version: 20131019105721) do
 
   create_table "sale_items", force: true do |t|
     t.integer "sale_receipt_id"
@@ -35,8 +35,7 @@ ActiveRecord::Schema.define(version: 20131019065245) do
     t.datetime "datetime"
     t.decimal  "value",          precision: 10, scale: 2
     t.decimal  "net_value",      precision: 10, scale: 2
-    t.integer  "item_count"
-    t.boolean  "cancelled"
+    t.boolean  "cancelled",                               default: false
     t.integer  "salesman_id"
     t.integer  "begins_at_line"
     t.integer  "ends_at_line"
@@ -61,6 +60,11 @@ ActiveRecord::Schema.define(version: 20131019065245) do
     t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "vat_rates", force: true do |t|
+    t.string  "symbol", limit: 1
+    t.decimal "rate",             precision: 3, scale: 2
   end
 
 end

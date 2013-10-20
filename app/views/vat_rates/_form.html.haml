@@ -1,0 +1,12 @@
+= form_for @vat_rate, :html => { :class => 'form-horizontal' } do |f|
+  .control-group
+    = f.label :symbol, :class => 'control-label'
+    .controls
+      = f.text_field :symbol, :class => 'text_field'
+  .control-group
+    = f.label :rate, :class => 'control-label'
+    .controls
+      = f.text_field :rate, :class => 'text_field'
+  .form-actions
+    = f.submit nil, :class => 'btn btn-primary'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), vat_rates_path, :class => 'btn'

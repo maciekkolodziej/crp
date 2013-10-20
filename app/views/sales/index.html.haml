@@ -22,7 +22,6 @@
     - @sales.each do |sale|
       %tr
         %td= link_to sale.id, sale_path(sale)
-        %td= sale.company_id
         %td= sale.pos_id
         %td= sale.date
         %td= sale.number

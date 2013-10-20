@@ -1,0 +1,14 @@
+%h2 Hashes
+%pre= string = 'SP.OP.A: 9.00 PTU 23.00%                   ‘1.68'
+%p string.match(/[A-D]:.*\d+.\d+\%/)[0]
+%pre= matched_string = string.match(/[A-D]:.*\d+.\d+\%/)[0]
+%p hash ||= {}
+=hash||= {}
+
+%p key = matched_string[0]
+%pre= key = matched_string[0]
+%pre= value = matched_string.match(/\d+.\d+\%/)[0].to_f / 100
+%pre= hash[key] = value
+%pre= hash.inspect
+%pre= keyy = 'A'
+%pre= 35 * hash[keyy]

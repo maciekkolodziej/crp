@@ -16,9 +16,10 @@ Crp::Application.configure do
   # Don't care if the mailer can't send.
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.raise_delivery_errors = true
-  
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
   config.action_mailer.delivery_method = :smtp
-  smtp_pass = File.open("config/passwords/smtp.pass", "r").read
+  pass_file = Rails.root.join('config', 'passwords', 'smtp.pass')
+  smtp_pass = File.open(pass_file, "r").read
   config.action_mailer.smtp_settings = {
     address:              'maciekkolodziej.pl',
     port:                 587,

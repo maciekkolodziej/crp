@@ -11,9 +11,9 @@
   %br
   = @sale_receipt.number
 %p
-  %strong= model_class.human_attribute_name(:time) + ':'
+  %strong= model_class.human_attribute_name(:datetime) + ':'
   %br
-  = @sale_receipt.time
+  = @sale_receipt.datetime
 %p
   %strong= model_class.human_attribute_name(:value) + ':'
   %br
@@ -42,7 +42,7 @@
 %p
   %strong= model_class.human_attribute_name(:file_content) + ':'
   %br
-  = @sale_receipt.file_content
+  %pre= @sale_receipt.file_content
 
 .form-actions
   = link_to t('.back', :default => t("helpers.links.back")), sale_receipts_path, :class => 'btn'

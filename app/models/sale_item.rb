@@ -4,6 +4,10 @@ class SaleItem < ActiveRecord::Base
   
   before_save :read_from_line
   
+  def line
+    self.sale_receipt.sale.file_content.lines[self.line_number]
+  end
+  
   private
   
   def read_from_line
@@ -14,7 +18,7 @@ class SaleItem < ActiveRecord::Base
     self.value = string.match(/\d+.\d+/)
     
     # ...and strip the line for further eveluation
-    self.line = self.line.gsub(regExp, '')
+    stripped_line = self.line.gsub!(regExp, '')
     
     # Get quantity and price...
     regExp = /\d+.\d+\*\d+.\d+/
@@ -23,9 +27,13 @@ class SaleItem < ActiveRecord::Base
     self.price = values[1]
     
     # ...end strip...
-    self.line = self.line.gsub(regExp, '')
+    stripped_line = stripped_line.gsub!(regExp, '')
     
     # Remaining part is prouct_name
-    self.product_name = line.gsub(/[^0-9A-Za-z\s]/, '')
+    self.product_name = stripped_line.gsub!(/[^0-9A-Za-z\s]/, '')
+    
+    if vat_rate
+      self.net_value = self.value / (1 + self.vat_rate)
+    end
   end
 end

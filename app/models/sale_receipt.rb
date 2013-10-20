@@ -19,11 +19,22 @@ class SaleReceipt < ActiveRecord::Base
     return self.ends_at_line - self.begins_at_line
   end
   
+  def item_count
+    return self.sale_items.count
+  end
+  
   private
   
   def create_items
     @item_lines.each do |line|
-      self.sale_items.create(line_number: line[0], line: line[1])
+      # Get vat_symbol from line
+      vat_symbol = line[1].strip[-1..-1]
+      # Get vat_rate for that symbol if @vat_rates are not empty (like in cancelled receipt)
+      if @vat_rates
+        vat_rate = @vat_rates[vat_symbol]
+      end
+      # Create item - pass line number, line and vat rate
+      self.sale_items.create(line_number: line[0], line: line[1], vat_rate: vat_rate)
     end
   end
   
@@ -57,6 +68,20 @@ class SaleReceipt < ActiveRecord::Base
       # Check if cancelled
       if line.include?('PARAGON ANULOWANY')
         self.cancelled = true
+        next
+      end
+      
+      # Store VAT rates for creating item
+      if line.match(/[A-D]:.*\d+.\d+\%/)
+        @vat_rates ||= {}
+        # Like A:
+        symbol = line.match(/[A-D]:/)[0][0..0]
+        # Match % and convert to rate
+        rate = line.match(/\d+.\d+\%/)[0].to_f / 100
+        # Add to @vat_rates hash
+        @vat_rates[symbol] = rate
+        logger.debug "Rate: #{rate} \ Symbol: #{symbol}"
+        logger.debug @vat_rates.inspect
         next
       end
       

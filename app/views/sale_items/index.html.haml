@@ -20,7 +20,7 @@
     - @sale_items.each do |sale_item|
       %tr
         %td= link_to sale_item.id, sale_item_path(sale_item)
-        %td= sale_item.sale_receipt_id
+        %td= link_to sale_item.sale_receipt_id, sale_receipt_path(sale_item.sale_receipt)
         %td= sale_item.product_id
         %td= sale_item.product_name
         %td= sale_item.quantity

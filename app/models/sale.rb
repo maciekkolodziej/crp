@@ -6,8 +6,8 @@ class Sale < ActiveRecord::Base
   attr_accessor :file
   
   # Validators
-  validates :card_payments, :numericality => true, :presence => true
-  validates :file, :presence => true
+  validates :card_payments, numericality: true, presence: true
+  validates :file, presence: true
   
   # Callbacks
   before_save :set_file_content, :read_attributes_from_file
@@ -31,18 +31,6 @@ class Sale < ActiveRecord::Base
       self.file_content = file.read.encode("UTF-8", invalid: :replace, undef: :replace)
     else
       self.file_content = nil
-    end
-  end
-  
-    # Assure that receipts saved correctly
-  # TODO: Move to private
-  def perform_checks
-    if self.receipt_count != self.sale_receipts.count
-      message = "Receipt count from daily report: #{self.receipt_count}. Receipt records added: #{self.sale_receipts.count}"
-      LogMailer.create("Wrong receipt count in sale: #{self.id}", message).deliver
-      return "#{self.sale_receipts.count}"
-    else 
-      return true
     end
   end
   
@@ -107,6 +95,35 @@ class Sale < ActiveRecord::Base
         @receipt = nil
         next
       end
+    end
+  end
+  
+  # Assure that receipts saved correctly
+  def perform_checks
+    if check_receipts_count && check_receipts_value 
+      return true
+    else 
+      return false
+    end
+  end
+  
+  # Check count against number of records
+  def check_receipts_count
+    if (self.receipt_count + self.cancelled_receipt_count) != self.sale_receipts.count
+      LogMailer.wrong_receipts_count(self).deliver
+      return false
+    else 
+      return true
+    end
+  end
+  
+  # Check sale.value against sum of receipts values
+  def check_receipts_value
+    if self.value != self.sale_receipts.sum(:value)
+      LogMailer.wrong_receipts_value(self).deliver
+      return false
+    else 
+      return true
     end
   end
   

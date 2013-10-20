@@ -42,6 +42,10 @@
   %strong= model_class.human_attribute_name(:line_number) + ':'
   %br
   = @sale_item.line_number
+%p
+  %strong= model_class.human_attribute_name(:line) + ':'
+  %br
+  %pre= @sale_item.line
 
 .form-actions
   = link_to t('.back', :default => t("helpers.links.back")), sale_items_path, :class => 'btn'

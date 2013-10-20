@@ -20,7 +20,7 @@
     - @sale_receipts.each do |sale_receipt|
       %tr
         %td= link_to sale_receipt.id, sale_receipt_path(sale_receipt)
-        %td= sale_receipt.sale_id
+        %td= link_to sale_receipt.sale_id, sale_path(sale_receipt.sale)
         %td= sale_receipt.number
         %td= sale_receipt.datetime
         %td= sale_receipt.value
