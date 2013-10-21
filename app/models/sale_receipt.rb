@@ -7,18 +7,22 @@ class SaleReceipt < ActiveRecord::Base
   before_save :read_from_file
   after_save :create_items
   
+  # Converts file_content for this receipt into array of lines
   def lines
     return self.sale.file_content.lines[self.begins_at_line..self.ends_at_line]
   end
   
+  # Makes file content out of lines array
   def file_content
     return self.lines.join
   end
   
+  # Count of lines
   def line_count
     return self.ends_at_line - self.begins_at_line
   end
   
+  # Count of items
   def item_count
     return self.sale_items.count
   end
@@ -26,15 +30,17 @@ class SaleReceipt < ActiveRecord::Base
   private
   
   def create_items
-    @item_lines.each do |line|
-      # Get vat_symbol from line
-      vat_symbol = line[1].strip[-1..-1]
-      # Get vat_rate for that symbol if @vat_rates are not empty (like in cancelled receipt)
-      if @vat_rates
-        vat_rate = @vat_rates[vat_symbol]
+    if @item_lines
+      @item_lines.each do |line|
+        # Get vat_symbol from line
+        vat_symbol = line[1].strip[-1..-1]
+        # Get vat_rate for that symbol if @vat_rates are not empty (like in cancelled receipt)
+        if @vat_rates
+          vat_rate = @vat_rates[vat_symbol]
+        end
+        # Create item - pass line number, line and vat rate
+        self.sale_items.create(line_number: line[0], line: line[1], vat_rate: vat_rate)
       end
-      # Create item - pass line number, line and vat rate
-      self.sale_items.create(line_number: line[0], line: line[1], vat_rate: vat_rate)
     end
   end
   
@@ -86,7 +92,7 @@ class SaleReceipt < ActiveRecord::Base
       end
       
       # Check if it's recipe item
-      if line.match('\d+.\d+\*\d+.\d+')
+      if line.match('\d+\*\d+.\d+')
         @item_lines ||= []
         @item_lines << [self.begins_at_line + i, line]
       end

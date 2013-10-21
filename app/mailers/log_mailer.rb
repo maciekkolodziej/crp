@@ -2,14 +2,9 @@ class LogMailer < ActionMailer::Base
   default from: '"CRP" <crp@maciekkolodziej.pl>',
           to: "maciek@kolodziej.com.pl"
           
-  def wrong_receipts_count(sale)
-    @sale = sale
-    mail(subject: "Wrong receipt count")
-  end
-  
-  def wrong_receipts_value(sale)
-    @sale = sale
-    mail(subject: "Wrong receipt value")
+  def sale_report(sale)
+    @sale = sale    
+    mail(subject: "Utarg w #{@sale.pos_id} z #{@sale.date} wynosi #{@sale.value} (#{@sale.receipt_count} par.)")
   end
   
 end

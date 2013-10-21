@@ -1,5 +1,14 @@
 source 'https://rubygems.org'
 
+# Charting libraries
+# Chartkick also needs javascript inclusion:
+# <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+gem 'chartkick' # for quick charts
+gem 'google_visualr'
+
+# Grouping by date gem (day of week, hour of day)
+gem 'groupdate'
+
 # Use Action Mailer for sending log messages
 gem 'actionmailer'
 

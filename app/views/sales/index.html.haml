@@ -1,6 +1,10 @@
 - model_class = Sale
 .page-header
   %h1=t '.title', :default => model_class.model_name.human.pluralize.titleize
+
+%div= column_chart @chart_data, :library => { :isStacked => false, :title => "Average sales by hour" }
+%pre= @data.inspect
+
 %table.table.table-striped
   %thead
     %tr

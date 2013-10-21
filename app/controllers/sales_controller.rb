@@ -1,16 +1,20 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: [:show, :edit, :update, :destroy]
 
-  def check
-    @sale = Sale.first
-    result = @sale.perform_checks
-    redirect_to @sale, notice: "Checks result: #{result}"
-  end
-
   # GET /sales
   # GET /sales.json
   def index
     @sales = Sale.all
+    
+    @chart_data = Pos.all.map do |pos|
+      sales_count = pos.sales.count
+      @data = {}
+      pos.sale_receipts.group_by_hour_of_day(:datetime).sum(:net_value).each {|key, value| @data[key] = (value / sales_count) * 0.62 - 10}
+      {
+      :name => pos.name, 
+      :data => @data
+      }
+    end
   end
 
   # GET /sales/1

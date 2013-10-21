@@ -1,0 +1,15 @@
+%p= sales_url
+
+%dl
+  %dt= "Liczba paragonów: #{@sale.receipt_count} + #{@sale.cancelled_receipt_count} anulowanych"
+  - query_count = @sale.sale_receipts.count
+  - result = ((@sale.receipt_count + @sale.cancelled_receipt_count) == query_count) ? "OK" : "Error!"
+  %dd= "Dodano rekordów: #{@sale.sale_receipts.count}... #{result}"
+  
+  %dt= "Wartość netto: #{@sale.net_value}"
+  - query_receipts_net_value = @sale.sale_receipts.sum(:net_value)
+  - result = ((@sale.net_value - query_receipts_net_value).abs < 1) ? "OK" : "Error!"
+  %dd= "Suma wartości netto z dodanych paragonów: #{query_receipts_net_value}... #{result}"
+  - query_items_net_value = @sale.sale_items.sum(:net_value)
+  - result = ((@sale.net_value - query_items_net_value).abs < 1) ? "OK" : "Error!"
+  %dd= "Suma wartości netto z wszystkich produktów: #{query_items_net_value}... #{result}"

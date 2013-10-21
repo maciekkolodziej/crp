@@ -1,6 +1,8 @@
 class Sale < ActiveRecord::Base
   # Relations
+  belongs_to :pos
   has_many :sale_receipts, dependent: :destroy
+  has_many :sale_items, through: :sale_receipts
   
   # Additional attributes
   attr_accessor :file
@@ -8,21 +10,30 @@ class Sale < ActiveRecord::Base
   # Validators
   validates :card_payments, numericality: true, presence: true
   validates :file, presence: true
+  validate :file_contains_daily_report?
   
   # Callbacks
-  before_save :set_file_content, :read_attributes_from_file
-  after_save :create_receipts, :perform_checks
+  before_validation :set_file_content
+  before_save :read_attributes_from_file
+  after_save :create_receipts, :create_sale_report
   
-  def cash_payments
-    return self.value - self.card_payments.to_f
+  # Provides unix timestamp for groupdate gem
+  def datetime_timestamp
+    return Date.parse(self.date).to_time
   end
   
+  # Calculates net value
   def net_value
     if self.value && self.vat
       return self.value - self.vat
     else
       return ""
     end
+  end
+  
+  # Calculates cash payments
+  def cash_payments
+    return self.value - self.card_payments.to_f
   end
   
   # Sets file_content attribute if file was supplied
@@ -35,6 +46,16 @@ class Sale < ActiveRecord::Base
   end
   
   private
+  
+  # Validates if file is closed by daily report
+  def file_contains_daily_report?
+    if self.file_content.include?('.  R A P O R T   F I S K A L N Y   D O B O W Y   ')
+      return true
+    else
+      errors.add(:file, "Couldn't find daily fiscal report.")
+      return false
+    end
+  end
   
   def read_attributes_from_file
     if self.file_content
@@ -66,11 +87,18 @@ class Sale < ActiveRecord::Base
       self.receipt_count = @lines[summary_line_no + 21].match(/\d+/)[0]
       
       # Find cancelled_receipt_count
-      self.cancelled_receipt_count = @lines[summary_line_no + 31].match(/\d+/)[0]
+      if line = @lines[summary_line_no + 31].match(/\d+/)
+        self.cancelled_receipt_count = line[0]
+      else
+        self.cancelled_receipt_count = 0
+      end
       
       # Find cancelled_receipt_value
-      self.cancelled_receipt_value = @lines[summary_line_no + 30].match(/\d+.\d+/)[0]
-      
+      if line = @lines[summary_line_no + 30].match(/\d+.\d+/)
+        self.cancelled_receipt_value = line[0]
+      else
+        self.cancelled_receipt_value = 0
+      end
       return true
     else
       return false
@@ -98,33 +126,9 @@ class Sale < ActiveRecord::Base
     end
   end
   
-  # Assure that receipts saved correctly
-  def perform_checks
-    if check_receipts_count && check_receipts_value 
-      return true
-    else 
-      return false
-    end
-  end
-  
-  # Check count against number of records
-  def check_receipts_count
-    if (self.receipt_count + self.cancelled_receipt_count) != self.sale_receipts.count
-      LogMailer.wrong_receipts_count(self).deliver
-      return false
-    else 
-      return true
-    end
-  end
-  
-  # Check sale.value against sum of receipts values
-  def check_receipts_value
-    if self.value != self.sale_receipts.sum(:value)
-      LogMailer.wrong_receipts_value(self).deliver
-      return false
-    else 
-      return true
-    end
+  # Create and send sale report
+  def create_sale_report
+    mail = LogMailer.sale_report(self).deliver
   end
   
 end

@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131019105721) do
+ActiveRecord::Schema.define(version: 20131020103814) do
+
+  create_table "pos", force: true do |t|
+    t.string "name"
+  end
 
   create_table "sale_items", force: true do |t|
     t.integer "sale_receipt_id"
