@@ -1,0 +1,5 @@
+.nested-fields
+  = f.inputs do
+    = f.input :role_id, as: :select, wrapper_html: { class: 'inline' }, label: t('.role', default: [:'activerecord.models.role.one', 'Role']), collection: Role.all, include_blank: false
+    = f.input :store_id, as: :select, wrapper_html: { class: 'inline centered-label' }, collection: Store.all, label: t('.in', default: [:'in', 'in']), prompt: t('.whole_company', default: [:'whole_company', 'Whole Company'])
+    = link_to_remove_association t('.delete', default: [:'delete', 'Delete']), f, class: 'btn'

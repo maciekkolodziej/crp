@@ -1,0 +1,26 @@
+.not_set {
+	font-style: italic;
+	color: #595959; 
+}
+ul.inline li {
+	padding-left: 0;
+	padding-right: 10px;
+}
+div.inline.control-group {
+	float: left;
+}
+div.centered-label.control-group label {
+	text-align: center;
+}
+div.cocoon-links {
+	margin-left: 180px;
+}
+a.remove_fields {
+	margin-left: 30px;
+}
+.navbar-form .control-group {
+	margin-bottom: 0;
+}
+.devise-links {
+	margin-bottom: 15px;
+}

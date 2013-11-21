@@ -7,6 +7,9 @@ class SaleReceipt < ActiveRecord::Base
   before_save :read_from_file
   after_save :create_items
   
+  # Validations
+  validates :salesman_id, length: { maximum: 3 }
+  
   # Converts file_content for this receipt into array of lines
   def lines
     return self.sale.file_content.lines[self.begins_at_line..self.ends_at_line]

@@ -1,0 +1,19 @@
+<%= grid @roles_grid, allow_showing_all_records: false, show_filters: :when_filtered do |g|
+
+  g.column name: model_class.human_attribute_name(:name), attribute: 'name'do |role|
+	link_to role.name, role_path(role)
+  end
+
+  g.column name: model_class.human_attribute_name(:global), attribute: 'global'  do |role|
+  	b role.global
+  end
+
+  g.action_column
+  
+  g.column do |role| 
+  	content = link_to t('.edit', :default => t("helpers.links.edit")), edit_role_path(role), :class => 'btn btn-mini';
+  	content += link_to t('.destroy', :default => t("helpers.links.destroy")), role_path(role), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-mini btn-danger';
+  	content_tag(:div, content, class: "btn-toolbar no-margins pull-right")
+  end
+
+end -%>

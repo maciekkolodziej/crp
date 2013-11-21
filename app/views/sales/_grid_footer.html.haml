@@ -1,0 +1,14 @@
+%tfoot
+  %tr
+    %td{ colspan: columns - 2 } Totals:
+    %td{ colspan: 2 }
+      .btn-group.pull-right 
+        %a.btn.btn-mini &nbsp;Selected&nbsp;
+        %button.btn.btn-mini.dropdown-toggle{ "data-toggle" => "dropdown" }
+          %span.caret
+        %ul.dropdown-menu
+          %li
+            -# Little bit of javascript to update hidden field with action name
+            =link_to 'Delete', '#', class: 'batch-action-link', 'data-batch-action' => 'batch_destroy'
+            =link_to 'Other Action', '#', class: 'batch-action-link', 'data-batch-action' => 'update_cash'
+            =link_to 'Other Action', '#', class: 'batch-action-link', 'data-batch-action' => 'other_action'

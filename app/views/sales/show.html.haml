@@ -1,19 +1,15 @@
 - model_class = Sale
 .page-header
   %h1=t '.title', :default => model_class.model_name.human.titleize
+%dl.dl-horizontal
+  %dt= model_class.human_attribute_name(:company_id) + ':'
+  %dd= @sale.company_id
+  
+  %dt= model_class.human_attribute_name(:pos_id) + ':'
+  %dd= @sale.pos_id
 
-%p
-  %strong= model_class.human_attribute_name(:company_id) + ':'
-  %br
-  = @sale.company_id
-%p
-  %strong= model_class.human_attribute_name(:pos_id) + ':'
-  %br
-  = @sale.pos_id
-%p
-  %strong= model_class.human_attribute_name(:date) + ':'
-  %br
-  = @sale.date
+  %dt= model_class.human_attribute_name(:date) + ':'
+  %dd= @sale.date
 %p
   %strong= model_class.human_attribute_name(:number) + ':'
   %br

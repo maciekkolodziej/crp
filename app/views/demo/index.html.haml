@@ -1,5 +1,5 @@
 %h1 Demo#index
-%p Find me in app/views/demo/index.html.haml
+%pre= (can? :manage, @sale_items) ? "YES!" : "No!"
 
 %h2 Working with match
 %h3 Time and number

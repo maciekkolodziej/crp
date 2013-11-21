@@ -1,0 +1,15 @@
+<%- @container_class = 'container-signin' %>
+
+<%= semantic_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+  <h2><%= t('change_your_password', default: 'Change your password') %></h2>
+  <%= f.inputs do %>
+  	<%= f.input :reset_password_token, as: :hidden %>
+  	<%= f.input :password, as: :password, :autofocus => true, label: false, placeholder: t('New password', default: 'New password') %>
+  	<%= f.input :password_confirmation, as: :password, required: true, label: false, placeholder: t('Repeat password', default: 'Repeat password') %>
+  <%- end %>
+  <%= f.actions do %>
+  	<%= f.action :submit, label: t('change_your_password', default: 'Change your password'), button_html: { class: 'btn btn-primary' } %>
+  <%- end %>
+<% end %>
+
+<%= render "devise/shared/links" %>

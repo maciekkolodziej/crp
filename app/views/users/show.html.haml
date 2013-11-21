@@ -1,0 +1,39 @@
+- model_class = User
+.page-header
+  .btn-toolbar.pull-right
+    = link_to t('.new', :default => t("helpers.links.new")), new_user_path, :class => 'btn btn-primary'
+    = link_to t('.destroy', :default => t("helpers.links.destroy")), user_path(@user), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'
+    = link_to t('.edit', :default => t("helpers.links.edit")), edit_user_path(@user), :class => 'btn'
+    = link_to t('.back', :default => t("helpers.links.back")), users_path, :class => 'btn'
+  
+  %h1=t '.title', :default => model_class.model_name.human.titleize
+
+%dl.dl-horizontal
+
+  %dt= model_class.human_attribute_name(:email) + ':'
+  %dd= show(@user.email)
+
+  %dt= model_class.human_attribute_name(:first_name) + ':'
+  %dd= show(@user.first_name)
+
+  %dt= model_class.human_attribute_name(:last_name) + ':'
+  %dd= show(@user.last_name)
+
+  %dt= model_class.human_attribute_name(:current_store_id) + ':'
+  %dd= @user.current_store_id ? show(@user.current_store.symbol) : not_set
+
+  %dt= model_class.human_attribute_name(:active) + ':'
+  %dd= show(@user.active)
+  
+  %dt= model_class.human_attribute_name(:roles) + ':'
+  %dd
+    - if @user.roles.blank?
+      = not_set
+    - else 
+      %ul.inline
+        - @user.roles.each do |role|
+          %li
+            = show(role.role.name)
+            = role.store.blank? ? '' : link_to("(#{role.store.symbol})", store_path(role.store))
+
+.form-actions

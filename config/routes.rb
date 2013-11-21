@@ -1,11 +1,27 @@
 Crp::Application.routes.draw do
-  resources :vat_rates
-  resources :sale_items
-  resources :sale_receipts
-  resources :sales
-  root "sales#index"
-  get "demo/index"
-  get "demo/hashes"
+  scope "(/:locale)" do
+    resources :sales, :sale_receipts, :sale_items, :vat_rates
+    devise_for :users, :controllers => { :registrations => "registrations" }
+    devise_scope :user do
+       get "registrations/confirmation" => 'registrations#confirmation'
+       get "users/change_store/:store_id" => 'users#change_store', as: :change_store
+    end
+    scope '/admin' do
+      resources :users do
+        patch 'batch_destroy', on: :collection
+      end
+    end
+    resources :stores, :roles, :user_roles do
+      patch 'batch_destroy', on: :collection
+    end
+    post 'session/records_per_page' => 'session#records_per_page'
+    
+    get "demo/index"
+    get "demo/hashes"
+  end
+  get '/:locale' => 'dashboard#index'
+  root to: 'dashboard#index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

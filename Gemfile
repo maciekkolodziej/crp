@@ -1,5 +1,26 @@
 source 'https://rubygems.org'
 
+# Internationalization 
+gem 'rails-i18n', '~> 4.0.0'
+gem 'devise-i18n'
+gem 'i18n-inflector'
+gem 'i18n-inflector-rails'
+
+# Use wice-grids for grids. Wice-grid requires jQuery UI datepicker
+gem "wice_grid", '>= 3.4.0'
+gem 'jquery-ui-rails'
+
+# Make working with nested forms easier
+gem 'cocoon'
+
+# Use nice semantic forms
+gem 'formtastic', git: 'git://github.com/justinfrench/formtastic'
+gem 'formtastic-bootstrap'
+
+# Use Devise for authentication and CanCan for authorization
+gem 'devise'
+gem 'cancan'
+
 # Charting libraries
 # Chartkick also needs javascript inclusion:
 # <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>

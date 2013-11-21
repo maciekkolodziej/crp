@@ -1,0 +1,56 @@
+<%= grid @sales_grid, allow_showing_all_records: false, show_filters: :when_filtered do |g| 
+  # id
+  g.column name: 'Id', attribute: 'id', filter_type: :range do |sale|
+  	link_to sale.id, sale_path(sale)
+  end
+
+  # pos
+  g.column name: 'Pos', attribute: 'name', model: 'Pos', custom_filter: :auto do |sale|
+	sale.pos.name if sale.pos_id  
+  end
+  
+  # date
+  g.column name: 'Date', attribute: 'date'
+  
+  # date
+  g.column name: Sale.human_attribute_name(:number), attribute: 'number'
+  
+  # value
+  g.column name: 'Value', attribute: 'value', filter_type: :range, class: 'numeric value totalled averaged'
+  
+  # vat
+  g.column name: 'VAT', attribute: 'vat', filter_type: :range, class: 'numeric vat totalled averaged'
+  
+  # net_value
+  g.column name: 'Net Value' do |sale|
+  	sale.value - sale.vat
+  end
+  
+  # card_payments
+  g.column name: 'Card Payments', attribute: 'card_payments', filter_type: :range, class: 'numeric value totalled averaged'
+  
+  # cash_payments
+  g.column name: 'Cash Payments', attribute: 'cash_payments',  filter_type: :range, class: 'numeric value totalled averaged'
+  
+  # receipt_count
+  g.column name: 'Receipts', attribute: 'receipt_count', filter_type: :range, class: 'numeric receipt_count totalled averaged'
+  
+  # cancelled_receipt_count
+  g.column name: 'Cancelled', attribute: 'cancelled_receipt_count', filter_type: :range, class: 'numeric receipt_count totalled averaged'
+  
+  # cancelled_receipt_value
+  g.column name: 'Cancelled Value', attribute: 'cancelled_receipt_value', filter_type: :range, class: 'numeric receipt_count totalled averaged'
+  
+  # checkbox column
+  g.action_column
+  
+  # actions column
+  g.column do |sale| 
+  	content = link_to t('.edit', :default => t("helpers.links.edit")), edit_sale_path(sale), :class => 'btn btn-mini';
+  	content += link_to t('.destroy', :default => t("helpers.links.destroy")), sale_path(sale), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-mini btn-danger';
+  	content_tag(:div, content, class: "btn-toolbar no-margins pull-right")
+  end
+  
+  # empty result
+  g.blank_slate content_tag(:div, "No records found", class: 'well')
+end -%>

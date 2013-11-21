@@ -1,0 +1,20 @@
+- model_class = Role
+.page-header
+  .btn-toolbar.pull-right
+    = link_to t('.new', :default => t("helpers.links.new")), new_role_path, :class => 'btn btn-primary'
+
+  %h1=t '.title', :default => model_class.model_name.human(count: 2).titleize
+
+.row-fluid
+  = form_tag('', id: 'batch_action_form', class: 'form-horizontal', method: 'patch') do
+    = render partial: 'grid', locals: { model_class: model_class }
+  = render partial: 'session/records_per_page_form'
+  - if @batch_actions 
+    %div#batch_actions
+      %a.btn.btn-mini.dropdown-toggle{ 'data-toggle' => 'dropdown', href: '#batch_actions' } 
+        = t '.selected', default: t('helpers.links.selected')
+        %span.caret
+      %ul.dropdown-menu
+        - @batch_actions.each do |name, title|
+          = content_tag(:li, content_tag(:a, title, href: '#batch_actions', 'data-action-name' => name, class: 'batch_action_link'))
+  

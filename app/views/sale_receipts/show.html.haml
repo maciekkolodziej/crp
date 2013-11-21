@@ -1,50 +1,36 @@
 - model_class = SaleReceipt
 .page-header
+  .btn-toolbar.pull-right
+    = link_to t('.back', :default => t("helpers.links.back")), sale_receipts_path, :class => 'btn'
+    = link_to t('.edit', :default => t("helpers.links.edit")), edit_sale_receipt_path(@sale_receipt), :class => 'btn'
+    = link_to t('.destroy', :default => t("helpers.links.destroy")), sale_receipt_path(@sale_receipt), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'
+  
   %h1=t '.title', :default => model_class.model_name.human.titleize
 
-%p
-  %strong= model_class.human_attribute_name(:sale_id) + ':'
-  %br
-  = @sale_receipt.sale_id
-%p
-  %strong= model_class.human_attribute_name(:number) + ':'
-  %br
-  = @sale_receipt.number
-%p
-  %strong= model_class.human_attribute_name(:datetime) + ':'
-  %br
-  = @sale_receipt.datetime
-%p
-  %strong= model_class.human_attribute_name(:value) + ':'
-  %br
-  = @sale_receipt.value
-%p
-  %strong= model_class.human_attribute_name(:net_value) + ':'
-  %br
-  = @sale_receipt.net_value
-%p
-  %strong= model_class.human_attribute_name(:cancelled) + ':'
-  %br
-  = @sale_receipt.cancelled
-%p
-  %strong= model_class.human_attribute_name(:salesman_id) + ':'
-  %br
-  = @sale_receipt.salesman_id
-%p
-  %strong= model_class.human_attribute_name(:begins_at_line) + ':'
-  %br
-  = @sale_receipt.begins_at_line
-%p
-  %strong= model_class.human_attribute_name(:ends_at_line) + ':'
-  %br
-  = @sale_receipt.ends_at_line
+%dl.dl-horizontal
 
-%p
-  %strong= model_class.human_attribute_name(:file_content) + ':'
-  %br
-  %pre= @sale_receipt.file_content
+  %dt= model_class.human_attribute_name(:id) + ':'
+  %dd= @sale_receipt.id
+
+  %dt= model_class.human_attribute_name(:sale_id) + ':'
+  %dd= @sale_receipt.sale_id
+
+  %dt= model_class.human_attribute_name(:number) + ':'
+  %dd= @sale_receipt.number
+
+  %dt= model_class.human_attribute_name(:datetime) + ':'
+  %dd= @sale_receipt.datetime
+
+  %dt= model_class.human_attribute_name(:value) + ':'
+  %dd= @sale_receipt.value
+
+  %dt= model_class.human_attribute_name(:net_value) + ':'
+  %dd= @sale_receipt.net_value
+
+  %dt= model_class.human_attribute_name(:cancelled) + ':'
+  %dd= @sale_receipt.cancelled
+
+  %dt= model_class.human_attribute_name(:salesman_id) + ':'
+  %dd= @sale_receipt.salesman_id
 
 .form-actions
-  = link_to t('.back', :default => t("helpers.links.back")), sale_receipts_path, :class => 'btn'
-  = link_to t('.edit', :default => t("helpers.links.edit")), edit_sale_receipt_path(@sale_receipt), :class => 'btn'
-  = link_to t('.destroy', :default => t("helpers.links.destroy")), sale_receipt_path(@sale_receipt), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'

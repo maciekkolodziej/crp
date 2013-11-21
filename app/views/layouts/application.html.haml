@@ -4,11 +4,11 @@
     %meta(charset="utf-8")
     %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    %title= content_for?(:title) ? yield(:title) : "Crp"
+    %title= content_for?(:title) ? yield(:title) : "CRP"
     = csrf_meta_tags
     / Le HTML5 shim, for IE6-8 support of HTML elements
     /[if lt IE 9]
-      = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
+    = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
     = stylesheet_link_tag "application", :media => "all"
     = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144'
     = favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114'
@@ -17,40 +17,39 @@
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
     = javascript_include_tag "application"
     = javascript_include_tag "//www.google.com/jsapi", "chartkick"
-
-  %body
-    .navbar.navbar-fluid-top
-      .navbar-inner
-        .container-fluid
+  
+  - if user_signed_in?
+    %body
+      .navbar.navbar-fluid
+        .navbar-inner
           %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          %a.brand(href = root_path) CRP
+          = link_to image_tag("logo_star.png"), root_path, class: 'pull-left', style: 'margin: 5px 10px 5px 0;'
           .container.nav-collapse
-            %ul.nav
-              =drop_down "Sales" do
-                =menu_item "Sales", sales_path
-                =menu_item "Receipts", sale_receipts_path
-                =menu_item "Items", sale_items_path
-                =menu_item "New sale", new_sale_path
-                =menu_item "Vat Rates", sales_path
-              %li= link_to "Link 2", "/path2"
-              %li= link_to "Link 3", "/path3"
-              
-    .container-fluid
-
-      .row-fluid
-        .span2
-          .well.sidebar-nav
-            %ul.nav.nav-list
-              %li.nav-header Sidebar
-              %li= link_to "Link 1", "/path1"
-              %li= link_to "Link 2", "/path2"
-              %li= link_to "Link 3", "/path3"
-        .span10
+            = menu_group do
+              = drop_down "Sales" do 
+                = menu_item "New Sale", new_sale_path
+                = drop_down_divider
+                = menu_item "Sales", sales_path
+                = menu_item "Sale Receipts", sale_receipts_path
+                = menu_item "Sale Items", sale_items_path
+              = drop_down t(:administration, default: 'Administration') do
+                = menu_item t('activerecord.models.user.few', default: 'Users'), users_path
+                = menu_item t('activerecord.models.role.few', default: 'Roles'), roles_path
+                = menu_item t('activerecord.models.store.few', default: 'Stores'), stores_path
+            = menu_group pull: :right do
+              = render 'session/user_panel'
+  
+      .container-fluid
+        .row-fluid
           = bootstrap_flash
           = yield
-    
-      %footer
-        %p &copy; Company 2013
+          = render 'layouts/footer'
+  - else
+    %body.no-layout
+      %div{ class: "container #{@container_class}" }
+        = bootstrap_flash
+        = yield
+        = render 'layouts/footer'

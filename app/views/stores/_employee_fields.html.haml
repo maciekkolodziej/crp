@@ -1,0 +1,5 @@
+.nested-fields
+  = f.inputs do
+    = f.input :user_id, as: :select, wrapper_html: { class: 'inline' }, collection: User.all, label: t('.employee', default: [:'activerecord.attributes.store.employee', 'Employee'])
+    = f.input :role_id, as: :select, wrapper_html: { class: 'inline centered-label' }, collection: Role.local, label: t('.as', default: [:'as', 'as']), include_blank: false
+    = link_to_remove_association t('.delete', default: [:'delete', 'Delete']), f, class: 'btn'

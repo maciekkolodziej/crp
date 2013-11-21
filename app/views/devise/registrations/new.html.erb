@@ -1,0 +1,16 @@
+<div class="page-header"><h1><%= t('sign_up', default: 'Sign Up').titleize %></h1></div>
+<%= semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: { class: 'form-horizontal' }) do |f| %>
+	<%= f.inputs do %>
+	  	<%= f.input :email, :autofocus => true %>
+	  	<%= f.input :first_name %>
+		<%= f.input :last_name %>
+	  	<%= f.input :password %>
+	  	<%= f.input :password_confirmation %>
+  	<%- end %>
+	
+	<%= f.actions do %>
+  		<%= f.action :submit, label: t('sign_up!', default: 'Sign Up').capitalize, as: :input, button_html: { class: 'btn btn-primary' } %>
+  		<%= f.action :cancel, label: t('.cancel', default: t('helpers.links.cancel')) %>
+	<%- end %>
+<% end %>
+<%= render "devise/shared/links" %>

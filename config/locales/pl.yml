@@ -1,0 +1,413 @@
+pl:
+  formtastic:
+    yes: 'Tak'
+    no: 'Nie'
+    create: 'Zapisz'
+    update: 'Zapisz'
+    submit: 'Zapisz'
+    cancel: 'Anuluj'
+    reset: 'Resetuj'
+    required: 'wymagane'
+    
+  cancel: anuluj
+  selected: zaznaczone
+  edit: edytuj
+  delete: usuń
+  destroy: zniszcz
+  sign_up: rejestracja
+  sign_up!: zarejestruj
+  sign_in: logowanie
+  sign_in!: Zaloguj się
+  sign_out: Wyloguj
+  thank_you!: Dziękuję!
+  remember_me: Pamiętaj mnie
+  not_set: Nie ustawiony
+  administration: Administracja
+  as: jako
+  in: w
+  add_employee: Dodaj pracownika
+  add_role: Przypisz Rolę Użytkownikowi
+  whole_company: Cała Firma
+  Sign_up!: Zarejestruj się.
+  Sign_in!: Zaloguj się.
+  forgot_password?: Nie pamiętasz hasła?
+  no_unlock_instructions: Instrukcja odblokowania konta nie dotarła?
+  send_me_reset_instructions: Prześlij mi instrukcję resetowania hasła
+  Change_password: Zmień hasło
+  change_your_password: Zmień swoje hasło
+  unlock_account: Odblokuj konto
+  send_instructions: Prześlij instrukcje
+  Unlock_my_account: Odblokuj moje konto
+  edit_your_data: Edytuj swoje dane
+  leave_blank_if_no_change: Pozostaw puste jeśli nie chcesz zmieniać.
+  provide_current_password: Podaj aktualne hasło, aby zachować zmiany.
+  Save: Zapisz
+  Cancel: Anuluj
+  Email: Email
+  Password: Hasło
+  New password: Nowe hasło
+  Repeat password: Powtórz hasło
+  Successfully registered: Zarejestrowano pomyślnie
+  Sign out: Wyloguj
+  Edit data: Edytuj dane
+  Edit your data: Edytuj swoje dane
+  Change store: Zmień lokal
+  Store changed: "Lokal został zmieniony pomyślnie. Aktywny lokal to <strong>%{current_store}</strong>."
+  Home page: Strona startowa
+  
+  boolean:
+    positive: Tak
+    negative: Nie
+  
+  helpers:
+    select:
+      prompt: Proszę wybrać
+    submit:
+      create: Utwórz %{model}
+      submit: Zapisz %{model}
+      update: Aktualizuj %{model}
+    links:
+      new: "@{f:Nowa|m:Nowy|n:Nowe}"
+      create: Utwórz
+      edit: Edytuj
+      destroy: Usuń
+      selected: zaznaczone
+      back: Wróć
+      cancel: Anuluj
+      confirm: Napewno?
+    titles:
+      new: "@{f:Nowa|m:Nowy|n:Nowe} %{model}"
+      edit: Edytuj
+  messages:
+    saved:
+      male: "%{model} został zapisany prawidłowo."
+      female: "%{model} została zapisana prawidłowo."
+      neutral: "%{model} zostało zapisane prawidłowo."
+    destroyed:
+      male: "%{model} został usunięty."
+      female: "%{model} została usunięta."
+      neutral: "%{model} zostało usunięte."
+      one: "Pomyślnie usunięto %{count} rekord."
+      few: 'Pomyślnie usunięto %{count} rekordy.'
+      many: "Pomyślnie usunięto %{count} rekordów."
+  activerecord:
+    models:
+      role:
+        one: Rola
+        few: Role
+        many: Roli
+        accusative: Rolę
+      store: 
+        one: Lokal
+        few: Lokale
+        many: Lokali
+        accusative: Lokal
+      sale: 
+        one: Sprzedaż
+        few: Sprzedaże
+      user:
+        one: Użytkownik
+        few: Użytkownicy
+        accusative: Użytkownika
+    attributes:
+      role:
+        name: Nazwa
+        global: Globalna
+      user:
+        first_name: Imię
+        last_name: Nazwisko
+        current_store_id: Bieżący lokal
+        password: Hasło
+        password_confirmation: Powtórz hasło
+        active: Aktywny
+        roles: Role
+      sale:
+        number: 'Numer'
+        file: 'Plik'
+      store:
+        symbol: Symbol
+        name: Nazwa
+        users: Użytkownicy
+        employees: Pracownicy
+        employee: Pracownik
+  sales:
+    index:
+      title: Sprzedaż
+  title: Tytuł
+  devise:
+    registrations:
+      user:
+        signed_up_but_not_approved: 'Rejestracja przebiegła pomyślnie, ale konto musi jeszcze zostać zaakceptowane przez administratora.'
+    failure:
+      user:
+        not_approved: 'Twoje konto nie zostało jeszcze zaakceptowane przez aministratora.'
+    unlocks:
+      unlocked: Twoje konto zostało odblokowane. Zaloguj się, aby kontynuować.
+  date:
+    abbr_day_names:
+    - nie
+    - pon
+    - wto
+    - śro
+    - czw
+    - pią
+    - sob
+    abbr_month_names:
+    -
+    - sty
+    - lut
+    - mar
+    - kwi
+    - maj
+    - cze
+    - lip
+    - sie
+    - wrz
+    - paź
+    - lis
+    - gru
+    day_names:
+    - niedziela
+    - poniedziałek
+    - wtorek
+    - środa
+    - czwartek
+    - piątek
+    - sobota
+    formats:
+      default: ! '%d-%m-%Y'
+      long: ! '%B %d, %Y'
+      short: ! '%d %b'
+    month_names:
+    -
+    - styczeń
+    - luty
+    - marzec
+    - kwiecień
+    - maj
+    - czerwiec
+    - lipiec
+    - sierpień
+    - wrzesień
+    - październik
+    - listopad
+    - grudzień
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        few: około %{count} godziny
+        one: około godziny
+        other: około %{count} godzin
+        many: około %{count} godzin
+      about_x_months:
+        few: około %{count} miesiące
+        one: około miesiąca
+        other: około %{count} miesięcy
+        many: około %{count} miesięcy
+      about_x_years:
+        few: około %{count} lata
+        one: około rok
+        other: około %{count} lat
+        many: około %{count} lat
+      almost_x_years:
+        few: prawie %{count} lata
+        one: prawie rok
+        other: prawie %{count} lat
+        many: prawie %{count} lat
+      half_a_minute: pół minuty
+      less_than_x_minutes:
+        few: mniej niż %{count} minuty
+        one: mniej niż minutę
+        other: mniej niż %{count} minut
+        many: mniej niż %{count} minut
+      less_than_x_seconds:
+        few: mniej niż %{count} sekundy
+        one: mniej niż sekundę
+        other: mniej niż %{count} sekund
+        many: mniej niż %{count} sekund
+      over_x_years:
+        few: ponad %{count} lata
+        one: ponad rok
+        other: ponad %{count} lat
+        many: ponad %{count} lat
+      x_days:
+        few: ! '%{count} dni'
+        one: 1 dzień
+        other: ! '%{count} dni'
+        many: ! '%{count} dni'
+      x_minutes:
+        few: ! '%{count} minuty'
+        one: 1 minuta
+        other: ! '%{count} minut'
+        many: ! '%{count} minut'
+      x_months:
+        few: ! '%{count} miesiące'
+        one: 1 miesiąc
+        other: ! '%{count} miesięcy'
+        many: ! '%{count} miesięcy'
+      x_seconds:
+        few: ! '%{count} sekundy'
+        one: 1 sekunda
+        other: ! '%{count} sekund'
+        many: ! '%{count} sekund'
+    prompts:
+      day: Dzień
+      hour: Godzina
+      minute: Minuta
+      month: Miesiąc
+      second: Sekundy
+      year: Rok
+  errors: &errors
+    format: ! '%{attribute} %{message}'
+    messages:
+      accepted: musi zostać zaakceptowane
+      blank: nie może być puste
+      confirmation: nie zgadza się z potwierdzeniem
+      empty: nie może być puste
+      equal_to: musi być równe %{count}
+      even: musi być parzyste
+      exclusion: jest zarezerwowane
+      greater_than: musi być większe od %{count}
+      greater_than_or_equal_to: musi być większe lub równe %{count}
+      inclusion: nie znajduje się na liście dopuszczalnych wartości
+      invalid: jest nieprawidłowe
+      less_than: musi być mniejsze od %{count}
+      less_than_or_equal_to: musi być mniejsze lub równe %{count}
+      not_a_number: nie jest liczbą
+      not_an_integer: musi być liczbą całkowitą
+      odd: musi być nieparzyste
+      record_invalid: ! 'Negatywne sprawdzenie poprawności: %{errors}'
+      taken: zostało już zajęte
+      too_long: jest za długie (maksymalnie %{count} znaków)
+      too_short: jest za krótkie (przynajmniej %{count} znaków)
+      wrong_length: ma nieprawidłową długość (powinna wynosić %{count} znaków)
+    template:
+      body: ! 'Błędy dotyczą następujących pól:'
+      header:
+        one: ! '%{model} nie został zachowany z powodu jednego błędu'
+        few: ! '%{model} nie został zachowany z powodu %{count} błędów'
+        other: ! '%{model} nie został zachowany z powodu %{count} błędów'
+        many: ! '%{model} nie został zachowany z powodu %{count} błędów'
+  number:
+    currency:
+      format:
+        delimiter: ! ' '
+        format: ! '%u %n'
+        precision: 2
+        separator: ! ','
+        significant: false
+        strip_insignificant_zeros: true
+        unit: zł
+    format:
+      delimiter: ! ' '
+      precision: 3
+      separator: ! ','
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: ! '%n %u'
+        units:
+          billion: Miliard
+          million: Milion
+          quadrillion: Biliard
+          thousand: Tysiąc
+          trillion: Bilion
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: ! '%n %u'
+        units:
+          byte:
+            one: bajt
+            few: bajty
+            many: bajty
+            other: bajty
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
+  support:
+    array:
+      last_word_connector: ! ' oraz '
+      two_words_connector: ! ' i '
+      words_connector: ! ', '
+  time:
+    am: przed południem
+    formats:
+      default: ! '%a, %d %b %Y %H:%M:%S %z'
+      long: ! '%B %d, %Y %H:%M'
+      short: ! '%d %b %H:%M'
+    pm: po południu
+  date:
+    order:
+      - :rok
+      - :miesiąc
+      - :dzień
+  wice_grid:
+    show_filter_tooltip: Pokaż filtry
+    hide_filter_tooltip: Ukryj filtry
+    csv_export_tooltip: Eksportuj do CSV
+    filter_tooltip: Filtry
+    reset_filter_tooltip: Resetuj
+    boolean_filter_true_label: "tak"
+    boolean_filter_false_label: "nie"
+    previous_label: «
+    next_label: »
+    # Title of the icon clicking on which will show the calendar to set the FROM date.
+    date_selector_tooltip_from: Od
+    # Title of the icon clicking on which will show the calendar to set the TO date.
+    date_selector_tooltip_to: Do
+    # The title of the checkox to turn on negation
+    negation_checkbox_title: Exclude
+    # link to switch to show all records
+    show_all_records_label: pokaż wszystkie
+    # tooltip for the link to switch to show all records
+    show_all_records_tooltip: Pokaż wszystkie rekordy
+    # Warning message shown when the user wants to switch to all-records mode
+    all_queries_warning: Napewno wyświetlić wszystkie rekordy?
+    # link to paginated view
+    switch_back_to_paginated_mode_label: wróć do widoku stron
+    # tooltip for the link to paginated view
+    switch_back_to_paginated_mode_tooltip: Wróć do widoku ze stronami
+    # Title of the date string.
+    date_string_tooltip: Kliknij aby usunąć
+    saved_query_panel_title: Zapisane kwerendy
+    save_query_button_label: Zapisz stan filtrów
+    saved_query_deletion_confirmation: Napewno?
+    saved_query_deletion_link_title: Usuń kwerendę
+    saved_query_link_title: Załaduj kwerendę
+    validates_uniqueness_error: Kwerenda z taką nazwą już istnieje
+    validates_presence_error: Podaj nazwę kwerendy
+    query_deleted_message: Kwerenda usunięta.
+    query_saved_message: Kwerenda zapisana.
+    select_all: Zaznacz wszystko
+    deselect_all: Usuń zaznaczenie
+    expand: Pokaż
+    collapse: Ukryj
+  i18n:
+    inflections:
+      gender:
+        f:        "female"
+        m:        "male"
+        n:        "neutral"
+        female:   :@f
+        male:     :@m
+        neutral:  :@n
+        man:      :@male
+        woman:    :@female
+        default:  :n

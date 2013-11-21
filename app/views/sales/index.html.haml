@@ -1,45 +1,28 @@
 - model_class = Sale
 .page-header
+  .btn-toolbar.pull-right
+    = link_to "Charts", '#', :class => 'btn'
+    = link_to "By Type", '#', :class => 'btn'
+    = link_to "To Review", '#', :class => 'btn btn-warning'
+    = link_to t('.new', :default => t("helpers.links.new")), new_sale_path, :class => 'btn btn-primary'
+
   %h1=t '.title', :default => model_class.model_name.human.pluralize.titleize
-
-%div= column_chart @chart_data, :library => { :isStacked => false, :title => "Average sales by hour" }
-%pre= @data.inspect
-
-%table.table.table-striped
-  %thead
-    %tr
-      %th= model_class.human_attribute_name(:id)
-      %th= model_class.human_attribute_name(:pos_id)
-      %th= model_class.human_attribute_name(:date)
-      %th= model_class.human_attribute_name(:number)
-      %th= model_class.human_attribute_name(:value)
-      %th= model_class.human_attribute_name(:vat)
-      %th= model_class.human_attribute_name(:net_value)
-      %th= model_class.human_attribute_name(:card_payments)
-      %th= model_class.human_attribute_name(:cash_payments)
-      %th= model_class.human_attribute_name(:receipt_count)
-      %th= model_class.human_attribute_name(:cancelled_receipt_count)
-      %th= model_class.human_attribute_name(:cancelled_receipt_value)
-      %th= model_class.human_attribute_name(:created_by)
-      %th=t '.actions', :default => t("helpers.actions")
-  %tbody
-    - @sales.each do |sale|
-      %tr
-        %td= link_to sale.id, sale_path(sale)
-        %td= sale.pos_id
-        %td= sale.date
-        %td= sale.number
-        %td= sale.value
-        %td= sale.vat
-        %td= sale.net_value
-        %td= sale.card_payments
-        %td= sale.cash_payments
-        %td= sale.receipt_count
-        %td= sale.cancelled_receipt_count
-        %td= sale.cancelled_receipt_value
-        %td= sale.created_by
-        %td
-          = link_to t('.edit', :default => t("helpers.links.edit")), edit_sale_path(sale), :class => 'btn btn-mini'
-          = link_to t('.destroy', :default => t("helpers.links.destroy")), sale_path(sale), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-mini btn-danger'
-
-= link_to t('.new', :default => t("helpers.links.new")), new_sale_path, :class => 'btn btn-primary'
+  %pre= t 'title'
+.row-fluid
+  .span6
+    = column_chart @chart_data, :library => { :isStacked => false, :title => "Average sales by hour" }
+  .span6
+    = column_chart @chart_data, :library => { :isStacked => false, :title => "Average sales by hour" }
+.row-fluid
+  = form_tag("/sales/other", id: "batch_action_form", class: 'form-horizontal', method: 'patch') do
+    = render partial: 'grid'
+  = render partial: 'session/records_per_page_form'
+  - if @batch_actions 
+    %div#batch_actions
+      %a.btn.btn-mini.dropdown-toggle{ 'data-toggle' => 'dropdown', href: '#batch_actions', style: 'font-weight: normal' } 
+        selected
+        %span.caret
+      %ul.dropdown-menu
+        - @batch_actions.each do |name, title|
+          = content_tag(:li, content_tag(:a, title, href: '#batch_actions', 'data-action-name' => name, class: 'batch_action_link'))
+  

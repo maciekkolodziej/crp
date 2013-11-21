@@ -1,0 +1,20 @@
+<div class="page-header">
+	<h1><%= t('edit_your_data', default: 'Edit Your Data') %></h1>
+</div>
+
+<%= semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, class: 'form-horizontal' }) do |f| %>
+  <%= f.inputs do %>
+	  <%= f.input :email, as: :email, :autofocus => true %>
+	  <%= f.input :first_name %>
+	  <%= f.input :last_name %>
+	  <%= f.input :password, as: :password, :autocomplete => "off", hint: t('leave_blank_if_no_change', default: "Leave blank iy you don't want to change it" ) %>
+	  <%= f.input :password_confirmation, as: :password %>
+	  <%= f.input :current_password, as: :password, hint: t('provide_current_password', default: "Please provide current password before saving changes." ) %>
+  <%- end %>
+  
+  <%= f.actions do %>
+ 	<%= f.action :submit, label: t('Save', default: 'Save'), button_html: { class: 'btn btn-primary' } %>
+ 	<%= f.action :cancel, label: t('Cancel', default: 'Cancel') %>
+  <%- end %>
+  
+<% end %>

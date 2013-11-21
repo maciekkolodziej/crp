@@ -1,0 +1,6 @@
+%footer
+  &copy;2013 Coffeeway Sp. z o.o.
+  %div.pull-right
+    = link_to_unless I18n.locale == :en, "en", locale: :en
+    &nbsp|&nbsp
+    = link_to_unless I18n.locale == :pl, "pl", locale: :pl

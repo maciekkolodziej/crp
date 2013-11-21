@@ -20,4 +20,37 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  formtastic:
+    :yes: 'Yes'
+    :no: 'No'
+    :create: 'Save'
+    :update: 'Save'
+    :submit: 'Save'
+    :cancel: 'Cancel'
+    :reset: 'Reset'
+    :required: 'required'
+  boolean:
+    positive: "Yes"
+    negative: "No"
+  helpers:
+    titles:
+      new: New %{model}
+  activerecord:
+    models:
+      store:
+        one: Store
+        other: Stores
+      user:
+        one: User
+        other: Users
+      role:
+        one: Role
+        other: Roles
+        
+  devise:
+    registrations:
+      user:
+        signed_up_but_not_approved: You have signed up successfully. However, we could not sign you in because your account is not yet activated.
+    failure:
+      user:
+        not_approved: Your account is not yet activated.

@@ -1,20 +1,23 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /sales
   # GET /sales.json
   def index
     @sales = Sale.all
-    
     @chart_data = Pos.all.map do |pos|
       sales_count = pos.sales.count
       @data = {}
       pos.sale_receipts.group_by_hour_of_day(:datetime).sum(:net_value).each {|key, value| @data[key] = (value / sales_count) * 0.62 - 10}
       {
-      :name => pos.name, 
-      :data => @data
+        :name => pos.name, 
+        :data => @data
       }
     end
+    
+    # Actions that are allowed to be executed in batch
+    @batch_actions = { batch_destroy: "Delete", batch_approve: "Approve" }
+    @sales_grid = initialize_grid(Sale, include: [:pos, :sale_receipts], order: 'date', order_direction: 'desc', per_page: records_per_page)
   end
 
   # GET /sales/1
@@ -70,6 +73,20 @@ class SalesController < ApplicationController
       format.html { redirect_to sales_url }
       format.json { head :no_content }
     end
+  end
+  
+  # PATCH /sales/batch_destroy
+  def batch_destroy
+    ids = params[:grid][:selected]
+    Sale.destroy_all(id: ids)
+    redirect_to request.referer, notice: t('messages.destroyed.many', default: "#{ids.count} records were successfully removed.", count: ids.count)
+  end
+  
+  # PATCH /sales/batch_approve
+  def batch_approve
+    ids = params[:grid][:selected]
+    Sale.where(id: ids).update_all(card_payments: 1000)
+    redirect_to request.referer, notice: "#{ids.count} records successfully approved."
   end
 
   private
