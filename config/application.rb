@@ -24,5 +24,7 @@ module Crp
       g.template_engine :haml
     end
     config.encoding = "utf-8"
+    
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
   end
 end

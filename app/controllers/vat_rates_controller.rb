@@ -1,14 +1,20 @@
 class VatRatesController < ApplicationController
   before_action :set_vat_rate, only: [:show, :edit, :update, :destroy]
 
+  def gender
+    'male' 
+  end
+
   # GET /vat_rates
-  # GET /vat_rates.json
   def index
     @vat_rates = VatRate.all
+    
+    # Actions that are allowed to be executed in batch
+    @batch_actions = { batch_destroy: t('delete', default: 'Delete').capitalize }
+    @vat_rates_grid = initialize_grid(VatRate, per_page: records_per_page, conditions: current_ability.model_adapter(VatRate, :read).conditions)
   end
 
   # GET /vat_rates/1
-  # GET /vat_rates/1.json
   def show
   end
 
@@ -22,43 +28,36 @@ class VatRatesController < ApplicationController
   end
 
   # POST /vat_rates
-  # POST /vat_rates.json
   def create
     @vat_rate = VatRate.new(vat_rate_params)
 
-    respond_to do |format|
-      if @vat_rate.save
-        format.html { redirect_to @vat_rate, notice: 'Vat rate was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @vat_rate }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @vat_rate.errors, status: :unprocessable_entity }
-      end
+    if @vat_rate.save
+      redirect_to @vat_rate, notice: t("messages.saved.#{self.gender}", default: [:'messages.saved', 'VatRate was sucessfully saved.'], model: VatRate.model_name.human)
+    else
+      render action: 'new'
     end
   end
 
   # PATCH/PUT /vat_rates/1
-  # PATCH/PUT /vat_rates/1.json
   def update
-    respond_to do |format|
-      if @vat_rate.update(vat_rate_params)
-        format.html { redirect_to @vat_rate, notice: 'Vat rate was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @vat_rate.errors, status: :unprocessable_entity }
-      end
+    if @vat_rate.update(vat_rate_params)
+      redirect_to @vat_rate, notice: t("messages.saved.#{self.gender}", default: [:'messages.saved', 'VatRate was sucessfully saved.'], model: VatRate.model_name.human)
+    else
+      render action: 'edit'
     end
   end
 
   # DELETE /vat_rates/1
-  # DELETE /vat_rates/1.json
   def destroy
     @vat_rate.destroy
-    respond_to do |format|
-      format.html { redirect_to vat_rates_url }
-      format.json { head :no_content }
-    end
+    redirect_to vat_rates_url, notice: t("messages.destroyed.#{self.gender}", default: [:'messages.destroyed', 'VatRate was sucessfully deleted.'], model: VatRate.model_name.human)
+  end
+  
+  # PATCH /vat_rates/batch_destroy
+  def batch_destroy
+    ids = params[:grid][:selected]
+    VatRate.destroy_all(id: ids)
+    redirect_to request.referer, notice: t('messages.destroyed.many', default: "#{ids.count} records were successfully removed.", count: ids.count)
   end
 
   private
@@ -67,8 +66,8 @@ class VatRatesController < ApplicationController
       @vat_rate = VatRate.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    # Only allow a trusted parameter "white list" through.
     def vat_rate_params
-      params[:vat_rate].permit(:symbol, :rate)
+      params.require(:vat_rate).permit(:symbol, :rate)
     end
 end

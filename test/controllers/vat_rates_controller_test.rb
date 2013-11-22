@@ -18,7 +18,7 @@ class VatRatesControllerTest < ActionController::TestCase
 
   test "should create vat_rate" do
     assert_difference('VatRate.count') do
-      post :create, vat_rate: {  }
+      post :create, vat_rate: { rate: @vat_rate.rate, symbol: @vat_rate.symbol }
     end
 
     assert_redirected_to vat_rate_path(assigns(:vat_rate))
@@ -35,7 +35,7 @@ class VatRatesControllerTest < ActionController::TestCase
   end
 
   test "should update vat_rate" do
-    patch :update, id: @vat_rate, vat_rate: {  }
+    patch :update, id: @vat_rate, vat_rate: { rate: @vat_rate.rate, symbol: @vat_rate.symbol }
     assert_redirected_to vat_rate_path(assigns(:vat_rate))
   end
 

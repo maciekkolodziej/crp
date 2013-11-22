@@ -1,0 +1,17 @@
+<%= grid @units_grid, allow_showing_all_records: false, show_filters: :when_filtered do |g|
+  g.column name: model_class.human_attribute_name(:symbol), attribute: 'symbol'do |unit|
+	link_to unit.symbol, unit_path(unit)
+  end
+  g.column name: model_class.human_attribute_name(:name), attribute: 'name' 
+  g.column name: model_class.human_attribute_name(:primary), attribute: 'primary' do |unit|
+  	b(unit.primary)
+  end
+  g.action_column
+  
+  g.column do |unit| 
+  	content = link_to t('.edit', :default => t("helpers.links.edit")), edit_unit_path(unit), :class => 'btn btn-mini';
+  	content += link_to t('.destroy', :default => t("helpers.links.destroy")), unit_path(unit), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-mini btn-danger';
+  	content_tag(:div, content, class: "btn-toolbar no-margins pull-right")
+  end
+
+end -%>

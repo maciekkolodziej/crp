@@ -1,7 +1,7 @@
-= semantic_form_for @vat_rate, html: { class: 'form-horizontal' } do |f|
+= semantic_form_for @product_category, html: { class: 'form-horizontal' } do |f|
   = f.inputs do
     = f.input :symbol
-    = f.input :rate
+    = f.input :name
   
   = f.actions do
     = f.action :submit, :as => :input, button_html: { class: 'btn btn-primary' }

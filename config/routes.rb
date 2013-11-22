@@ -1,6 +1,6 @@
 Crp::Application.routes.draw do
   scope "(/:locale)" do
-    resources :sales, :sale_receipts, :sale_items, :vat_rates
+    resources :sales, :sale_receipts, :sale_items
     devise_for :users, :controllers => { :registrations => "registrations" }
     devise_scope :user do
        get "registrations/confirmation" => 'registrations#confirmation'
@@ -11,8 +11,9 @@ Crp::Application.routes.draw do
         patch 'batch_destroy', on: :collection
       end
     end
-    resources :stores, :roles, :user_roles do
+    resources :stores, :roles, :user_roles, :units, :product_types, :product_categories, :vat_rates do
       patch 'batch_destroy', on: :collection
+      get 'import', on: :collection
     end
     post 'session/records_per_page' => 'session#records_per_page'
     

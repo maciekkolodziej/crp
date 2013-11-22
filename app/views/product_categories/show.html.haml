@@ -1,0 +1,16 @@
+- model_class = ProductCategory
+.page-header
+  .btn-toolbar.pull-right
+    = link_to t('.new', :default => t("helpers.links.new")), new_product_category_path, :class => 'btn btn-primary'
+    = link_to t('.destroy', :default => t("helpers.links.destroy")), product_category_path(@product_category), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'
+    = link_to t('.edit', :default => t("helpers.links.edit")), edit_product_category_path(@product_category), :class => 'btn'
+    = link_to t('.back', :default => t("helpers.links.back")), product_categories_path, :class => 'btn'
+  
+  %h1=t '.title', :default => model_class.model_name.human.titleize
+
+%dl.dl-horizontal
+  %dt= model_class.human_attribute_name(:symbol) + ':'
+  %dd= show(@product_category.symbol)
+  %dt= model_class.human_attribute_name(:name) + ':'
+  %dd= show(@product_category.name)
+.form-actions

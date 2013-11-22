@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131117073353) do
+ActiveRecord::Schema.define(version: 20131122075715) do
+
+  create_table "product_categories", force: true do |t|
+    t.integer "symbol"
+    t.string  "name",   limit: 45
+  end
+
+  create_table "product_types", force: true do |t|
+    t.string "name"
+    t.text   "description"
+  end
 
   create_table "roles", force: true do |t|
     t.string  "name"
@@ -76,6 +86,14 @@ ActiveRecord::Schema.define(version: 20131117073353) do
     t.integer "store_id"
     t.integer "user_id"
   end
+
+  create_table "units", force: true do |t|
+    t.string  "symbol",  limit: 7,                  null: false
+    t.string  "name",    limit: 45
+    t.boolean "primary",            default: false, null: false
+  end
+
+  add_index "units", ["symbol"], name: "index_units_on_symbol", using: :btree
 
   create_table "user_roles", force: true do |t|
     t.integer  "user_id",    null: false

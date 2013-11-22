@@ -1,17 +1,16 @@
 - model_class = VatRate
 .page-header
+  .btn-toolbar.pull-right
+    = link_to t('.new', :default => t("helpers.links.new")), new_vat_rate_path, :class => 'btn btn-primary'
+    = link_to t('.destroy', :default => t("helpers.links.destroy")), vat_rate_path(@vat_rate), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'
+    = link_to t('.edit', :default => t("helpers.links.edit")), edit_vat_rate_path(@vat_rate), :class => 'btn'
+    = link_to t('.back', :default => t("helpers.links.back")), vat_rates_path, :class => 'btn'
+  
   %h1=t '.title', :default => model_class.model_name.human.titleize
 
-%p
-  %strong= model_class.human_attribute_name(:symbol) + ':'
-  %br
-  = @vat_rate.symbol
-%p
-  %strong= model_class.human_attribute_name(:rate) + ':'
-  %br
-  = @vat_rate.rate
-
+%dl.dl-horizontal
+  %dt= model_class.human_attribute_name(:symbol) + ':'
+  %dd= show(@vat_rate.symbol)
+  %dt= model_class.human_attribute_name(:rate) + ':'
+  %dd= show(@vat_rate.rate)
 .form-actions
-  = link_to t('.back', :default => t("helpers.links.back")), vat_rates_path, :class => 'btn'
-  = link_to t('.edit', :default => t("helpers.links.edit")), edit_vat_rate_path(@vat_rate), :class => 'btn'
-  = link_to t('.destroy', :default => t("helpers.links.destroy")), vat_rate_path(@vat_rate), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'

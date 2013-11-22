@@ -1,0 +1,14 @@
+<%= grid @product_types_grid, allow_showing_all_records: false, show_filters: :when_filtered do |g|
+  g.column name: model_class.human_attribute_name(:name), attribute: 'name'do |product_type|
+	link_to product_type.name, product_type_path(product_type)
+  end
+  g.column name: model_class.human_attribute_name(:description), attribute: 'description' 
+  g.action_column
+  
+  g.column do |product_type| 
+  	content = link_to t('.edit', :default => t("helpers.links.edit")), edit_product_type_path(product_type), :class => 'btn btn-mini';
+  	content += link_to t('.destroy', :default => t("helpers.links.destroy")), product_type_path(product_type), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-mini btn-danger';
+  	content_tag(:div, content, class: "btn-toolbar no-margins pull-right")
+  end
+
+end -%>

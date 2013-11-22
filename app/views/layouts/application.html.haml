@@ -35,10 +35,19 @@
                 = menu_item "Sales", sales_path
                 = menu_item "Sale Receipts", sale_receipts_path
                 = menu_item "Sale Items", sale_items_path
+                
+              = drop_down t('Products', default: 'Products') do
+                = drop_down_divider
+                = menu_item t('activerecord.models.product_category.few', default: 'Product Categories'), product_categories_path
+                = menu_item t('activerecord.models.unit.few', default: 'Units'), units_path
+                = menu_item t('activerecord.models.vat_rate.few', default: 'Vat Rates'), vat_rates_path
+                
               = drop_down t(:administration, default: 'Administration') do
                 = menu_item t('activerecord.models.user.few', default: 'Users'), users_path
                 = menu_item t('activerecord.models.role.few', default: 'Roles'), roles_path
                 = menu_item t('activerecord.models.store.few', default: 'Stores'), stores_path
+                = menu_item t('activerecord.models.product_type.few', default: 'Product Types'), product_types_path
+                
             = menu_group pull: :right do
               = render 'session/user_panel'
   

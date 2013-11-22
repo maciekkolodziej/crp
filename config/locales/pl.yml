@@ -54,6 +54,7 @@ pl:
   Change store: Zmień lokal
   Store changed: "Lokal został zmieniony pomyślnie. Aktywny lokal to <strong>%{current_store}</strong>."
   Home page: Strona startowa
+  Products: Produkty
   
   boolean:
     positive: Tak
@@ -92,6 +93,26 @@ pl:
       many: "Pomyślnie usunięto %{count} rekordów."
   activerecord:
     models:
+      vat_rate:
+        one: Stawka VAT
+        few: Stawki VAT
+        many: Stawek VAT
+        accusative: Stawkę VAT
+      product_category:
+        one: Kategoria produktu
+        few: Kategorie produktu
+        many: Kategorii produktu
+        accusative: Kategorię produktu
+      product_type:
+        one: Typ produktu
+        few: Typy produktu
+        many: Typów produktu
+        accusative: Typ produktu
+      unit:
+        one: Jednostka
+        few: Jednostki
+        many: Jednostek
+        accusative: Jednostkę
       role:
         one: Rola
         few: Role
@@ -110,6 +131,19 @@ pl:
         few: Użytkownicy
         accusative: Użytkownika
     attributes:
+      vat_rate:
+        symbol: Symbol
+        rate: Stawka
+      product_category:
+        symbol: Symbol
+        name: Nazwa
+      product_type:
+        name: Nazwa
+        description: Opis
+      unit:
+        symbol: Symbol
+        name: Nazwa
+        primary: Podstawowa
       role:
         name: Nazwa
         global: Globalna

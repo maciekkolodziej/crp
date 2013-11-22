@@ -1,4 +1,11 @@
 class ApplicationController < ActionController::Base
+  # Workaround to: CanCan causing ForbiddenAttributesError
+  before_filter do
+    resource = controller_name.singularize.to_sym
+    method = "#{resource}_params"
+    params[resource] &&= send(method) if respond_to?(method, true)
+  end
+  
   load_and_authorize_resource unless: [:devise_controller?, :skip_authorization?]
   before_filter :configure_permitted_parameters, if: :devise_controller?
   

@@ -30,10 +30,10 @@ class Ability
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
     if current_user.has_role?('Admin')
       can :manage, :all
-    end
-    
-    if current_user.has_role?('Manager') 
+    elsif current_user.has_role?('Manager') 
       can :create, Sale, current_store: true
+    elsif current_user.has_role?('Barista')
+      can :read, [:unit]
     end
   end
 end
