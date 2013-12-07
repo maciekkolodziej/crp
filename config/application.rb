@@ -26,5 +26,6 @@ module Crp
     config.encoding = "utf-8"
     
     config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
+    config.autoload_paths += Dir[Rails.root.join('lib', '{**}')]
   end
 end

@@ -20,14 +20,14 @@
   
   - if user_signed_in?
     %body
-      .navbar.navbar-fluid
+      .navbar.navbar-fixed-top
         .navbar-inner
           %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
           = link_to image_tag("logo_star.png"), root_path, class: 'pull-left', style: 'margin: 5px 10px 5px 0;'
-          .container.nav-collapse
+          .nav-collapse
             = menu_group do
               = drop_down "Sales" do 
                 = menu_item "New Sale", new_sale_path
@@ -37,6 +37,8 @@
                 = menu_item "Sale Items", sale_items_path
                 
               = drop_down t('Products', default: 'Products') do
+                = menu_item t('activerecord.models.product_price.few', default: 'Product Prices'), product_prices_path
+                = menu_item t('activerecord.models.product.few', default: 'Products'), products_path
                 = drop_down_divider
                 = menu_item t('activerecord.models.product_category.few', default: 'Product Categories'), product_categories_path
                 = menu_item t('activerecord.models.unit.few', default: 'Units'), units_path
@@ -46,7 +48,6 @@
                 = menu_item t('activerecord.models.user.few', default: 'Users'), users_path
                 = menu_item t('activerecord.models.role.few', default: 'Roles'), roles_path
                 = menu_item t('activerecord.models.store.few', default: 'Stores'), stores_path
-                = menu_item t('activerecord.models.product_type.few', default: 'Product Types'), product_types_path
                 
             = menu_group pull: :right do
               = render 'session/user_panel'
@@ -62,3 +63,4 @@
         = bootstrap_flash
         = yield
         = render 'layouts/footer'
+  #modal-window.modal.hide.fade

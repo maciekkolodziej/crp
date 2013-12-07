@@ -15,24 +15,6 @@ module ApplicationHelper
     output.html_safe
   end
   
-  def showold(model, attribute, options = {})
-    model_class = model.class.name.constantize
-    if attribute.class == Symbol
-      options[:label] ||= model_class.human_attribute_name(attribute)
-      if model.read_attribute(attribute) == nil
-        attribute = '<span class="not_set">' + t('not_set', default: 'Not set') + '</span>'
-      elsif model.column_for_attribute(attribute).type == :boolean
-        attribute = b model.read_attribute(attribute)
-      else
-        attribute = model.read_attribute(attribute)
-      end
-    end
-
-    output = "<dt>#{options[:label]}:</dt>"
-    output += "<dd>#{attribute}</dd>"
-    output.html_safe
-  end
-  
   def b(value, options = {})
     if value.class == TrueClass or value.class == FalseClass
       options = {
@@ -49,6 +31,17 @@ module ApplicationHelper
     else
       value
     end
+  end
+  
+  def to_dropdown(model, options = {} )
+    model = model.to_s.classify.constantize
+    for a in [options[:attribute], :symbol, :name, :id]
+      if model.column_names.include?(a.to_s)
+        options = model.all.map{|i| [i.read_attribute(a), i.id]}
+        break
+      end
+    end
+    options
   end
     
 end

@@ -1,0 +1,20 @@
+<h2>Yield</h2>
+<%=
+items = [1, 2, 3, 4]
+def iterate!(items)
+	items.each_with_index do |item, i|
+		items[i] = yield(item) / 5
+	end
+end
+%>
+<pre><%= iterate!(items) { |trol| trol * 10 }%></pre>
+
+<h2>Proc's'</h2>
+<%-
+def process_me(items, &piece_of_code)
+	items.each_with_index do |item, i|
+		item[i] = piece_of_code.call(item)
+	end
+end
+%>
+

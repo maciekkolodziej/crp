@@ -1,14 +1,14 @@
 .btn-group
-  %a.btn{ href: root_path, title: t('Home page', default: 'Home page') }
+  %a.btn{ href: root_path, title: t('Home page', default: 'Home page'), "data-container" => "body" }
     %i.icon-home
-  %a.btn{ href: edit_user_registration_path, title: t("Edit your data", default: 'Edit your data') }
+  %a.btn{ href: edit_user_registration_path, "data-container" => "body" , "data-title" => "#{current_user.full_name}", "data-remote" => true, "data-toggle" => 'modal', "data-target" => '#modal-window' }
     %i.icon-user
-  - if !current_user.current_store_id.blank?
-    %a.btn{ "data-toggle" => "dropdown", href: "#", style: 'border-right: none', title: t('Change store', default: 'Change store') }
-      = current_user.current_store.symbol
-    - if current_user.multiple_stores?
-      %ul.dropdown-menu
-        - current_user.stores.uniq.each do |store|
+  %a.btn{ href: "#", "data-container" => "body", title: current_user.current_store.name, "data-toggle" => "dropdown", style: "border-right: 1px;"}
+    %i.icon-globe
+  - if current_user.multiple_stores?
+    %ul.dropdown-menu
+      - current_user.available_stores.each do |store|
+        - if store.id != current_user.current_store_id
           %li= link_to store.symbol, change_store_path(store)
-  %a.btn.right{ href: destroy_user_session_path, "data-method" => "delete", title: t("Sign out", default: 'Sign out') }
+  %a.btn{ href: destroy_user_session_path, "data-method" => "delete", title: t("Sign out", default: 'Sign out'), "data-container" => "body" }
     %i.icon-off

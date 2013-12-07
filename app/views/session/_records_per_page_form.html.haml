@@ -1,6 +1,0 @@
-= form_tag '/session/records_per_page', method: 'post', class: 'form-horizontal', id: 'records_per_page_form' do
-  .input-append
-    %label{ for: 'records_per_page', class: 'control-label' } records per page:&nbsp;
-    .controls
-      %input.per_page_input{ id: 'per_page_input', name: 'records_per_page', type: 'number', style: 'width: 35px', required: true , value: session[:records_per_page]}
-      %button.btn{ type: 'sumbit' } Go

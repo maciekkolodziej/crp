@@ -1,0 +1,10 @@
+- model_class = ProductAlias
+.page-header
+  .btn-toolbar.pull-right
+    = link_to t('.new', :default => t("helpers.links.new")), new_product_alias_path, :class => 'btn btn-primary'
+
+  %h1=t '.title', :default => model_class.model_name.human(count: 2).titleize
+
+.row-fluid
+  = render partial: 'grid', locals: { model_class: model_class }
+  

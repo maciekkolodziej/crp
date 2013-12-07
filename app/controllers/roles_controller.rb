@@ -2,6 +2,10 @@
 class RolesController < ApplicationController
   before_action :set_role, only: [:show, :edit, :update, :destroy]
 
+  def self.batch_actions
+    [['Delete', :batch_destroy]]
+  end
+
   def gender
     'female' 
   end
@@ -9,10 +13,7 @@ class RolesController < ApplicationController
   # GET /roles
   def index
     @roles = Role.all
-    
-    # Actions that are allowed to be executed in batch
-    @batch_actions = { batch_destroy: t('delete', default: 'Delete').capitalize }
-    @roles_grid = initialize_grid(Role, per_page: records_per_page, conditions: current_ability.model_adapter(Role, :read).conditions)
+    @roles_grid = initialize_grid(Role, per_page: records_per_page, conditions: current_ability.model_adapter(Role, :read).conditions, name: 'roles_grid')
   end
 
   # GET /roles/1
@@ -51,14 +52,14 @@ class RolesController < ApplicationController
   # DELETE /roles/1
   def destroy
     @role.destroy
-    redirect_to roles_url, notice: t("messages.destroyed.#{self.gender}", default: [:'messages.destroyed', 'Role was sucessfully deleted.'], model: Role.model_name.human)
+    redirect_to request.referer, notice: t("messages.destroyed.#{self.gender}", default: [:'messages.destroyed', 'Role was sucessfully deleted.'], model: Role.model_name.human)
   end
   
   # PATCH /roles/batch_destroy
   def batch_destroy
-    ids = params[:grid][:selected]
+    ids = params[:roles_grid][:selected]
     Role.destroy_all(id: ids)
-    redirect_to request.referer, notice: t('messages.destroyed.many', default: "#{ids.count} records were successfully removed.", count: ids.count)
+    redirect_to request.referer, notice: t('messages.destroyed', default: "#{ids.count} records were successfully removed.", count: ids.count)
   end
 
   private

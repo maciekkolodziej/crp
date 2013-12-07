@@ -6,6 +6,9 @@ class ApplicationController < ActionController::Base
     params[resource] &&= send(method) if respond_to?(method, true)
   end
   
+  # For userstamp gem
+  include Userstamp
+  
   load_and_authorize_resource unless: [:devise_controller?, :skip_authorization?]
   before_filter :configure_permitted_parameters, if: :devise_controller?
   
@@ -45,7 +48,7 @@ class ApplicationController < ActionController::Base
   end
   
   def skip_authorization?
-    controllers_to_skip = ['dashboard', 'session', 'demo']
+    controllers_to_skip = ['dashboard', 'session', 'demo', 'histories']
     controllers_to_skip.include?(params[:controller]) ? true : false
   end
   

@@ -1,0 +1,13 @@
+.page-header
+  %a.close{ "data-dismiss" => "modal" } &times
+  %h1=t 'Records per page', default: 'Records per page'
+= form_tag update_per_page_path, class: 'form-horizontal', remote: true do |f|
+  
+  %fieldset.inputs
+    .control-group
+      = label_tag 'records_per_page', t('Records per page', default: 'Records per page'), class: 'control-label'
+      .controls
+        = number_field_tag 'records_per_page', params[:records_per_page], autofocus: true
+  %fieldset.form-actions
+    %a.btn{ href: '#', onclick: 'event.preventDefault(); close_modal();' }= t('Cancel', default: 'Cancel')
+    = submit_tag t('Save', default: 'Save'), class: 'btn btn-primary'

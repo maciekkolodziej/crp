@@ -1,0 +1,11 @@
+%table.table
+  %thead
+    %tr
+      - record.attributes.each do |attr|
+        %th= attr[0]
+  %tbody
+    - record.versions.reverse.each do |v|
+      - if !v.reify.blank?
+        %tr
+        - v.reify.attributes.each do |attr|
+          %td= attr[1]

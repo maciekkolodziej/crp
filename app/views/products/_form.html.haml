@@ -1,0 +1,17 @@
+= semantic_form_for @product, html: { class: 'form-horizontal' } do |f|
+  = f.inputs do
+    = f.input :name
+    = f.input :unit, as: :select, collection: to_dropdown(:unit)
+    = f.input :active
+    = f.input :purchasable
+    = f.input :inventoried, wrapper_html: {class: 'purchasable'}
+    = f.input :cost_price, wrapper_html: {class: 'purchasable'}
+    = f.input :sellable
+    = f.input :register_code, wrapper_html: {class: 'sellable'}
+    = f.input :register_name, wrapper_html: {class: 'sellable'}
+    = f.input :category_id, as: :select, collection: to_dropdown(:product_category, attribute: :name), wrapper_html: {class: 'sellable'}
+    = f.input :vat_rate_id, as: :select, collection: to_dropdown(:vat_rate), wrapper_html: {class: 'sellable'}
+
+  = f.actions do
+    = f.action :submit, :as => :input, button_html: { class: 'btn btn-primary' }
+    = f.action :cancel, label: t('.cancel', default: t('helpers.links.cancel'))

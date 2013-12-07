@@ -1,5 +1,14 @@
 source 'https://rubygems.org'
 
+# Rails admin for back-end
+gem 'rails_admin'
+
+# Track changes in model's data
+gem 'paper_trail', '>= 3.0.0.rc2'
+
+# Manage foreign keys constrains
+gem 'foreigner'
+
 # Internationalization 
 gem 'rails-i18n', '~> 4.0.0'
 gem 'devise-i18n'
@@ -20,6 +29,7 @@ gem 'formtastic-bootstrap'
 # Use Devise for authentication and CanCan for authorization
 gem 'devise'
 gem 'cancan'
+gem 'userstamp', git: 'git://github.com/kimkong/userstamp'
 
 # Charting libraries
 # Chartkick also needs javascript inclusion:
@@ -66,6 +76,7 @@ gem 'jquery-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
+gem 'jquery-turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'

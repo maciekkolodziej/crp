@@ -79,7 +79,7 @@ class SalesController < ApplicationController
   def batch_destroy
     ids = params[:grid][:selected]
     Sale.destroy_all(id: ids)
-    redirect_to request.referer, notice: t('messages.destroyed.many', default: "#{ids.count} records were successfully removed.", count: ids.count)
+    redirect_to request.referer, notice: t('messages.destroyed', default: "#{ids.count} records were successfully removed.", count: ids.count)
   end
   
   # PATCH /sales/batch_approve

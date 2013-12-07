@@ -13,4 +13,10 @@
   %dd= show(@product_category.symbol)
   %dt= model_class.human_attribute_name(:name) + ':'
   %dd= show(@product_category.name)
+#tab-toolbars.pull-right
+%ul.nav.nav-tabs
+  %li
+    %a{:href => "#tab-1", "data-toggle" => "tab"}= t('activerecord.models.product.few', default: 'Products')
+.tab-content
+  .tab-pane.fade{id: "tab-1"}= render 'products_subgrid'
 .form-actions

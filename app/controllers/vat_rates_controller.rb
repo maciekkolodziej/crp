@@ -1,6 +1,10 @@
 class VatRatesController < ApplicationController
   before_action :set_vat_rate, only: [:show, :edit, :update, :destroy]
-
+  
+  def self.batch_actions
+    [['Delete', :batch_destroy]]
+  end
+  
   def gender
     'male' 
   end
@@ -8,10 +12,7 @@ class VatRatesController < ApplicationController
   # GET /vat_rates
   def index
     @vat_rates = VatRate.all
-    
-    # Actions that are allowed to be executed in batch
-    @batch_actions = { batch_destroy: t('delete', default: 'Delete').capitalize }
-    @vat_rates_grid = initialize_grid(VatRate, per_page: records_per_page, conditions: current_ability.model_adapter(VatRate, :read).conditions)
+    @vat_rates_grid = initialize_grid(VatRate, per_page: records_per_page, conditions: current_ability.model_adapter(VatRate, :read).conditions, name: 'vat_rates_grid')
   end
 
   # GET /vat_rates/1
@@ -55,9 +56,9 @@ class VatRatesController < ApplicationController
   
   # PATCH /vat_rates/batch_destroy
   def batch_destroy
-    ids = params[:grid][:selected]
+    ids = params[:vat_rates_grid][:selected]
     VatRate.destroy_all(id: ids)
-    redirect_to request.referer, notice: t('messages.destroyed.many', default: "#{ids.count} records were successfully removed.", count: ids.count)
+    redirect_to request.referer, notice: t('messages.destroyed', default: "#{ids.count} records were successfully removed.", count: ids.count)
   end
 
   private

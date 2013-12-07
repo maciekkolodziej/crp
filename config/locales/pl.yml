@@ -55,6 +55,21 @@ pl:
   Store changed: "Lokal został zmieniony pomyślnie. Aktywny lokal to <strong>%{current_store}</strong>."
   Home page: Strona startowa
   Products: Produkty
+  All products: Wszystkie Produkty
+  All: Wszystkie
+  Sellable: Sprzedawane
+  Purchasable: Kupowane
+  Active: Aktywne
+  Prices: Ceny
+  Signed in as: Zalogowany jako
+  New password: Nowe hasło
+  Current password: Aktualne hasło
+  Store denied: Odmowa dostępu. Nie możesz korzystać z tego lokalu.
+  Product not for sale: Ten produkt nie jest na sprzedaż.
+  Add price: Dodaj cenę
+  Add alias: Dodaj alias
+  Delete: Usuń
+  Records per page: Rekordów na stronę
   
   boolean:
     positive: Tak
@@ -91,8 +106,32 @@ pl:
       one: "Pomyślnie usunięto %{count} rekord."
       few: 'Pomyślnie usunięto %{count} rekordy.'
       many: "Pomyślnie usunięto %{count} rekordów."
+  
   activerecord:
+    errors:
+      models:
+        product_category:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                one: Kategoria nie może zostać usunięta, ponieważ zawiera zależne Produkty.
+                many: Kategoria nie może zostać usunięta, ponieważ zawiera zależne Produkty.
     models:
+      product_alias:
+        one: Alias produktu
+        few: Aliasy produktu
+        many: Aliasów produktu
+        accusative: Alias produktu
+      product_price:
+        one: Cena produktu
+        few: Ceny produktów
+        many: Cen produktów
+        accusative: Cenę produktu
+      product:
+        one: Produkt
+        few: Produkty
+        many: Produktów
+        accusative: Produkt
       vat_rate:
         one: Stawka VAT
         few: Stawki VAT
@@ -131,6 +170,22 @@ pl:
         few: Użytkownicy
         accusative: Użytkownika
     attributes:
+      product_price:
+        store: Lokal
+        product: Produkt
+        sale_price: Cena sprzedaży
+      product:
+        register_code: Kod na kasie
+        register_name: Nazwa na kasie
+        name: Nazwa
+        cost_price: Koszt
+        sellable: Sprzedawany
+        purchasable: Kupowany
+        active: Aktywny
+        category: Kategoria
+        vat_rate: Stawka VAT
+        unit: Jednostka
+        inventoried: Inwentaryzowany
       vat_rate:
         symbol: Symbol
         rate: Stawka

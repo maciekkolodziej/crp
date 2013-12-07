@@ -1,0 +1,7 @@
+= semantic_form_for @user, html: { class: 'form-horizontal' } do |f|
+  = f.inputs do
+    = f.input :current_store_id, as: :select, collection: Store.all.map{ |s| [s.symbol, s.id] }, input_html: { autofocus: true }
+  
+  = f.actions do
+    = f.action :submit, :as => :input, button_html: { class: 'btn btn-primary' }
+    = f.action :cancel, label: t('.cancel', default: t('helpers.links.cancel'))

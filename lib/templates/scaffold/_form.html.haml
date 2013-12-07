@@ -1,8 +1,9 @@
-= semantic_form_for @<%= singular_name %>, html: { class: 'form-horizontal' } do |f|
+= semantic_form_for @<%= singular_name %>, html: { class: 'form-horizontal' }, remote: true do |f|
   = f.inputs do
   <%- attributes.each do |attribute| -%>
     = f.input :<%= attribute.name %>
   <%- end -%>
+    = hidden_field_tag :referer, params[:referer]
   
   = f.actions do
     = f.action :submit, :as => :input, button_html: { class: 'btn btn-primary' }

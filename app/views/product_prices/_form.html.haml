@@ -1,0 +1,13 @@
+= semantic_form_for @product_price, html: { class: 'form-horizontal' }, remote: true do |f|
+
+  = f.inputs do
+    = f.input :store, as: :select, collection: current_user.stores_dropdown, input_html: { disabled: @product_price.store_id.present? }, include_blank: false
+    = f.input :store_id, as: :hidden if @product_price.store_id.present?
+    = f.input :product, as: :select, collection: Product.sellable.all.map{|p| [p.name, p.id]}, input_html: { disabled: @product_price.product_id.present? }
+    = f.input :product_id, as: :hidden if @product_price.product_id.present?
+    = f.input :sale_price, input_html: { autofocus: true }
+    = hidden_field_tag :referer, params[:referer]
+  
+  = f.actions do
+    = f.action :submit, :as => :input, button_html: { class: 'btn btn-primary' }
+    = f.action :cancel, label: t('.cancel', default: t('helpers.links.cancel')), button_html: { "data-dismiss" => "modal" }

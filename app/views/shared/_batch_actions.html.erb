@@ -1,0 +1,11 @@
+<div class="batch-actions">
+	<a href="#" class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+		<%= t '.selected', default: t('helpers.links.selected') %>
+		<span class="caret"></span>
+	</a> 
+	<ul class="dropdown-menu">
+	<% batch_actions.each do |action| %>
+		<%= content_tag(:li, content_tag(:a, t("#{action[0]}", default: "#{action[0]}"), href: '#', 'data-controller' => batch_controller,'data-action' => action[1], class: 'batch-action-link')) %>
+	<% end %>
+	</ul>
+</div>

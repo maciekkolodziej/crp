@@ -1,6 +1,10 @@
 class ProductCategoriesController < ApplicationController
   before_action :set_product_category, only: [:show, :edit, :update, :destroy]
-
+  
+  def self.batch_actions
+    [['Delete', :batch_destroy]]
+  end
+  
   def gender
     'female' 
   end
@@ -16,14 +20,12 @@ class ProductCategoriesController < ApplicationController
   # GET /product_categories
   def index
     @product_categories = ProductCategory.all
-    
-    # Actions that are allowed to be executed in batch
-    @batch_actions = { batch_destroy: t('delete', default: 'Delete').capitalize }
-    @product_categories_grid = initialize_grid(ProductCategory, per_page: records_per_page, conditions: current_ability.model_adapter(ProductCategory, :read).conditions, order: 'symbol')
+    @product_categories_grid = initialize_grid(ProductCategory, per_page: records_per_page, conditions: current_ability.model_adapter(ProductCategory, :read).conditions, order: 'symbol', name: 'product_categories_grid')
   end
 
   # GET /product_categories/1
   def show
+    @products_grid = initialize_grid(Product, conditions: { category_id: @product_category.id}, name: "products_grid")           
   end
 
   # GET /product_categories/new
@@ -57,15 +59,18 @@ class ProductCategoriesController < ApplicationController
 
   # DELETE /product_categories/1
   def destroy
-    @product_category.destroy
-    redirect_to product_categories_url, notice: t("messages.destroyed.#{self.gender}", default: [:'messages.destroyed', 'ProductCategory was sucessfully deleted.'], model: ProductCategory.model_name.human)
+    if @product_category.destroy
+      redirect_to request.referer, notice: t("messages.destroyed.#{self.gender}", default: [:'messages.destroyed', 'ProductCategory was sucessfully deleted.'], model: ProductCategory.model_name.human)
+    else
+      redirect_to request.referer, alert: @product_category.errors.full_messages
+    end
   end
   
   # PATCH /product_categories/batch_destroy
   def batch_destroy
-    ids = params[:grid][:selected]
+    ids = params[:product_categories_grid][:selected]
     ProductCategory.destroy_all(id: ids)
-    redirect_to request.referer, notice: t('messages.destroyed.many', default: "#{ids.count} records were successfully removed.", count: ids.count)
+    redirect_to request.referer, notice: t('messages.destroyed', default: "#{ids.count} records were successfully removed.", count: ids.count)
   end
 
   private

@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   
+  def self.batch_actions
+    [['Delete', :batch_destroy]]
+  end
+  
   def gender
     'male' 
   end
@@ -8,10 +12,7 @@ class UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all
-    
-    # Actions that are allowed to be executed in batch
-    @batch_actions = { batch_destroy: t('delete', default: 'Delete').capitalize }
-    @users_grid = initialize_grid(User, per_page: records_per_page, conditions: current_ability.model_adapter(User, :read).conditions)
+    @users_grid = initialize_grid(User, per_page: records_per_page, conditions: current_ability.model_adapter(User, :read).conditions, name: 'users_grid')
   end
 
   # GET /users/1
@@ -64,9 +65,9 @@ class UsersController < ApplicationController
   
   # PATCH /users/batch_destroy
   def batch_destroy
-    ids = params[:grid][:selected]
+    ids = params[:users_grid][:selected]
     User.destroy_all(id: ids)
-    redirect_to request.referer, notice: t('messages.destroyed.many', default: "#{ids.count} records were successfully removed.", count: ids.count)
+    redirect_to request.referer, notice: t('messages.destroyed', default: "#{ids.count} records were successfully removed.", count: ids.count)
   end
 
   private

@@ -28,12 +28,16 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
+    can :change_store, User
     if current_user.has_role?('Admin')
       can :manage, :all
+      can :read, ProductPrice, :store_id => current_user.current_store_id
     elsif current_user.has_role?('Manager') 
       can :create, Sale, current_store: true
+      can :manage, ProductPrice
     elsif current_user.has_role?('Barista')
       can :read, [:unit]
     end
+    
   end
 end

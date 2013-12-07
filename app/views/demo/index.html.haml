@@ -1,3 +1,8 @@
+%pre= current_user.available_stores.to_yaml
+%pre= current_user.roles.to_yaml
+
+%pre= Store.all.inspect
+
 %h1 Demo#index
 %pre= (can? :manage, @sale_items) ? "YES!" : "No!"
 

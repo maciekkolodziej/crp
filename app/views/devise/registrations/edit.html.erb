@@ -1,15 +1,17 @@
-<div class="page-header">
-	<h1><%= t('edit_your_data', default: 'Edit Your Data') %></h1>
-</div>
-
-<%= semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, class: 'form-horizontal' }) do |f| %>
+<%= semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, class: 'form-horizontal' }, remote: true) do |f| %>
+	<div class="page-header">
+		<a class="close" data-dismiss="modal" href="#">&times</a>
+		<h1><%= t('edit_your_data', default: 'Edit Your Data') %></h1>
+	</div>
+	
   <%= f.inputs do %>
 	  <%= f.input :email, as: :email, :autofocus => true %>
 	  <%= f.input :first_name %>
 	  <%= f.input :last_name %>
-	  <%= f.input :password, as: :password, :autocomplete => "off", hint: t('leave_blank_if_no_change', default: "Leave blank iy you don't want to change it" ) %>
+	  <%= f.input :password, label: t("New password", default: "New password"), as: :password, required: false, :autocomplete => "off" %>
 	  <%= f.input :password_confirmation, as: :password %>
-	  <%= f.input :current_password, as: :password, hint: t('provide_current_password', default: "Please provide current password before saving changes." ) %>
+	  
+	  <%= f.input :current_password, label: t("Current password", default: "Current password"), as: :password, required: true, wrapper_html: {class: "warning"} %>
   <%- end %>
   
   <%= f.actions do %>

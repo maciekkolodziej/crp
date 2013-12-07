@@ -1,0 +1,5 @@
+- model_class = ProductAlias
+.page-header
+  %button.close{ "data-dismiss" => "modal" } &times
+  %h1=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human.titleize
+= render :partial => "form"

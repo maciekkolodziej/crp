@@ -1,0 +1,4 @@
+- model_class = Product
+.page-header
+  %h1= t('.edit', default: [:'helpers.titles.edit', 'Edit']) + ' ' + t('activerecord.models.product.accusative', default: Product.model_name.human.titleize)
+= render :partial => "form"

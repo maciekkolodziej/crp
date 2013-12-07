@@ -1,6 +1,10 @@
 class StoresController < ApplicationController
   before_action :set_store, only: [:show, :edit, :update, :destroy]
-
+  
+  def self.batch_actions
+    [['Delete', :batch_destroy]]
+  end
+  
   def gender
     'male' 
   end
@@ -8,10 +12,7 @@ class StoresController < ApplicationController
   # GET /stores
   def index
     @stores = Store.all
-    
-    # Actions that are allowed to be executed in batch
-    @batch_actions = { batch_destroy: t('delete', default: 'Delete').capitalize }
-    @stores_grid = initialize_grid(Store, per_page: records_per_page, conditions: current_ability.model_adapter(Store, :read).conditions)
+    @stores_grid = initialize_grid(Store, per_page: records_per_page, conditions: current_ability.model_adapter(Store, :read).conditions, name: 'stores_grid')
   end
 
   # GET /stores/1
@@ -55,9 +56,9 @@ class StoresController < ApplicationController
   
   # PATCH /stores/batch_destroy
   def batch_destroy
-    ids = params[:grid][:selected]
+    ids = params[:stores_grid][:selected]
     Store.destroy_all(id: ids)
-    redirect_to request.referer, notice: t('messages.destroyed.many', default: "#{ids.count} records were successfully removed.", count: ids.count)
+    redirect_to request.referer, notice: t('messages.destroyed', default: "#{ids.count} records were successfully removed.", count: ids.count)
   end
 
   private

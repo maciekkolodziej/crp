@@ -139,7 +139,8 @@ input.wice-grid-save-query-field{
 }
 
 /* CUSTOMIZED */
-.wice-grid tr.wg-filter-row input[type=text] {
+.wice-grid tr.wg-filter-row input[type=text].range-start, 
+.wice-grid tr.wg-filter-row input[type=text].range-end {
   width: 35px;
 }
 td.numeric, th.numeric {

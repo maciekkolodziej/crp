@@ -1,0 +1,5 @@
+- model_class = ProductAlias
+.page-header
+  %button.close{ "data-dismiss" => "modal" } &times
+  %h1= t('.edit', default: [:'helpers.titles.edit', 'Edit']) + ' ' + t('activerecord.models.productalias.accusative', default: ProductAlias.model_name.human.titleize)
+= render :partial => "form"

@@ -1,17 +1,25 @@
-<%%= grid @<%= plural_name -%>_grid, allow_showing_all_records: false, show_filters: :when_filtered do |g|
-  <%- attributes_count = 1 -%><%- attributes.each do |attribute| -%><%- if attributes_count == 1 -%>
-  g.column name: model_class.human_attribute_name(:<%= attribute.name %>), attribute: '<%= attribute.name %>'<%- if (attribute.type == :decimal || attribute.type == :integer) -%>, filter_type: :range <%- end -%>do |<%= singular_name -%>|
-	link_to <%= singular_name -%>.<%= attribute.name -%>, <%= singular_name -%>_path(<%= singular_name -%>)
-  end
-  <%- attributes_count += 1 -%><%- else -%>
-  g.column name: model_class.human_attribute_name(:<%= attribute.name %>), attribute: '<%= attribute.name -%>' <%- if (attribute.type == :decimal || attribute.type == :integer) -%>, filter_type: :range <%- if (!attribute.name.match(/.id/) && attribute.name != 'number') -%>, class: 'numeric <%= attribute.name -%> totalled averaged'<%- end -%><%- end %>
-  <%- end -%><%- end -%>
-  g.action_column
-  
-  g.column do |<%= singular_name -%>| 
-  	content = link_to t('.edit', :default => t("helpers.links.edit")), edit_<%= singular_name -%>_path(<%= singular_name -%>), :class => 'btn btn-mini';
-  	content += link_to t('.destroy', :default => t("helpers.links.destroy")), <%= singular_name -%>_path(<%= singular_name -%>), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-mini btn-danger';
-  	content_tag(:div, content, class: "btn-toolbar no-margins pull-right")
-  end
+<%%= form_tag('', class: 'form-horizontal action-grid', method: 'patch') do -%>
 
-end -%>
+	<%%= grid @<%= plural_name -%>_grid, allow_showing_all_records: false, show_filters: :when_filtered do |g|
+	  <%- attributes_count = 1 -%><%- attributes.each do |attribute| -%><%- if attributes_count == 1 -%>
+	  g.column name: model_class.human_attribute_name(:<%= attribute.name %>), attribute: '<%= attribute.name %>'<%- if (attribute.type == :decimal || attribute.type == :integer) -%>, filter_type: :range <%- end -%>do |<%= singular_name -%>|
+		link_to <%= singular_name -%>.<%= attribute.name -%>, <%= singular_name -%>_path(<%= singular_name -%>)
+	  end
+	  <%- attributes_count += 1 -%><%- else -%>
+	  g.column name: model_class.human_attribute_name(:<%= attribute.name %>), attribute: '<%= attribute.name -%>' <%- if (attribute.type == :decimal || attribute.type == :integer) -%>, filter_type: :range <%- if (!attribute.name.match(/.id/) && attribute.name != 'number') -%>, class: 'numeric <%= attribute.name -%> totalled averaged'<%- end -%><%- end %>
+	  <%- end -%><%- end -%>
+	  g.action_column
+	  
+	  g.column do |<%= singular_name -%>| 
+	  	content = link_to t('.edit', :default => t("helpers.links.edit")), edit_<%= singular_name -%>_path(<%= singular_name -%>), :class => 'btn btn-mini';
+	  	content += link_to t('.destroy', :default => t("helpers.links.destroy")), <%= singular_name -%>_path(<%= singular_name -%>), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-mini btn-danger';
+	  	content_tag(:div, content, class: "btn-toolbar no-margins pull-right")
+	  end
+	
+	end -%>
+	
+	<%%= if <%= plural_name.capitalize -%>Controller.respond_to?(:batch_actions) 
+		render('shared/batch_actions', batch_controller: '<%= plural_name -%>', batch_actions: <%= plural_name.capitalize -%>Controller::batch_actions)
+	end -%>
+	
+<%%- end %>

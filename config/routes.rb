@@ -1,4 +1,8 @@
 Crp::Application.routes.draw do
+  
+  
+  
+  mount RailsAdmin::Engine => '/rails_admin', :as => 'rails_admin'
   scope "(/:locale)" do
     resources :sales, :sale_receipts, :sale_items
     devise_for :users, :controllers => { :registrations => "registrations" }
@@ -6,19 +10,22 @@ Crp::Application.routes.draw do
        get "registrations/confirmation" => 'registrations#confirmation'
        get "users/change_store/:store_id" => 'users#change_store', as: :change_store
     end
+    
     scope '/admin' do
       resources :users do
         patch 'batch_destroy', on: :collection
       end
     end
-    resources :stores, :roles, :user_roles, :units, :product_types, :product_categories, :vat_rates do
+    resources :stores, :roles, :user_roles, :units, :product_categories, :vat_rates, :products, :services, :stockables, :product_prices, :product_aliases do
       patch 'batch_destroy', on: :collection
       get 'import', on: :collection
     end
-    post 'session/records_per_page' => 'session#records_per_page'
+    get 'session/per_page' => 'session#per_page', as: :per_page
+    post 'session/per_page' => 'session#update_per_page', as: :update_per_page
     
     get "demo/index"
     get "demo/hashes"
+    get 'demo/blocks'
   end
   get '/:locale' => 'dashboard#index'
   root to: 'dashboard#index'

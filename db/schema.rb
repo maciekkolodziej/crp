@@ -11,17 +11,57 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131122075715) do
+ActiveRecord::Schema.define(version: 20131130103725) do
+
+  create_table "product_aliases", force: true do |t|
+    t.integer "product_id"
+    t.string  "alias",      limit: 18
+  end
+
+  add_index "product_aliases", ["product_id"], name: "product_aliases_product_id_fk", using: :btree
 
   create_table "product_categories", force: true do |t|
     t.integer "symbol"
     t.string  "name",   limit: 45
   end
 
-  create_table "product_types", force: true do |t|
-    t.string "name"
-    t.text   "description"
+  create_table "product_prices", force: true do |t|
+    t.integer  "store_id",                            null: false
+    t.integer  "product_id",                          null: false
+    t.decimal  "sale_price", precision: 10, scale: 2, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "creator_id"
+    t.integer  "updater_id"
   end
+
+  add_index "product_prices", ["product_id"], name: "product_prices_product_id_fk", using: :btree
+  add_index "product_prices", ["store_id", "product_id"], name: "index_product_prices_on_store_id_and_product_id", unique: true, using: :btree
+
+  create_table "products", force: true do |t|
+    t.string   "name",          limit: 45,                                          null: false
+    t.integer  "unit_id",                                           default: 1,     null: false
+    t.boolean  "active",                                            default: true,  null: false
+    t.boolean  "purchasable",                                       default: false, null: false
+    t.boolean  "inventoried",                                       default: false, null: false
+    t.decimal  "cost_price",               precision: 10, scale: 2
+    t.boolean  "sellable",                                          default: false, null: false
+    t.integer  "register_code"
+    t.string   "register_name", limit: 18
+    t.integer  "category_id"
+    t.integer  "vat_rate_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+  end
+
+  add_index "products", ["active"], name: "index_products_on_active", using: :btree
+  add_index "products", ["category_id"], name: "products_category_id_fk", using: :btree
+  add_index "products", ["register_code"], name: "index_products_on_register_code", using: :btree
+  add_index "products", ["register_name"], name: "index_products_on_register_name", using: :btree
+  add_index "products", ["unit_id"], name: "products_unit_id_fk", using: :btree
+  add_index "products", ["vat_rate_id"], name: "products_vat_rate_id_fk", using: :btree
 
   create_table "roles", force: true do |t|
     t.string  "name"
@@ -138,5 +178,25 @@ ActiveRecord::Schema.define(version: 20131122075715) do
     t.string  "symbol", limit: 1
     t.decimal "rate",             precision: 3, scale: 2
   end
+
+  create_table "versions", force: true do |t|
+    t.string   "item_type",  null: false
+    t.integer  "item_id",    null: false
+    t.string   "event",      null: false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+  end
+
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+
+  add_foreign_key "product_aliases", "products", name: "product_aliases_product_id_fk", dependent: :delete
+
+  add_foreign_key "product_prices", "products", name: "product_prices_product_id_fk", dependent: :delete
+  add_foreign_key "product_prices", "stores", name: "product_prices_store_id_fk", dependent: :delete
+
+  add_foreign_key "products", "product_categories", name: "products_category_id_fk", column: "category_id", dependent: :nullify
+  add_foreign_key "products", "units", name: "products_unit_id_fk"
+  add_foreign_key "products", "vat_rates", name: "products_vat_rate_id_fk"
 
 end
