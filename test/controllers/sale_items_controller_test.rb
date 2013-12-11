@@ -18,7 +18,7 @@ class SaleItemsControllerTest < ActionController::TestCase
 
   test "should create sale_item" do
     assert_difference('SaleItem.count') do
-      post :create, sale_item: { line_number: @sale_item.line_number, net_value: @sale_item.net_value, product_id: @sale_item.product_id, product_name: @sale_item.product_name, quantity: @sale_item.quantity, receipt_id: @sale_item.receipt_id, value: @sale_item.value, vat_rate: @sale_item.vat_rate, vat_symbol: @sale_item.vat_symbol }
+      post :create, sale_item: { net_value: @sale_item.net_value, price: @sale_item.price, product_id: @sale_item.product_id, product_name: @sale_item.product_name, quantity: @sale_item.quantity, sale_receipt_id: @sale_item.sale_receipt_id, value: @sale_item.value, vat_rate: @sale_item.vat_rate, vat_symbol: @sale_item.vat_symbol }
     end
 
     assert_redirected_to sale_item_path(assigns(:sale_item))
@@ -35,7 +35,7 @@ class SaleItemsControllerTest < ActionController::TestCase
   end
 
   test "should update sale_item" do
-    patch :update, id: @sale_item, sale_item: { line_number: @sale_item.line_number, net_value: @sale_item.net_value, product_id: @sale_item.product_id, product_name: @sale_item.product_name, quantity: @sale_item.quantity, receipt_id: @sale_item.receipt_id, value: @sale_item.value, vat_rate: @sale_item.vat_rate, vat_symbol: @sale_item.vat_symbol }
+    patch :update, id: @sale_item, sale_item: { net_value: @sale_item.net_value, price: @sale_item.price, product_id: @sale_item.product_id, product_name: @sale_item.product_name, quantity: @sale_item.quantity, sale_receipt_id: @sale_item.sale_receipt_id, value: @sale_item.value, vat_rate: @sale_item.vat_rate, vat_symbol: @sale_item.vat_symbol }
     assert_redirected_to sale_item_path(assigns(:sale_item))
   end
 

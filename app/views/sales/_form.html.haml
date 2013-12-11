@@ -1,12 +1,9 @@
-= form_for @sale, :html => { :class => 'form-horizontal' } do |f|
-  .control-group
-    = f.label :file, :class => 'control-label'
-    .controls
-      = f.file_field :file, :class => 'file_field'
-  .control-group
-    = f.label :card_payments, :class => 'control-label'
-    .controls
-      = f.text_field :card_payments, :class => 'text_field'
-  .form-actions
-    = f.submit nil, :class => 'btn btn-primary'
-    = link_to t('.cancel', :default => t("helpers.links.cancel")), sales_path, :class => 'btn'
+= semantic_form_for @sale, html: { class: 'form-horizontal', multipart: true } do |f|
+  = f.inputs do
+    = f.input :date, as: :hidden
+    = f.input :file, as: :file, required: true
+    = hidden_field_tag :referer, params[:referer]
+  
+  = f.actions do
+    = f.action :submit, :as => :input, button_html: { class: 'btn btn-primary' }
+    = f.action :cancel, label: t('.cancel', default: t('helpers.links.cancel'))

@@ -1,3 +1,5 @@
+%pre= Sale.find(2).file.copy_to_local_file.inspect
+
 %pre= current_user.available_stores.to_yaml
 %pre= current_user.roles.to_yaml
 

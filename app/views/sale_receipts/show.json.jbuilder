@@ -1,1 +1,1 @@
-json.extract! @sale_receipt, :id, :sale_id, :number, :datetime, :value, :net_value, :cancelled, :salesman_id, :created_at, :updated_at
+json.extract! @sale_receipt, :sale_id, :number, :datetime, :value, :net_value, :cancelled, :created_at, :updated_at

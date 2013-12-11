@@ -23,8 +23,7 @@ module Crp
     config.generators do |g|
       g.template_engine :haml
     end
-    config.encoding = "utf-8"
-    
+    config.encoding = "UTF-8"
     config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
     config.autoload_paths += Dir[Rails.root.join('lib', '{**}')]
   end

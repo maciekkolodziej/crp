@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131130103725) do
+ActiveRecord::Schema.define(version: 20131210135831) do
 
   create_table "product_aliases", force: true do |t|
     t.integer "product_id"
@@ -99,27 +99,32 @@ ActiveRecord::Schema.define(version: 20131130103725) do
   add_index "sale_receipts", ["sale_id"], name: "index_sale_receipts_on_sale_id", using: :btree
 
   create_table "sales", force: true do |t|
-    t.integer  "company_id"
-    t.integer  "pos_id"
+    t.integer  "store_id"
     t.date     "date"
     t.integer  "number"
-    t.decimal  "value",                                    precision: 10, scale: 2
-    t.decimal  "vat",                                      precision: 10, scale: 2
-    t.decimal  "card_payments",                            precision: 10, scale: 2
-    t.decimal  "cash_payments",                            precision: 10, scale: 2
-    t.integer  "receipt_count"
-    t.integer  "cancelled_receipt_count"
-    t.decimal  "cancelled_receipt_value",                  precision: 10, scale: 2
-    t.binary   "file_content",            limit: 16777215
+    t.decimal  "value",                    precision: 10, scale: 2
+    t.decimal  "vat",                      precision: 10, scale: 2
+    t.integer  "receipts_count"
+    t.integer  "cancelled_receipts_count"
+    t.decimal  "cancelled_receipts_value", precision: 10, scale: 2
     t.integer  "created_by"
     t.integer  "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+    t.string   "file_fingerprint"
+    t.integer  "report_line"
   end
+
+  add_index "sales", ["store_id"], name: "sales_store_id_fk", using: :btree
 
   create_table "stores", force: true do |t|
     t.string "symbol"
     t.string "name"
+    t.string "register_header"
   end
 
   create_table "stores_users", force: true do |t|
@@ -198,5 +203,7 @@ ActiveRecord::Schema.define(version: 20131130103725) do
   add_foreign_key "products", "product_categories", name: "products_category_id_fk", column: "category_id", dependent: :nullify
   add_foreign_key "products", "units", name: "products_unit_id_fk"
   add_foreign_key "products", "vat_rates", name: "products_vat_rate_id_fk"
+
+  add_foreign_key "sales", "stores", name: "sales_store_id_fk"
 
 end

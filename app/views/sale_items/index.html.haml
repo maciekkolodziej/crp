@@ -1,37 +1,9 @@
 - model_class = SaleItem
 .page-header
-  %h1=t '.title', :default => model_class.model_name.human.pluralize.titleize
-%table.table.table-striped
-  %thead
-    %tr
-      %th= model_class.human_attribute_name(:id)
-      %th= model_class.human_attribute_name(:sale_receipt_id)
-      %th= model_class.human_attribute_name(:product_id)
-      %th= model_class.human_attribute_name(:product_name)
-      %th= model_class.human_attribute_name(:quantity)
-      %th= model_class.human_attribute_name(:price)
-      %th= model_class.human_attribute_name(:value)
-      %th= model_class.human_attribute_name(:net_value)
-      %th= model_class.human_attribute_name(:vat_symbol)
-      %th= model_class.human_attribute_name(:vat_rate)
-      %th= model_class.human_attribute_name(:line_number)
-      %th=t '.actions', :default => t("helpers.actions")
-  %tbody
-    - @sale_items.each do |sale_item|
-      %tr
-        %td= link_to sale_item.id, sale_item_path(sale_item)
-        %td= link_to sale_item.sale_receipt_id, sale_receipt_path(sale_item.sale_receipt)
-        %td= sale_item.product_id
-        %td= sale_item.product_name
-        %td= sale_item.quantity
-        %td= sale_item.price
-        %td= sale_item.value
-        %td= sale_item.net_value
-        %td= sale_item.vat_symbol
-        %td= sale_item.vat_rate
-        %td= sale_item.line_number
-        %td
-          = link_to t('.edit', :default => t("helpers.links.edit")), edit_sale_item_path(sale_item), :class => 'btn btn-mini'
-          = link_to t('.destroy', :default => t("helpers.links.destroy")), sale_item_path(sale_item), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-mini btn-danger'
+  .btn-toolbar.pull-right
 
-= link_to t('.new', :default => t("helpers.links.new")), new_sale_item_path, :class => 'btn btn-primary'
+  %h1=t '.title', :default => model_class.model_name.human(count: 2).titleize
+
+.row-fluid
+  = render partial: 'grid', locals: { model_class: model_class }
+  

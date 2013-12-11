@@ -8,4 +8,5 @@ class Store < ActiveRecord::Base
   accepts_nested_attributes_for :employees, allow_destroy: true, :reject_if => :all_blank
   
   has_many :roles, through: :employees
+  has_many :sales, dependent: :restrict_with_error
 end

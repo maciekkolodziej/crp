@@ -2,6 +2,7 @@
   = f.inputs do
     = f.input :symbol
     = f.input :name
+    = f.input :register_header
     %ul.nav.nav-tabs
       %li.active
         %a{ href: "#" }= t '.employees', default: [:'activerecord.attributes.store.employees', 'Employees']

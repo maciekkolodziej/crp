@@ -1,14 +1,22 @@
-
 class SaleReceiptsController < ApplicationController
   before_action :set_sale_receipt, only: [:show, :edit, :update, :destroy]
+  before_action :set_referer, only: [:index, :edit, :new]
+  
+  def self.batch_actions
+    [['Delete', :batch_destroy]]
+  end
+  
+  def gender
+    'male' 
+  end
 
   # GET /sale_receipts
   def index
     @sale_receipts = SaleReceipt.all
     
-    # Actions that are allowed to be executed in batch
-    @batch_actions = { batch_destroy: "Delete" }
-    @sale_receipts_grid = initialize_grid(SaleReceipt, per_page: records_per_page)
+    conditions = current_ability.model_adapter(SaleReceipt, :read).conditions
+    conditions['sales.store_id'] = current_user.current_store_id
+    @sale_receipts_grid = initialize_grid(SaleReceipt, per_page: records_per_page, include: [:sale], conditions: conditions, name: 'sale_receipts_grid')
   end
 
   # GET /sale_receipts/1
@@ -18,43 +26,61 @@ class SaleReceiptsController < ApplicationController
   # GET /sale_receipts/new
   def new
     @sale_receipt = SaleReceipt.new
+    respond_to do |format|
+      format.html
+      format.js { render('shared/build_modal') }
+    end
   end
 
   # GET /sale_receipts/1/edit
   def edit
+    respond_to do |format|
+      format.html
+      format.js { render('shared/build_modal') }
+    end
   end
 
   # POST /sale_receipts
   def create
     @sale_receipt = SaleReceipt.new(sale_receipt_params)
-
-    if @sale_receipt.save
-      redirect_to @sale_receipt, notice: 'Sale receipt was successfully created.'
-    else
-      render action: 'new'
+    
+    respond_to do |format|
+      if @sale_receipt.save
+        success = t("messages.saved.#{self.gender}", default: 'SaleReceipt was sucessfully saved.', model: SaleReceipt.model_name.human)
+        format.html { redirect_to params[:referer], notice: success }
+        format.js { flash[:notice] = success; render js: "close_modal(); redirect('#{params[:referer]}')" }
+      else
+        format.html { render action: "new" }
+        format.js { render('shared/form_with_errors') }
+      end
     end
   end
 
   # PATCH/PUT /sale_receipts/1
   def update
-    if @sale_receipt.update(sale_receipt_params)
-      redirect_to @sale_receipt, notice: 'Sale receipt was successfully updated.'
-    else
-      render action: 'edit'
+    respond_to do |format|
+      if @sale_receipt.update(sale_receipt_params)
+        success = t("messages.saved.#{self.gender}", default: 'SaleReceipt was sucessfully saved.', model: SaleReceipt.model_name.human)
+        format.html { redirect_to params[:referer], notice: success }
+        format.js { flash[:notice] = success; render js: "close_modal(); redirect('#{params[:referer]}')" }
+      else
+        format.html { render action: "edit" }
+        format.js { render('shared/form_with_errors') }
+      end
     end
   end
 
   # DELETE /sale_receipts/1
   def destroy
     @sale_receipt.destroy
-    redirect_to sale_receipts_url, notice: 'Sale receipt was successfully destroyed.'
+    redirect_to request.referer, notice: t("messages.destroyed.#{self.gender}", default: [:'messages.destroyed', 'SaleReceipt was sucessfully deleted.'], model: SaleReceipt.model_name.human)
   end
   
   # PATCH /sale_receipts/batch_destroy
   def batch_destroy
-    ids = params[:grid][:selected]
+    ids = params[:sale_receipts_grid][:selected]
     SaleReceipt.destroy_all(id: ids)
-    redirect_to request.referer, notice: "#{ids.count} records were successfully removed."
+    redirect_to request.referer, notice: t('messages.destroyed', default: "#{ids.count} records were successfully removed.", count: ids.count)
   end
 
   private
@@ -66,7 +92,11 @@ class SaleReceiptsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def sale_receipt_params
 
-      params.require(:sale_receipt).permit(:id, :sale_id, :number, :datetime, :value, :net_value, :cancelled, :salesman_id)
+      params.require(:sale_receipt).permit(:sale_id, :number, :datetime, :value, :net_value, :cancelled)
 
+    end
+    
+    def set_referer
+      params[:referer] ||= request.referer
     end
 end

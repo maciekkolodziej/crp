@@ -70,6 +70,12 @@ pl:
   Add alias: Dodaj alias
   Delete: Usuń
   Records per page: Rekordów na stronę
+  Daily report: Raport dobowy
+  Sales: Sprzedaż
+  Receipt: Paragon
+  Sale item: Pozycja sprzedaży
+  Product aliases: Aliasy produktu
+  Product prices: Ceny produktu
   
   boolean:
     positive: Tak
@@ -116,11 +122,15 @@ pl:
               restrict_dependent_destroy:
                 one: Kategoria nie może zostać usunięta, ponieważ zawiera zależne Produkty.
                 many: Kategoria nie może zostać usunięta, ponieważ zawiera zależne Produkty.
+        sale:
+          attributes: 
+            file_fingerprint:
+              taken: Taki plik już istnieje.
     models:
       product_alias:
         one: Alias produktu
-        few: Aliasy produktu
-        many: Aliasów produktu
+        few: Aliasy produktów
+        many: Aliasów produktów
         accusative: Alias produktu
       product_price:
         one: Cena produktu
@@ -164,7 +174,19 @@ pl:
         accusative: Lokal
       sale: 
         one: Sprzedaż
-        few: Sprzedaże
+        few: Sprzedaż
+        many: Sprzedaż
+        accusative: Sprzedaż
+      sale_receipt:
+        one: Paragon sprzedaży
+        few: Paragony sprzedaży
+        many: Paragonów sprzedaży
+        accusative: Paragon sprzedaży
+      sale_item:
+        one: Pozycja sprzedaży
+        few: Pozycje sprzedaży
+        many: Pozycji sprzedaży
+        accusative: Pozycję sprzedaży
       user:
         one: Użytkownik
         few: Użytkownicy
@@ -210,12 +232,37 @@ pl:
         password_confirmation: Powtórz hasło
         active: Aktywny
         roles: Role
+      sale_item:
+        sale_receipt_id: Paragon
+        product_id: Produkt
+        product_name: Nazwa produktu
+        quantity: Ilość
+        price: Cena
+        value: Wartość
+        net_value: Netto
+        vat_symbol: Symbol VAT
+        vat_rate: Stawka VAT
+      sale_receipt:
+        datetime: Data i godzina
+        number: Numer
+        value: Wartość
+        net_value: Netto
+        cancelled: Anulowany
+        sale_id: Sprzedaż
       sale:
+        date: Data
         number: 'Numer'
+        store_id: Lokal
+        value: Wartość
+        receipts_count: Ilość paragonów
+        cancelled_receipts_count: Ilość anulowanych
+        cancelled_receipts_value: Wartość anulowanych
         file: 'Plik'
+        file_fingerprint: ""
       store:
         symbol: Symbol
         name: Nazwa
+        register_header: Nagłówek kasy
         users: Użytkownicy
         employees: Pracownicy
         employee: Pracownik

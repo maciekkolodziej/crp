@@ -1,28 +1,10 @@
 - model_class = Sale
 .page-header
   .btn-toolbar.pull-right
-    = link_to "Charts", '#', :class => 'btn'
-    = link_to "By Type", '#', :class => 'btn'
-    = link_to "To Review", '#', :class => 'btn btn-warning'
     = link_to t('.new', :default => t("helpers.links.new")), new_sale_path, :class => 'btn btn-primary'
 
-  %h1=t '.title', :default => model_class.model_name.human.pluralize.titleize
-  %pre= t 'title'
+  %h1=t '.title', :default => model_class.model_name.human(count: 2).titleize
+
 .row-fluid
-  .span6
-    = column_chart @chart_data, :library => { :isStacked => false, :title => "Average sales by hour" }
-  .span6
-    = column_chart @chart_data, :library => { :isStacked => false, :title => "Average sales by hour" }
-.row-fluid
-  = form_tag("/sales/other", id: "batch_action_form", class: 'form-horizontal', method: 'patch') do
-    = render partial: 'grid'
-  = render partial: 'session/records_per_page_form'
-  - if @batch_actions 
-    %div#batch_actions
-      %a.btn.btn-mini.dropdown-toggle{ 'data-toggle' => 'dropdown', href: '#batch_actions', style: 'font-weight: normal' } 
-        selected
-        %span.caret
-      %ul.dropdown-menu
-        - @batch_actions.each do |name, title|
-          = content_tag(:li, content_tag(:a, title, href: '#batch_actions', 'data-action-name' => name, class: 'batch_action_link'))
+  = render partial: 'grid', locals: { model_class: model_class }
   

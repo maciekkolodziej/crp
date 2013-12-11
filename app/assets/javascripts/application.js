@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
+//= require jquery-fileupload/basic
+//= require jquery-fileupload/vendor/tmpl
 //= require_tree .
 //= require wice_grid
 //= require jquery.ui.all
@@ -163,9 +165,9 @@ function create_totals_row(grid_name) {
 			joined_classes = classes.split(' ').join('.');
 
 			var total = 0;
-			grid.find('td.' + joined_classes).each(function() {
+			grid.find('tbody td.' + joined_classes).each(function() {
 				string = $(this).text();
-				number = parseFloat(string);
+				number = (string) ? parseFloat(string) : 0;
 				total += number;
 			});
 			grid.find('tr.totals').append('<td class="' + classes + '">'+ total.toFixed(2) + '</td>');
@@ -201,11 +203,13 @@ function create_averages_row(grid_name) {
 
 			var total = 0;
 			var count = 0;
-			grid.find('td.' + joined_classes).each(function() {
+			grid.find('tbody td.' + joined_classes).each(function() {
 				string = $(this).text();
 				number = parseFloat(string);
-				total += number;
-				count++;
+				total += (string) ? parseFloat(string) : 0;
+				if(string) {
+					count++;
+				}
 				average = total / count;
 			});
 			grid.find('tr.averages').append('<td class="' + classes + '">'+ average.toFixed(2) + '</td>');

@@ -1,8 +1,8 @@
 <%= form_tag('', class: 'form-horizontal action-grid', method: 'patch') do %>
 
 	<%= grid @product_aliases_grid, allow_showing_all_records: false, show_filters: :when_filtered do |g|
-	  g.column name: model_class.human_attribute_name(:product_id), attribute: 'product_id', filter_type: :range do |product_alias|
-		link_to product_alias.product_id, product_alias_path(product_alias)
+	  g.column name: model_class.human_attribute_name(:product_id), attribute: 'product_id', custom_filter: to_dropdown(:products) do |product_alias|
+		link_to product_alias.product.name, product_alias_path(product_alias)
 	  end
 	  g.column name: model_class.human_attribute_name(:alias), attribute: 'alias' 
 	  g.action_column

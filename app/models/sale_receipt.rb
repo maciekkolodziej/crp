@@ -7,9 +7,6 @@ class SaleReceipt < ActiveRecord::Base
   before_save :read_from_file
   after_save :create_items
   
-  # Validations
-  validates :salesman_id, length: { maximum: 3 }
-  
   # Converts file_content for this receipt into array of lines
   def lines
     return self.sale.file_content.lines[self.begins_at_line..self.ends_at_line]
@@ -17,7 +14,13 @@ class SaleReceipt < ActiveRecord::Base
   
   # Makes file content out of lines array
   def file_content
-    return self.lines.join
+    self.lines.join
+  end
+  
+  def show
+    string = self.lines.join
+    string[0] = '.'
+    string
   end
   
   # Count of lines
@@ -51,18 +54,18 @@ class SaleReceipt < ActiveRecord::Base
     self.lines.each_with_index do |line, i|
       
       # Get date
-      if date = line.match('\d{2}-\d{2}-\d{4}')
+      if date = line.match(/\d{2}-\d{2}-\d{4}/)
         @date = date[0].split('-').reverse.join('-')
         next
       end
       
       # Get time
-      if time = line.match('\d{2}:\d{2}')
+      if time = line.match(/\d{2}:\d{2}/)
         self.datetime = @date + ' ' + time[0]
       end
       
       # Get number
-      if number = line[1..6].match('F\d{5}')
+      if number = line[1..6].match(/F\d{5}/)
         self.number = number[0][1..6]
         next
       end
@@ -95,7 +98,7 @@ class SaleReceipt < ActiveRecord::Base
       end
       
       # Check if it's recipe item
-      if line.match('\d+\*\d+.\d+')
+      if line.match(/\d+\*\d+.\d+/)
         @item_lines ||= []
         @item_lines << [self.begins_at_line + i, line]
       end

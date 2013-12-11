@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+# Upload multiple files with progress bar
+gem 'jquery-fileupload-rails'
+gem "paperclip", "~> 3.0"
+
 # Rails admin for back-end
 gem 'rails_admin'
 

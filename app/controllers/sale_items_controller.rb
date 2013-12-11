@@ -1,64 +1,87 @@
+
 class SaleItemsController < ApplicationController
   before_action :set_sale_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_referer, only: [:index, :edit, :new]
+  
+  def self.batch_actions
+    [['Delete', :batch_destroy]]
+  end
+  
+  def gender
+    'male' 
+  end
 
   # GET /sale_items
-  # GET /sale_items.json
   def index
     @sale_items = SaleItem.all
+    
+    conditions = current_ability.model_adapter(SaleItem, :read).conditions
+    conditions['sales.store_id'] = current_user.current_store_id
+    @sale_items_grid = initialize_grid(SaleItem, per_page: records_per_page, joins: ['JOIN sale_receipts ON sale_receipts.id = sale_items.sale_receipt_id', 'JOIN sales ON sales.id = sale_receipts.sale_id'], conditions: conditions, name: 'sale_items_grid')
   end
 
   # GET /sale_items/1
-  # GET /sale_items/1.json
   def show
   end
 
   # GET /sale_items/new
   def new
     @sale_item = SaleItem.new
+    respond_to do |format|
+      format.html
+      format.js { render('shared/build_modal') }
+    end
   end
 
   # GET /sale_items/1/edit
   def edit
+    respond_to do |format|
+      format.html
+      format.js { render('shared/build_modal') }
+    end
   end
 
   # POST /sale_items
-  # POST /sale_items.json
   def create
     @sale_item = SaleItem.new(sale_item_params)
-
+    
     respond_to do |format|
       if @sale_item.save
-        format.html { redirect_to @sale_item, notice: 'Sale item was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @sale_item }
+        success = t("messages.saved.#{self.gender}", default: 'SaleItem was sucessfully saved.', model: SaleItem.model_name.human)
+        format.html { redirect_to params[:referer], notice: success }
+        format.js { flash[:notice] = success; render js: "close_modal(); redirect('#{params[:referer]}')" }
       else
-        format.html { render action: 'new' }
-        format.json { render json: @sale_item.errors, status: :unprocessable_entity }
+        format.html { render action: "new" }
+        format.js { render('shared/form_with_errors') }
       end
     end
   end
 
   # PATCH/PUT /sale_items/1
-  # PATCH/PUT /sale_items/1.json
   def update
     respond_to do |format|
       if @sale_item.update(sale_item_params)
-        format.html { redirect_to @sale_item, notice: 'Sale item was successfully updated.' }
-        format.json { head :no_content }
+        success = t("messages.saved.#{self.gender}", default: 'SaleItem was sucessfully saved.', model: SaleItem.model_name.human)
+        format.html { redirect_to params[:referer], notice: success }
+        format.js { flash[:notice] = success; render js: "close_modal(); redirect('#{params[:referer]}')" }
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @sale_item.errors, status: :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.js { render('shared/form_with_errors') }
       end
     end
   end
 
   # DELETE /sale_items/1
-  # DELETE /sale_items/1.json
   def destroy
     @sale_item.destroy
-    respond_to do |format|
-      format.html { redirect_to sale_items_url }
-      format.json { head :no_content }
-    end
+    redirect_to request.referer, notice: t("messages.destroyed.#{self.gender}", default: [:'messages.destroyed', 'SaleItem was sucessfully deleted.'], model: SaleItem.model_name.human)
+  end
+  
+  # PATCH /sale_items/batch_destroy
+  def batch_destroy
+    ids = params[:sale_items_grid][:selected]
+    SaleItem.destroy_all(id: ids)
+    redirect_to request.referer, notice: t('messages.destroyed', default: "#{ids.count} records were successfully removed.", count: ids.count)
   end
 
   private
@@ -67,8 +90,14 @@ class SaleItemsController < ApplicationController
       @sale_item = SaleItem.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    # Only allow a trusted parameter "white list" through.
     def sale_item_params
-      params.require(:sale_item).permit(:receipt_id, :product_id, :product_name, :quantity, :value, :net_value, :vat_symbol, :vat_rate, :line_number)
+
+      params.require(:sale_item).permit(:sale_receipt_id, :product_id, :product_name, :quantity, :price, :value, :net_value, :vat_symbol, :vat_rate)
+
+    end
+    
+    def set_referer
+      params[:referer] ||= request.referer
     end
 end

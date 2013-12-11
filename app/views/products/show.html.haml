@@ -35,9 +35,9 @@
 #tab-toolbars.pull-right
 %ul.nav.nav-tabs
   %li
-    %a{:href => "#tab-1", "data-toggle" => "tab"}= t('activerecord.models.product_price.few', default: 'Prices')
+    %a{:href => "#tab-1", "data-toggle" => "tab"}= t('Product prices', default: 'Prices')
   %li
-    %a{:href => "#tab-2", "data-toggle" => "tab"}= t('activerecord.models.product_alias.few', default: 'Product Aliases')
+    %a{:href => "#tab-2", "data-toggle" => "tab"}= t('Product aliases', default: 'Product Aliases')
 .tab-content
   .tab-pane.fade{id: "tab-1"}= render 'prices_grid'
   .tab-pane.fade{id: "tab-2"}= render 'aliases_grid'

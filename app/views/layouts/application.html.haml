@@ -29,16 +29,14 @@
           = link_to image_tag("logo_star.png"), root_path, class: 'pull-left', style: 'margin: 5px 10px 5px 0;'
           .nav-collapse
             = menu_group do
-              = drop_down "Sales" do 
-                = menu_item "New Sale", new_sale_path
-                = drop_down_divider
-                = menu_item "Sales", sales_path
-                = menu_item "Sale Receipts", sale_receipts_path
-                = menu_item "Sale Items", sale_items_path
-                
+              = drop_down t('Sales', default: 'Sales') do 
+                = menu_item t('activerecord.models.sale.few', default: 'Sales'), sales_path
+                = menu_item t('activerecord.models.sale_receipt.few', default: 'Sale Receipts'), sale_receipts_path
+                = menu_item t('activerecord.models.sale_item.few', default: 'Sale Items'), sale_items_path
               = drop_down t('Products', default: 'Products') do
-                = menu_item t('activerecord.models.product_price.few', default: 'Product Prices'), product_prices_path
                 = menu_item t('activerecord.models.product.few', default: 'Products'), products_path
+                = menu_item t('activerecord.models.product_price.few', default: 'Product Prices'), product_prices_path
+                = menu_item t('activerecord.models.product_alias.few', default: 'Product Aliases'), product_aliases_path
                 = drop_down_divider
                 = menu_item t('activerecord.models.product_category.few', default: 'Product Categories'), product_categories_path
                 = menu_item t('activerecord.models.unit.few', default: 'Units'), units_path

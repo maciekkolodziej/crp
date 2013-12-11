@@ -21,7 +21,7 @@ class Product < ActiveRecord::Base
   validates :category_id, presence: true, if: :sellable?
   
   # Scopes
-  default_scope order: [:name]
+  default_scope { order('name') }
   scope :active, -> {where(active: true)}
   scope :sellable, -> {where(sellable: true)}
   scope :purchasable, -> {where(purchasable: true)}

@@ -1,14 +1,28 @@
 class SaleItem < ActiveRecord::Base
   belongs_to :sale_receipt
+  belongs_to :sale
+  delegate :sale, :to => :sale_receipt, :allow_nil => true
   attr_accessor :line
   
-  before_save :read_from_line
+  before_save :read_from_line, :find_product
   
   def line
     self.sale_receipt.sale.file_content.lines[self.line_number]
   end
   
   private
+  
+  def find_product
+    product = Product.sellable.detect{|p| p.name.downcase.gsub(/\s+/, "") == self.product_name.downcase.gsub(/\s+/, "")}
+    if product
+      self.product_id = product.id
+    else
+      product = ProductAlias.all.detect{|p| p.alias.downcase.gsub(/\s+/, "") == self.product_name.downcase.gsub(/\s+/, "")}
+      if product
+        self.product_id = product.product_id
+      end
+    end
+  end
   
   def read_from_line
     # Get value and vat_symbol...

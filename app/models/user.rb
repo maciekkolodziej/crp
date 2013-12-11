@@ -54,11 +54,11 @@ class User < ActiveRecord::Base
   end
   
   def has_role?(role_name)
-    self.roles.includes(:role).where("roles.name = ? AND (roles.global = true OR store_id = ?)", role_name, self.current_store_id).present?
+    self.roles.includes(:role).where("roles.name = ? AND (roles.global = true OR store_id = ?)", role_name, self.current_store_id).references(:role).present?
   end
   
   def has_global_role?
-    roles.includes(:role).where('roles.global = true').present?
+    roles.includes(:role).where('roles.global = true').references(:role).present?
   end
   
   def available_stores

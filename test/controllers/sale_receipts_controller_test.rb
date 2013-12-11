@@ -18,7 +18,7 @@ class SaleReceiptsControllerTest < ActionController::TestCase
 
   test "should create sale_receipt" do
     assert_difference('SaleReceipt.count') do
-      post :create, sale_receipt: { cancelled: @sale_receipt.cancelled, datetime: @sale_receipt.datetime, id: @sale_receipt.id, net_value: @sale_receipt.net_value, number: @sale_receipt.number, sale_id: @sale_receipt.sale_id, salesman_id: @sale_receipt.salesman_id, value: @sale_receipt.value }
+      post :create, sale_receipt: { cancelled: @sale_receipt.cancelled, datetime: @sale_receipt.datetime, net_value: @sale_receipt.net_value, number: @sale_receipt.number, sale_id: @sale_receipt.sale_id, value: @sale_receipt.value }
     end
 
     assert_redirected_to sale_receipt_path(assigns(:sale_receipt))
@@ -35,7 +35,7 @@ class SaleReceiptsControllerTest < ActionController::TestCase
   end
 
   test "should update sale_receipt" do
-    patch :update, id: @sale_receipt, sale_receipt: { cancelled: @sale_receipt.cancelled, datetime: @sale_receipt.datetime, id: @sale_receipt.id, net_value: @sale_receipt.net_value, number: @sale_receipt.number, sale_id: @sale_receipt.sale_id, salesman_id: @sale_receipt.salesman_id, value: @sale_receipt.value }
+    patch :update, id: @sale_receipt, sale_receipt: { cancelled: @sale_receipt.cancelled, datetime: @sale_receipt.datetime, net_value: @sale_receipt.net_value, number: @sale_receipt.number, sale_id: @sale_receipt.sale_id, value: @sale_receipt.value }
     assert_redirected_to sale_receipt_path(assigns(:sale_receipt))
   end
 
