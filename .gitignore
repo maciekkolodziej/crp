@@ -20,3 +20,4 @@ config/initializers/secret_token.rb
 *.pass
 config/database.yml
 config/passwords/*
+public/assets/*
