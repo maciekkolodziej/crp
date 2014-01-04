@@ -19,6 +19,7 @@ GIT
 
 GEM
   remote: https://rubygems.org/
+  remote: http://github.com/
   specs:
     actionmailer (4.0.0)
       actionpack (= 4.0.0)
@@ -209,6 +210,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise
   devise-i18n
+  eventmachine
   foreigner
   formtastic!
   formtastic-bootstrap
