@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131210135831) do
+ActiveRecord::Schema.define(version: 20140103134037) do
+
+  create_table "database_resets", force: true do |t|
+    t.string   "ip"
+    t.string   "hostname"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "product_aliases", force: true do |t|
     t.integer "product_id"
@@ -122,15 +129,30 @@ ActiveRecord::Schema.define(version: 20131210135831) do
   add_index "sales", ["store_id"], name: "sales_store_id_fk", using: :btree
 
   create_table "stores", force: true do |t|
-    t.string "symbol"
-    t.string "name"
-    t.string "register_header"
+    t.string  "symbol"
+    t.string  "name"
+    t.string  "register_header"
+    t.boolean "active",          default: true, null: false
   end
 
   create_table "stores_users", force: true do |t|
     t.integer "store_id"
     t.integer "user_id"
   end
+
+  create_table "takings", force: true do |t|
+    t.integer  "store_id",                               default: 0, null: false
+    t.date     "date",                                               null: false
+    t.decimal  "value",         precision: 10, scale: 2,             null: false
+    t.decimal  "card_payments", precision: 10, scale: 2,             null: false
+    t.decimal  "cash_payments", precision: 10, scale: 2
+    t.integer  "creator_id"
+    t.integer  "updater_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "takings", ["store_id"], name: "takings_store_id_fk", using: :btree
 
   create_table "units", force: true do |t|
     t.string  "symbol",  limit: 7,                  null: false
@@ -204,6 +226,10 @@ ActiveRecord::Schema.define(version: 20131210135831) do
   add_foreign_key "products", "units", name: "products_unit_id_fk"
   add_foreign_key "products", "vat_rates", name: "products_vat_rate_id_fk"
 
+  add_foreign_key "sale_items", "products", name: "sale_items_product_id_fk", dependent: :nullify
+
   add_foreign_key "sales", "stores", name: "sales_store_id_fk"
+
+  add_foreign_key "takings", "stores", name: "takings_store_id_fk"
 
 end

@@ -9,4 +9,7 @@ class Store < ActiveRecord::Base
   
   has_many :roles, through: :employees
   has_many :sales, dependent: :restrict_with_error
+  has_many :takings, dependent: :restrict_with_error
+  
+  scope :active, -> {where(active: true)}
 end

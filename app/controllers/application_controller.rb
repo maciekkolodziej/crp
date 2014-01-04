@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+  # Authenticate user for all actions
+  before_filter :authenticate_user!
+  
   # Workaround to: CanCan causing ForbiddenAttributesError
   before_filter do
     resource = controller_name.singularize.to_sym
@@ -9,7 +12,7 @@ class ApplicationController < ActionController::Base
   # For userstamp gem
   include Userstamp
   
-  load_and_authorize_resource unless: [:devise_controller?, :skip_authorization?]
+  load_and_authorize_resource unless: [:devise_controller?, :skip_controller?]
   before_filter :configure_permitted_parameters, if: :devise_controller?
   
   # Inflection method for genders
@@ -19,12 +22,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   
-  # Authenticate user for all actions
-  before_filter :authenticate_user!
-  
   # Access denied page
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to request.referer, alert: exception.message
+    redirect_to request.referer ? request.referer : root_path, alert: exception.message
   end
   
   def records_per_page
@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
     @gender || nil
   end
   
-  def skip_authorization?
+  def skip_controller?
     controllers_to_skip = ['dashboard', 'session', 'demo', 'histories']
     controllers_to_skip.include?(params[:controller]) ? true : false
   end
@@ -62,6 +62,10 @@ class ApplicationController < ActionController::Base
   # Overwriting the sign_out redirect path method
   def after_sign_out_path_for(resource_or_scope)
     user_session_path
+  end
+  
+  def after_sign_in_path_for(user)
+      session['user_return_to'] || locale_root_path
   end
   
 end

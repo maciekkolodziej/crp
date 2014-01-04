@@ -14,7 +14,7 @@
   %dt= model_class.human_attribute_name(:sale_receipt_id) + ':'
   %dd= @sale_item.sale_receipt_id ? link_to(@sale_item.sale_receipt.datetime, sale_receipt_path(@sale_item.sale_receipt_id)) : not_set
   %dt= model_class.human_attribute_name(:product_id) + ':'
-  %dd= show(@sale_item.product_id)
+  %dd= @sale_item.product_id ? link_to(show(@sale_item.product.name), product_path(@sale_item.product_id)) : not_set
   %dt= model_class.human_attribute_name(:product_name) + ':'
   %dd= show(@sale_item.product_name)
   %dt= model_class.human_attribute_name(:quantity) + ':'

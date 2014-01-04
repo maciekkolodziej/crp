@@ -32,13 +32,19 @@
   %dt= model_class.human_attribute_name(:vat_rate_id) + ':'
   %dd= @product.vat_rate_id ? show(@product.vat_rate.symbol) : not_set
 
-#tab-toolbars.pull-right
-%ul.nav.nav-tabs
-  %li
-    %a{:href => "#tab-1", "data-toggle" => "tab"}= t('Product prices', default: 'Prices')
-  %li
-    %a{:href => "#tab-2", "data-toggle" => "tab"}= t('Product aliases', default: 'Product Aliases')
-.tab-content
-  .tab-pane.fade{id: "tab-1"}= render 'prices_grid'
-  .tab-pane.fade{id: "tab-2"}= render 'aliases_grid'
+- if @product.sellable?
+  #tab-toolbars.pull-right
+  - if can?(:read, ProductPrice || ProductAlias)  
+    %ul.nav.nav-tabs
+      - if can?(:read, ProductPrice)
+        %li
+          %a{:href => "#tab-1", "data-toggle" => "tab"}= t('Product prices', default: 'Prices')
+      - if can?(:read, ProductAlias)
+        %li
+          %a{:href => "#tab-2", "data-toggle" => "tab"}= t('Product aliases', default: 'Product Aliases')
+    .tab-content
+      - if can?(:read, ProductPrice)
+        .tab-pane.fade{id: "tab-1"}= render 'prices_grid'
+      - if can?(:read, ProductAlias)
+        .tab-pane.fade{id: "tab-2"}= render 'aliases_grid'
 .form-actions

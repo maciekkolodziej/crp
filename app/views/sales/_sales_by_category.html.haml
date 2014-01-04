@@ -1,0 +1,12 @@
+%table.table.table-hover
+  %thead
+    %tr
+      %th= t 'activerecord.models.product_category.one', default: 'Product Category'
+      %th.numeric= t 'activerecord.attributes.sale_item.quantity', default: 'Quantity'
+      %th.numeric= t 'activerecord.attributes.sale_item.value', default: 'Value'
+  %tbody
+    - @sale.items_by_category.each do |r|
+      %tr
+        %td= r.category.blank? ? not_set : r.category
+        %td.numeric= r.quantity
+        %td.numeric= r.value

@@ -20,6 +20,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  File saved: File <strong>%{filename}</strong> was successfully saved.
+  File exists: File <strong>%{filename}</strong> already exists. Can't save.
   formtastic:
     :yes: 'Yes'
     :no: 'No'
@@ -54,3 +56,9 @@ en:
     failure:
       user:
         not_approved: Your account is not yet activated.
+  errors: &errors
+    format: ! '%{attribute} %{message}'
+    messages:
+      wrong_content_type: is invalid
+      not_selected: was not selected
+      contains_no_daily_report: does not contain daily report

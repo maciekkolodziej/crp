@@ -1,5 +1,5 @@
 Crp::Application.routes.draw do
-  scope "(/:locale)" do
+  scope "(/:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     devise_for :users, :controllers => { :registrations => "registrations" }
     devise_scope :user do
        get "registrations/confirmation" => 'registrations#confirmation'
@@ -11,19 +11,26 @@ Crp::Application.routes.draw do
         patch 'batch_destroy', on: :collection
       end
     end
-    resources :stores, :roles, :user_roles, :units, :product_categories, :vat_rates, :products, :services, :stockables, :product_prices, :product_aliases, :sales, :sale_receipts, :sale_items do
+    resources :database_resets, except: [:new, :edit]
+    resources :stores, :roles, :user_roles, :units, :product_categories, :vat_rates, :products, :services, :stockables, :product_prices, :product_aliases, :sales, :sale_receipts, :sale_items, :takings do
       patch 'batch_destroy', on: :collection
       get 'import', on: :collection
+      post 'upload', on: :collection
     end
+    
+    get 'unrecognized_products' => 'sales#unrecognized_products', as: :unrecognized_products
+    get 'reset_database' => 'database_resets#do_reset', as: :reset_database
+    
     get 'session/per_page' => 'session#per_page', as: :per_page
     post 'session/per_page' => 'session#update_per_page', as: :update_per_page
     
     get "demo/index"
     get "demo/hashes"
     get 'demo/blocks'
+    
   end
-  get '/:locale' => 'dashboard#index'
   root to: 'dashboard#index'
+  get '/:locale' => 'dashboard#index', as: :locale_root
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

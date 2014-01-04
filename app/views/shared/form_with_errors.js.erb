@@ -1,1 +1,2 @@
 $('form.<%= params[:controller].singularize %>').replaceWith('<%= escape_javascript(render 'form') %>');
+$('form .input .controls select').not('.custom-dropdown').select2({'width': 'resolve'});

@@ -3,7 +3,6 @@
   .btn-toolbar.pull-right
     = link_to t('.new', :default => t("helpers.links.new")), new_sale_path, :class => 'btn btn-primary'
     = link_to t('.destroy', :default => t("helpers.links.destroy")), sale_path(@sale), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'
-    = link_to t('.edit', :default => t("helpers.links.edit")), edit_sale_path(@sale), :class => 'btn'
     = link_to t('.back', :default => t("helpers.links.back")), sales_path, :class => 'btn'
   
   %h1=t '.title', :default => model_class.model_name.human.titleize
@@ -25,7 +24,30 @@
   %dd= show(@sale.cancelled_receipts_count)
   %dt= model_class.human_attribute_name(:cancelled_receipts_value) + ':'
   %dd= show(@sale.cancelled_receipts_value)
-  %dt= t('Daily report', default: 'Daily report') + ':'
-  %dd
+#tab-toolbars.pull-right
+%ul.nav.nav-tabs
+  %li
+    %a{:href => "#tab-1", "data-toggle" => "tab"}= t('Summary', default: 'Summary')
+  %li
+    %a{:href => "#tab-2", "data-toggle" => "tab"}= t('Daily report', default: 'Daily report')
+  %li
+    %a{:href => "#tab-3", "data-toggle" => "tab"}= t('activerecord.models.sale_receipt.few', default: 'Sale receipts')
+  %li
+    %a{:href => "#tab-4", "data-toggle" => "tab"}= t('activerecord.models.sale_item.few', default: 'Sale items')
+.tab-content
+  .tab-pane.fade{id: "tab-1"}
+    .row-fluid
+      .span4
+        = pie_chart(@sale.items_by_category(for_chart: true), library: { title: [t('Sales', default: 'Sales'), t('by category', default: 'by_category')].join(' ')})
+        = render 'sales_by_category'
+      .span4
+        = column_chart(@sale.by_hour(for_chart: true), library: { title: [t('Sales', default: 'Sales'), t('by hours', default: 'by hour')].join(' ')})
+        = render 'sales_by_hour'
+      .span4
+        = pie_chart(@sale.items_by_product(for_chart: true), library: { title: [t('Sales', default: 'Sales'), t('by product', default: 'by product')].join(' ')})
+        = render 'sales_by_product'
+  .tab-pane.fade{id: "tab-2"}
     %pre{ style: 'float: left;' }= @sale.daily_report
+  .tab-pane.fade{id: "tab-3"}= render 'sale_receipts/grid', model_class: SaleReceipt
+  .tab-pane.fade{id: "tab-4"}= render 'sale_items/grid', model_class: SaleItem
 .form-actions

@@ -26,26 +26,34 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          = link_to image_tag("logo_star.png"), root_path, class: 'pull-left', style: 'margin: 5px 10px 5px 0;'
+          = link_to image_tag("logo_star.png"), locale_root_path, class: 'pull-left', style: 'margin: 5px 10px 5px 0;'
           .nav-collapse
             = menu_group do
-              = drop_down t('Sales', default: 'Sales') do 
-                = menu_item t('activerecord.models.sale.few', default: 'Sales'), sales_path
-                = menu_item t('activerecord.models.sale_receipt.few', default: 'Sale Receipts'), sale_receipts_path
-                = menu_item t('activerecord.models.sale_item.few', default: 'Sale Items'), sale_items_path
-              = drop_down t('Products', default: 'Products') do
-                = menu_item t('activerecord.models.product.few', default: 'Products'), products_path
-                = menu_item t('activerecord.models.product_price.few', default: 'Product Prices'), product_prices_path
-                = menu_item t('activerecord.models.product_alias.few', default: 'Product Aliases'), product_aliases_path
-                = drop_down_divider
-                = menu_item t('activerecord.models.product_category.few', default: 'Product Categories'), product_categories_path
-                = menu_item t('activerecord.models.unit.few', default: 'Units'), units_path
-                = menu_item t('activerecord.models.vat_rate.few', default: 'Vat Rates'), vat_rates_path
-                
-              = drop_down t(:administration, default: 'Administration') do
-                = menu_item t('activerecord.models.user.few', default: 'Users'), users_path
-                = menu_item t('activerecord.models.role.few', default: 'Roles'), roles_path
-                = menu_item t('activerecord.models.store.few', default: 'Stores'), stores_path
+              - if can?(:read, Taking) || can?(:read, Sale) || can?(:read, SaleReceipt) || can?(:read, SaleItem)
+                = drop_down t('Sales', default: 'Sales') do 
+                  = menu_item t('activerecord.models.taking.few', default: 'Takings'), takings_path if can?(:read, Taking)
+                  = menu_item t('activerecord.models.sale.few', default: 'Sales'), sales_path if can?(:read, Sale)
+                  = drop_down_divider if can?(:manage, ProductAlias)
+                  = menu_item t('Unrecognized products', default: 'Unrecognized products'), unrecognized_products_path if can?(:manage, ProductAlias)
+                  = drop_down_divider if can?(:read, SaleReceipt) || can?(:read, SaleItem)
+                  = menu_item t('activerecord.models.sale_receipt.few', default: 'Sale Receipts'), sale_receipts_path if can?(:read, SaleReceipt)
+                  = menu_item t('activerecord.models.sale_item.few', default: 'Sale Items'), sale_items_path if can?(:read, SaleItem)
+              - if can?(:read, Product) || can?(:read, ProductPrice) || can?(:read, ProductAlias) || can?(:read, ProductCategory) || can?(:read, Unit) || can?(:read, VatRate)
+                = drop_down t('Products', default: 'Products') do
+                  = menu_item t('activerecord.models.product.few', default: 'Products'), products_path if can?(:read, Product)
+                  = menu_item t('activerecord.models.product_price.few', default: 'Product Prices'), product_prices_path if can?(:read, ProductPrice)
+                  = menu_item t('activerecord.models.product_alias.few', default: 'Product Aliases'), product_aliases_path if can?(:read, ProductAlias)
+                  = drop_down_divider if can?(:read, ProductCategory) || can?(:read, Unit) || can?(:read, VatRate)
+                  = menu_item t('activerecord.models.product_category.few', default: 'Product Categories'), product_categories_path if can?(:read, ProductCategory)
+                  = menu_item t('activerecord.models.unit.few', default: 'Units'), units_path if can?(:read, Unit)
+                  = menu_item t('activerecord.models.vat_rate.few', default: 'Vat Rates'), vat_rates_path if can?(:read, VatRate)
+              - if can?(:read, User) || can?(:read, Store) || can?(:read, Role) || can?(:read, DatabaseReset)
+                = drop_down t(:administration, default: 'Administration') do
+                  = menu_item t('activerecord.models.user.few', default: 'Users'), users_path if can?(:read, User)
+                  = menu_item t('activerecord.models.store.few', default: 'Stores'), stores_path if can?(:read, Store)
+                  = drop_down_divider if can?(:read, Role) || can?(:read, DatabaseReset)
+                  = menu_item t('activerecord.models.role.few', default: 'Roles'), roles_path if can?(:read, Role)
+                  = menu_item t('activerecord.models.database_reset.few', default: 'Database Resets'), database_resets_path if can?(:read, DatabaseReset)
                 
             = menu_group pull: :right do
               = render 'session/user_panel'
@@ -62,3 +70,5 @@
         = yield
         = render 'layouts/footer'
   #modal-window.modal.hide.fade
+  :javascript
+    var locale = "#{I18n.locale}";

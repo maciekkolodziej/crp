@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  store_id: 1
+  date: 2013-12-13
+  value: 9.99
+  card_payments: 9.99
+  cash_payments: 9.99
+
+two:
+  store_id: 1
+  date: 2013-12-13
+  value: 9.99
+  card_payments: 9.99
+  cash_payments: 9.99

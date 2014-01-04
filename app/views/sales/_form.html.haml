@@ -1,7 +1,11 @@
-= semantic_form_for @sale, html: { class: 'form-horizontal', multipart: true } do |f|
+= semantic_form_for Sale.new, html: { class: 'form-horizontal', multipart: true } do |f|
   = f.inputs do
-    = f.input :date, as: :hidden
-    = f.input :file, as: :file, required: true
+    - last_sale = Sale.where(store_id: current_user.current_store_id).order('date DESC').first
+    - if last_sale.present?
+      - hint = t('Last sale', default: 'Last sale') + ': <strong>' + last_sale.number.to_s + '</strong> ' + t('from', default: 'from') + ' ' + last_sale.date.to_s
+    - else
+      - hint = ''
+    = f.input :files, hint: hint.html_safe, as: :file, label: t('Choose file', default: 'Choose file'), input_html: { name: 'files[]', required: true, multiple: true }
     = hidden_field_tag :referer, params[:referer]
   
   = f.actions do

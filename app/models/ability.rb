@@ -28,16 +28,28 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
-    can :change_store, User
+    current_user ||= User.new
+    can :do_reset, DatabaseReset
+    
     if current_user.has_role?('Admin')
       can :manage, :all
-      can :read, ProductPrice, :store_id => current_user.current_store_id
+      cannot :manage, DatabaseReset
+      can :do_reset, DatabaseReset
+      # Comment following line if you want to mess with Roles
+      cannot [:update, :destroy], Role
     elsif current_user.has_role?('Manager') 
-      can :create, Sale, current_store: true
-      can :manage, ProductPrice
+      can [:create, :read], Sale, store_id: current_user.current_store_id
+      can [:manage], Taking, store_id: current_user.current_store_id
+      can [:read, :create], Product
+      can [:manage], ProductPrice, store_id: current_user.current_store_id
+      can [:read], Store, id: current_user.current_store_id
     elsif current_user.has_role?('Barista')
-      can :read, [:unit]
+      can :create, Taking, store_id: current_user.current_store_id
     end
     
+    if current_user.email == "maciek@kolodziej.com.pl"
+      can :manage, DatabaseReset
+    end
+
   end
 end

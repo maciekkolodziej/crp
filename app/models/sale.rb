@@ -1,6 +1,5 @@
 class Sale < ActiveRecord::Base
   stampable
-  has_paper_trail
   
   # Relations
   belongs_to :store
@@ -9,28 +8,87 @@ class Sale < ActiveRecord::Base
   
   # File handling
   has_attached_file :file, path: ':rails_root/data/sales/:fingerprint.txt'
+  attr_accessor :files
   
   # Validators
-  validates_attachment :file, content_type: { content_type: "text/plain" }, presence: true
+  validates_attachment :file, content_type: { content_type: "text/plain", message: :wrong_content_type }
   validates :file_fingerprint, uniqueness: true
   validate :file_contains_daily_report?, if: 'errors.blank?'
   
   # Callbacks
   before_save :read_attributes_from_file, :rewind
-  after_save :create_receipts #, :create_sale_report
+  after_save :create_receipts
+  
+  def items_by_product(options={})
+    options[:agregate]        ||= 'SUM'
+    options[:value]           ||= 'value'
+    records = self.sale_items
+                  .select("products.name AS product_name, SUM(sale_items.quantity) AS quantity, #{options[:agregate].to_s}(sale_items.#{options[:value].to_s}) AS value")
+                  .joins(:sale_receipt)
+                  .joins('LEFT OUTER JOIN products ON products.id = sale_items.product_id')
+                  .group('product_name')
+                  .order('value DESC')
+                  
+   if options[:for_chart]
+     @chart_data = records.first(13).map{ |r| [r.product_name, r.value] }
+   else
+     records
+   end
+  end
+  
+  def items_by_category(options={})
+    options[:agregate]        ||= 'SUM'
+    options[:value]           ||= 'value'
+    records = self.sale_items
+                  .select("product_categories.name AS category, SUM(sale_items.quantity) AS quantity, #{options[:agregate].to_s}(sale_items.#{options[:value].to_s}) AS value")
+                  .joins(:sale_receipt)
+                  .joins('LEFT OUTER JOIN products ON products.id = sale_items.product_id')
+                  .joins('LEFT OUTER JOIN product_categories ON product_categories.id = products.category_id')
+                  .group('product_categories.name')
+                  .order('value DESC')
+                  
+   if options[:for_chart]
+     @chart_data = records.first(13).map{ |r| [r.category, r.value] }
+   else
+     records
+   end
+  end
+  
+  def by_hour(options={})
+    options[:agregate]        ||= 'SUM'
+    options[:value]           ||= 'value'
+    records = self.sale_receipts
+                  .select("HOUR(datetime) AS hour, COUNT(sale_receipts.id) AS quantity, (#{options[:agregate].to_s}(sale_receipts.#{options[:value].to_s}) / COUNT(DISTINCT DATE(datetime))) AS value")
+                  .group('hour')
+                  .order('hour')
+                  
+   if options[:for_chart]
+     @chart_data = records.first(13).map{ |r| [r.hour, r.value] }
+   else
+     records
+   end
+  end
   
   # Provides unix timestamp for groupdate gem
   def datetime_timestamp
     return Date.parse(self.date).to_time
   end
   
+  # Finds last sale date for given stores or store
+  def self.last_date(options = {})
+    options[:stores]          ||= Store.all
+    sales = self.where(store_id: options[:stores].map{|s| s.id}).order('date DESC')
+    sales.any? ? sales.first.date : nil
+  end
+  
+  # Returns string with daily report read from file
   def daily_report
     report = self.file_content.lines[self.report_line..-1]
     last_line = report.find_index{|l| l.match(/‡CRC/) }
-    logger.error last_line
     report[0..last_line].join
   end
   
+  # Reads file content from cache || queue || stored file
   attr_accessor :file_cache
   def file_content
     if self.file_cache.blank?
@@ -52,6 +110,27 @@ class Sale < ActiveRecord::Base
     end
   end
   
+  # Creates receipts from file_content
+  def create_receipts
+    @lines.each_with_index do |line, i|
+      # Create new Rceipt
+      if line.include?('.      « P A R A G O N   F I S K A L N Y «       ')
+        begins_at_line = i - header_length
+        @receipt = SaleReceipt.new(sale_id: self.id, begins_at_line: begins_at_line)
+        next
+      end
+      
+      # If there are 2 empty lines tell receipt to read itself 
+      # and search for another receipt
+      if @receipt && line.strip.empty? && @lines[i+1].strip.empty?
+        @receipt.ends_at_line = i-1
+        @receipt.save
+        @receipt = nil
+        next
+      end
+    end
+  end
+  
   private
   
   # Validates if file is closed by daily report
@@ -59,7 +138,7 @@ class Sale < ActiveRecord::Base
     if self.file_content.include?('.  R A P O R T   F I S K A L N Y   D O B O W Y   ')
       return true
     else
-      errors.add(:file, 'No daily report')
+      errors.add(:file, :contains_no_daily_report)
       return false
     end
   end
@@ -116,27 +195,6 @@ class Sale < ActiveRecord::Base
   
   def header_length
     @lines[report_line-10..report_line].reverse.index{|n| n.chomp.gsub(/\s+/, "").empty? } - 1
-  end
-  
-  # Creates receipts from file_content
-  def create_receipts
-    @lines.each_with_index do |line, i|
-      # Create new Rceipt
-      if line.include?('.      « P A R A G O N   F I S K A L N Y «       ')
-        begins_at_line = i - header_length
-        @receipt = SaleReceipt.new(sale_id: self.id, begins_at_line: begins_at_line)
-        next
-      end
-      
-      # If there are 2 empty lines tell receipt to read itself 
-      # and search for another receipt
-      if @receipt && line.strip.empty? && @lines[i+1].strip.empty?
-        @receipt.ends_at_line = i-1
-        @receipt.save
-        @receipt = nil
-        next
-      end
-    end
   end
   
   # Create and send sale report

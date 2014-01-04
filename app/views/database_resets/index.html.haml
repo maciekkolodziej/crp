@@ -1,0 +1,10 @@
+- model_class = DatabaseReset
+.page-header
+  .btn-toolbar.pull-right
+    = link_to t('Reset!', :default => 'Reset'), reset_database_path, :class => 'btn btn-primary'
+
+  %h1=t '.title', :default => model_class.model_name.human(count: 2).titleize
+
+.row-fluid
+  = render partial: 'grid', locals: { model_class: model_class }
+  

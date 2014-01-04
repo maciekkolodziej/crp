@@ -25,10 +25,6 @@ class RolesController < ApplicationController
     @role = Role.new
   end
 
-  # GET /roles/1/edit
-  def edit
-  end
-
   # POST /roles
   def create
     @role = Role.new(role_params)
@@ -70,8 +66,6 @@ class RolesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def role_params
-
       params.require(:role).permit(:name, :global)
-
     end
 end

@@ -3,6 +3,9 @@
     = f.input :symbol
     = f.input :name
     = f.input :register_header
+    = f.input :active
+    = hidden_field_tag :referer, params[:referer]
+    
     %ul.nav.nav-tabs
       %li.active
         %a{ href: "#" }= t '.employees', default: [:'activerecord.attributes.store.employees', 'Employees']

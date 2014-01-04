@@ -1,0 +1,12 @@
+= semantic_form_for @taking, html: { class: 'form-horizontal' }, remote: true do |f|
+  = f.inputs do
+    = f.input :store_id, as: :select, collection: to_dropdown(:stores), input_html: { disabled: current_user.has_global_role? ? false : true }
+    = f.input :store_id, as: :hidden if current_user.has_global_role? == false
+    = f.input :date, as: :date_picker
+    = f.input :value, input_html: { autofocus: true }
+    = f.input :card_payments
+    = hidden_field_tag :referer, params[:referer]
+  
+  = f.actions do
+    = f.action :submit, :as => :input, button_html: { class: 'btn btn-primary' }
+    = f.action :cancel, label: t('.cancel', default: t('helpers.links.cancel'))

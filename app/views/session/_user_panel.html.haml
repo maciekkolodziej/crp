@@ -8,7 +8,6 @@
   - if current_user.multiple_stores?
     %ul.dropdown-menu
       - current_user.available_stores.each do |store|
-        - if store.id != current_user.current_store_id
-          %li= link_to store.symbol, change_store_path(store)
+        %li= link_to store.symbol, change_store_path(store), class: store.id == current_user.current_store_id ? 'strong' : ''
   %a.btn{ href: destroy_user_session_path, "data-method" => "delete", title: t("Sign out", default: 'Sign out'), "data-container" => "body" }
     %i.icon-off

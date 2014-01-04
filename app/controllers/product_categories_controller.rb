@@ -8,14 +8,6 @@ class ProductCategoriesController < ApplicationController
   def gender
     'female' 
   end
-  
-  def import
-    ProductCategory.destroy_all
-    CrpProductCategory.all.each do |old|
-      ProductCategory.new(id: old.id, symbol: old.symbol, name: old.name).save
-    end
-    redirect_to product_categories_path, notice: "#{CrpProductCategory.count} records imported."
-  end
 
   # GET /product_categories
   def index

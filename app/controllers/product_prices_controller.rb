@@ -9,20 +9,6 @@ class ProductPricesController < ApplicationController
   def gender
     'female' 
   end
-  
-  def import
-    ProductPrice.destroy_all
-    CrpPosProduct.all.each do |old|
-      if Product.exists?(id: old.product_id.to_i) && CrpProduct.find(old.product_id).sellable == true && Store.exists?(id: old.pos_id.to_i)
-        ProductPrice.new(id: old.id, 
-                    store_id: old.pos_id,
-                    product_id: old.product_id,
-                    sale_price: old.sale_price.blank? ? old.crp_product.sale_price : old.sale_price
-                   ).save(validate: false)
-      end
-    end
-    redirect_to product_prices_path, notice: "#{ProductPrice.count} records imported."
-  end
 
   # GET /product_prices
   def index

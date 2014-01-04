@@ -8,4 +8,5 @@
  *= require formtastic-bootstrap
  *= require bootstrap_and_overrides
  *= require jquery.ui.all
+ *= require select2
 */

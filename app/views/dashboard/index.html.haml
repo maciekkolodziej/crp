@@ -1,4 +1,24 @@
 .page-header
-  %h1 Dashboard
+  .btn-toolbar.pull-right
+    = link_to_if can?(:create, Sale), t('helpers.links.new', :default => 'New', gender: 'female') + ' ' + t('activerecord.models.sale.one', default: 'Sale'), new_sale_path, :class => 'btn btn-primary'
+    = link_to_if can?(:create, Taking), t('helpers.links.new', :default => 'New', gender: 'male') + ' ' + t('activerecord.models.taking.one', default: 'Taking'), new_taking_path, :class => 'btn btn-warning'
+  %h1= t("Dashboard", default: "Dashboard")
 
-%p This is main appliaction dashboard (root_path)
+- if can?(:read, Sale)
+  .row-fluid
+    .span6
+      = pie_chart(SaleItem::by_product(for_chart: true, stores: current_user.managed_stores.active), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ' ' + t('by product', default: 'by product')})
+    .span6
+      = pie_chart(SaleItem::by_category(for_chart: true, stores: current_user.managed_stores.active), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ' ' + t('by category', default: 'by category') })
+
+  .row-fluid
+    .span6
+      = line_chart(Taking.by_day(for_chart: true, stores: current_user.managed_stores.where(active: true)), library: { pointSize: 3, title: t('activerecord.models.sale.many', default: 'Sales') + ': ' + t('last number of days', default: 'last 30 days', count: 30)})
+    .span6
+      = column_chart(Taking.by_month(agregate: :sum, for_chart: true, stores: current_user.managed_stores.where(active: true)), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ': ' + t('last number of months', default: 'last 24 months', count: 24), isStacked: true })
+
+.row-fluid
+  .span6
+    = column_chart(SaleReceipt.by_hour(for_chart: true, stores: current_user.managed_stores.where(active: true)), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ' ' + t('by hours', default: 'by hours') + ': ' + t('last number of days', default: 'last 30 days', count: 30)})
+  .span6
+    = column_chart(Taking.by_day_of_week(for_chart: true, stores: current_user.managed_stores.where(active: true)), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ' ' + t('by day of week', default: 'by day of week') + ': ' + t('last number of days', default: 'last 90 days', count: 90)})

@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/justinfrench/formtastic
-  revision: cd6cb88f28ea7444267802ced8e5ec0f5cfd0f90
+  revision: be1b7695b3b4a8d748238ee844eb25862a7d1642
   specs:
     formtastic (2.3.0.rc2)
       actionpack (>= 3.0)
@@ -10,6 +10,12 @@ GIT
   revision: fbb35ccb5004bb04f87e01cbe9b7a5ccdd06b856
   specs:
     userstamp (2.0.2)
+
+GIT
+  remote: git://github.com/maciekkolodziej/chartkick
+  revision: 6c92611ac1aee26a71f2a10a33bef57c1d42816d
+  specs:
+    chartkick (1.2.1)
 
 GEM
   remote: https://rubygems.org/
@@ -43,7 +49,6 @@ GEM
     bcrypt-ruby (3.1.2-x86-mingw32)
     builder (3.1.4)
     cancan (1.6.10)
-    chartkick (1.2.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.3)
@@ -67,8 +72,6 @@ GEM
     erubis (2.7.0)
     eventmachine (1.0.3-x86-mingw32)
     execjs (2.0.2)
-    font-awesome-rails (4.0.3.0)
-      railties (>= 3.2, < 5.0)
     foreigner (1.6.0)
       activerecord (>= 3.0.0)
     formtastic-bootstrap (2.1.3)
@@ -114,13 +117,9 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25)
-    mini_portile (0.5.2)
     minitest (4.7.5)
     multi_json (1.8.2)
     mysql2 (0.3.13)
-    nested_form (0.3.2)
-    nokogiri (1.6.0-x86-mingw32)
-      mini_portile (~> 0.5.0)
     orm_adapter (0.4.0)
     paper_trail (3.0.0.rc2)
       activerecord (>= 3.0, < 5.0)
@@ -132,9 +131,6 @@ GEM
       mime-types
     polyglot (0.3.3)
     rack (1.5.2)
-    rack-pjax (0.7.0)
-      nokogiri (~> 1.5)
-      rack (~> 1.3)
     rack-test (0.6.2)
       rack (>= 1.0)
     rails (4.0.0)
@@ -148,20 +144,6 @@ GEM
     rails-i18n (4.0.0)
       i18n (~> 0.6)
       rails (~> 4.0.0)
-    rails_admin (0.6.0)
-      builder (~> 3.1)
-      coffee-rails (~> 4.0)
-      font-awesome-rails (>= 3.0)
-      haml (~> 4.0)
-      jquery-rails (~> 3.0)
-      jquery-ui-rails (~> 4.0)
-      kaminari (~> 0.14)
-      nested_form (~> 0.3)
-      rack-pjax (~> 0.7)
-      rails (~> 4.0.0)
-      remotipart (~> 1.0)
-      safe_yaml (~> 0.9)
-      sass-rails (~> 4.0)
     railties (4.0.0)
       actionpack (= 4.0.0)
       activesupport (= 4.0.0)
@@ -170,8 +152,6 @@ GEM
     rake (10.1.0)
     rdoc (3.12.2)
       json (~> 1.4)
-    remotipart (1.2.1)
-    safe_yaml (0.9.7)
     sass (3.2.12)
     sass-rails (4.0.0)
       railties (>= 4.0.0.beta, < 5.0)
@@ -180,6 +160,8 @@ GEM
     sdoc (0.3.20)
       json (>= 1.1.3)
       rdoc (~> 3.10)
+    select2-rails (3.5.2)
+      thor (~> 0.14)
     sprockets (2.10.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -222,7 +204,7 @@ PLATFORMS
 DEPENDENCIES
   actionmailer
   cancan
-  chartkick
+  chartkick!
   cocoon
   coffee-rails (~> 4.0.0)
   devise
@@ -246,9 +228,9 @@ DEPENDENCIES
   paperclip (~> 3.0)
   rails (= 4.0.0)
   rails-i18n (~> 4.0.0)
-  rails_admin
   sass-rails (~> 4.0.0)
   sdoc
+  select2-rails
   thin
   turbolinks
   twitter-bootstrap-rails

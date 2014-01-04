@@ -21,6 +21,7 @@ class SaleReceiptsController < ApplicationController
 
   # GET /sale_receipts/1
   def show
+    @sale_items_grid = initialize_grid(SaleItem, per_page: records_per_page, conditions: { 'sale_items.sale_receipt_id' => @sale_receipt.id }, name: 'items_grid')
   end
 
   # GET /sale_receipts/new
@@ -32,12 +33,9 @@ class SaleReceiptsController < ApplicationController
     end
   end
 
-  # GET /sale_receipts/1/edit
+  # GET /sales/1/edit
   def edit
-    respond_to do |format|
-      format.html
-      format.js { render('shared/build_modal') }
-    end
+    redirect_to request.referer ? request.referer : root_path
   end
 
   # POST /sale_receipts

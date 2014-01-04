@@ -19,6 +19,9 @@
   %dt= model_class.human_attribute_name(:register_header) + ':'
   %dd= show(@store.register_header)
   
+  %dt= model_class.human_attribute_name(:active) + ':'
+  %dd= show(@store.active)
+  
   %dt= model_class.human_attribute_name(:employees) + ':'
   %dd
     - if @store.employees.empty?

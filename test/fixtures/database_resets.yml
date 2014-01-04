@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ip: MyString
+  hostname: MyString
+  created_at: 2014-01-03 14:40:37
+  updated_at: 2014-01-03 14:40:37
+
+two:
+  ip: MyString
+  hostname: MyString
+  created_at: 2014-01-03 14:40:37
+  updated_at: 2014-01-03 14:40:37

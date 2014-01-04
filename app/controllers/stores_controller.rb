@@ -1,5 +1,6 @@
 class StoresController < ApplicationController
   before_action :set_store, only: [:show, :edit, :update, :destroy]
+  before_action :set_referer, only: [:index, :edit, :new]
   
   def self.batch_actions
     [['Delete', :batch_destroy]]
@@ -42,7 +43,7 @@ class StoresController < ApplicationController
   # PATCH/PUT /stores/1
   def update
     if @store.update(store_params)
-      redirect_to @store, notice: t("messages.saved.#{self.gender}", default: [:'messages.saved', 'Store was sucessfully saved.'], model: Store.model_name.human)
+      redirect_to params[:referer], notice: t("messages.saved.#{self.gender}", default: [:'messages.saved', 'Store was sucessfully saved.'], model: Store.model_name.human)
     else
       render action: 'edit'
     end
@@ -70,7 +71,11 @@ class StoresController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def store_params
 
-      params.require(:store).permit(:symbol, :name, :register_header, employees_attributes: [:id, :user_id, :role_id, :_destroy])
+      params.require(:store).permit(:symbol, :name, :register_header, :active, employees_attributes: [:id, :user_id, :role_id, :_destroy])
 
+    end
+    
+    def set_referer
+      params[:referer] ||= request.referer
     end
 end

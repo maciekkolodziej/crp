@@ -9,13 +9,6 @@ class UnitsController < ApplicationController
     'female' 
   end
   
-  def import
-    Unit.destroy_all
-    CrpProductUom.all.each do |uom|
-      unit = Unit.new(id: uom.id, symbol: uom.symbol, name: uom.name, primary: uom.primary).save
-    end
-  end
-  
   # GET /units
   def index
     @units = Unit.all

@@ -1,5 +1,5 @@
-var products;
-products = function(){
+$(document).ready(function() {
+	console.log('Loaded products.js');
 	sellable = $("#product_sellable");
 	purchasable = $('#product_purchasable');
 	// Initial hide
@@ -16,9 +16,4 @@ products = function(){
 	purchasable.click(function(){
 		$('.purchasable').toggle();
 	});
-	
-	
-};
-
-$(document).ready(products);
-$(document).on('page:load', products);
+});

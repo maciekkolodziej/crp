@@ -6,6 +6,10 @@ body {
 	margin-top: 20px;
 }
 
+.dashboard .alert {
+	margin-top: 0;
+}
+
 .navbar .navbar-inner {
 	padding-left: 20px;
 	padding-right: 20px;
@@ -88,4 +92,21 @@ form {
 // remove space between consecutive dropdown btn-groups.
 .btn-group.dropdown+.btn-group.dropdown {
     margin-left: 0;
+}
+
+.dropdown-menu a.strong {
+	font-weight: bold;
+	color: #0088cc;
+}
+
+.thumbnails-centered {
+	text-align: center;
+}
+
+ul.thumbnails-centered li {
+	display: inline-block;
+	margin-bottom: 0;
+}
+.devise-links {
+	margin-top: 10px;
 }

@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :lockable
-  
+
   def active_for_authentication? 
     super && active? 
   end 
@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
   end
   
   def multiple_stores?
-    stores_count > 1 ? true : false
+    (self.has_global_role? || stores_count > 1) ? true : false
   end
   
   def stores_count
@@ -58,11 +58,11 @@ class User < ActiveRecord::Base
   end
   
   def has_global_role?
-    roles.includes(:role).where('roles.global = true').references(:role).present?
+    self.roles.includes(:role).where('roles.global = 1').references(:role).present?
   end
   
   def available_stores
-    if has_global_role?
+    if self.has_global_role?
       Store.all
     else
       stores = Set.new
@@ -71,8 +71,16 @@ class User < ActiveRecord::Base
     end
   end
   
+  def managed_stores
+    if self.has_global_role?
+      Store.all
+    else
+      stores.includes(:roles).references(:roles).where(roles: { name: 'Manager' })
+    end
+  end
+  
   def stores_dropdown
-    if has_global_role?
+    if self.has_global_role?
       Store.all.map{|s| [s.symbol, s.id]}
     else
       return [[current_store.symbol, current_store.id]]

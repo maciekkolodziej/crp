@@ -21,7 +21,16 @@
   %dd= show(@sale_receipt.net_value)
   %dt= model_class.human_attribute_name(:cancelled) + ':'
   %dd= show(@sale_receipt.cancelled)
-  %dt= t('Receipt', default: 'Receipt') + ':'
-  %dd
-    %pre{ style: 'float: left' }= @sale_receipt.show
+
+#tab-toolbars.pull-right
+%ul.nav.nav-tabs
+  %li
+    %a{:href => "#tab-1", "data-toggle" => "tab"}= t('activerecord.models.sale_receipt.one', default: 'Sale receipt')
+  %li
+    %a{:href => "#tab-2", "data-toggle" => "tab"}= t('activerecord.models.sale_item.few', default: 'Sale items')
+
+.tab-content
+  .tab-pane.fade{id: "tab-1"}
+    %pre{ style: 'float: left;' }= @sale_receipt.show
+  .tab-pane.fade{id: "tab-2"}= render 'sale_items/grid', model_class: SaleItem
 .form-actions

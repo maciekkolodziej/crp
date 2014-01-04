@@ -76,6 +76,47 @@ pl:
   Sale item: Pozycja sprzedaży
   Product aliases: Aliasy produktu
   Product prices: Ceny produktu
+  Choose file: Wybierz plik
+  File saved: Plik <strong>%{filename}</strong> został zapisany pomyślnie.
+  File exists: Plik <strong>%{filename}</strong> już istnieje. Nie można zapisać.
+  Unrecognized products: Nierozpoznane produkty
+  Assign: Przypisz
+  All products were recognized: Wszystkie produkty zostały rozpoznane.
+  Summary: Podsumowanie
+  Hour: Godzina
+  Dashboard: Dashboard
+  Last sale: Ostatnia sprzedaż
+  from: z
+  Now: Teraz
+  Earlier: Wcześniej
+  Tasks: Zadania
+  New: Dodaj
+  by product: wg produktu
+  by category: wg kategorii
+  by hours: wg godzin
+  by day of week: wg dni tygodnia
+  last number of days:
+    one: "ostatni 1 dzień"
+    few: 'ostatnie %{count} dni'
+    many: 'ostatnie %{count} dni'
+  last number of months:
+    one: "ostatni 1 miesiąc"
+    few: 'ostatnie %{count} miesiące'
+    many: 'ostatnie %{count} miesiący'
+  Saved files: Zapisane pliki
+  Click here: Kliknij tutaj
+  database_reset_1: "Aplikacja <strong>demonstracyjna</strong>. Baza danych mogła zostać zmieniona przez innych użytkowników. "
+  database_reset_2: aby przywrócić ją do stanu oryginalnego.
+  Database reset: Baza danych została zresetowana.
+  Too many resets: Baza danych została niedawno zresetowana. Proszę zaczekać jeszcze %{seconds} sekund.
+  Reset impossible: Tryb produkcyjny. Nie można resetować bazy danych. 
+  Reset!: Resetuj
+  unrecognized_products_alert: Wśród pozycji sprzedażny znajdują się nierozpoznane produkty. 
+  add_alias: aby dodać aliasy nazw dla brakujących produktów.
+  
+  unauthorized: 
+    manage:
+      all: Brak dostępu!
   
   boolean:
     positive: Tak
@@ -127,6 +168,16 @@ pl:
             file_fingerprint:
               taken: Taki plik już istnieje.
     models:
+      database_reset:
+        one: Reset bazy
+        few: Resety bazy
+        many: Resetów bazy
+        accusative: Reset bazy
+      taking:
+        one: Utarg
+        few: Utargi
+        many: Utargów
+        accusative: Utarg
       product_alias:
         one: Alias produktu
         few: Aliasy produktów
@@ -192,6 +243,12 @@ pl:
         few: Użytkownicy
         accusative: Użytkownika
     attributes:
+      taking:
+        store_id: Lokal
+        date: Data
+        value: Wartość
+        card_payments: Płatności kartą
+        cash_payments: Płatności gotówką
       product_price:
         store: Lokal
         product: Produkt
@@ -259,10 +316,12 @@ pl:
         cancelled_receipts_value: Wartość anulowanych
         file: 'Plik'
         file_fingerprint: ""
+        file_content_type: Typ pliku
       store:
         symbol: Symbol
         name: Nazwa
         register_header: Nagłówek kasy
+        active: Aktywny
         users: Użytkownicy
         employees: Pracownicy
         employee: Pracownik
@@ -421,6 +480,9 @@ pl:
       too_long: jest za długie (maksymalnie %{count} znaków)
       too_short: jest za krótkie (przynajmniej %{count} znaków)
       wrong_length: ma nieprawidłową długość (powinna wynosić %{count} znaków)
+      wrong_content_type: jest nieprawidłowy
+      not_selected: nie został wybrany.
+      contains_no_daily_report: nie zawiera raportu dobowego
     template:
       body: ! 'Błędy dotyczą następujących pól:'
       header:
@@ -489,11 +551,7 @@ pl:
       long: ! '%B %d, %Y %H:%M'
       short: ! '%d %b %H:%M'
     pm: po południu
-  date:
-    order:
-      - :rok
-      - :miesiąc
-      - :dzień
+
   wice_grid:
     show_filter_tooltip: Pokaż filtry
     hide_filter_tooltip: Ukryj filtry

@@ -8,7 +8,7 @@ class SaleItemsController < ApplicationController
   end
   
   def gender
-    'male' 
+    'female' 
   end
 
   # GET /sale_items
@@ -33,12 +33,9 @@ class SaleItemsController < ApplicationController
     end
   end
 
-  # GET /sale_items/1/edit
+  # GET /sales/1/edit
   def edit
-    respond_to do |format|
-      format.html
-      format.js { render('shared/build_modal') }
-    end
+    redirect_to request.referer ? request.referer : root_path
   end
 
   # POST /sale_items

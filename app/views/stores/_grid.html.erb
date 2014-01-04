@@ -8,6 +8,9 @@
 	
 	  g.column name: model_class.human_attribute_name(:name), attribute: 'name' 
 	  g.column name: model_class.human_attribute_name(:register_header), attribute: 'register_header' 
+	  g.column name: model_class.human_attribute_name(:active), attribute: 'active' do |store|
+	  	b store.active
+	  end
 	
 	  g.action_column
 	  

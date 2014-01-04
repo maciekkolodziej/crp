@@ -1,8 +1,8 @@
 = semantic_form_for @product_alias, html: { class: 'form-horizontal' }, remote: true do |f|
   = f.inputs do
-    = f.input :product_id, as: :select, collection: to_dropdown(:products), input_html: { disabled: @product_alias.product_id.present? }, include_blank: false
+    = f.input :product_id, as: :select, collection: to_dropdown(:products), input_html: { disabled: @product_alias.product_id.present?, autofocus: @product_alias.alias.blank? ? false : true }
     = f.input :product_id, as: :hidden if @product_alias.product_id.present?
-    = f.input :alias, input_html: { autofocus: true }
+    = f.input :alias, input_html: { autofocus: @product_alias.alias.blank? ? true : false }
     = hidden_field_tag :referer, params[:referer]
   
   = f.actions do

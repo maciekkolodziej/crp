@@ -1,0 +1,23 @@
+.page-header
+  %h1= t 'Unrecognized products', default: 'Unrecognized products'
+.row-fluid
+  - if @products.present?
+    %table.table.table-hover.table-bordered
+      %thead
+        %tr
+          %th= t 'activerecord.attributes.sale_item.product_name', default: 'Name'
+          %th.numeric= t 'activerecord.attributes.sale_item.price', default: 'Price'
+          %th
+      %tbody
+        - @products.each do |p|
+          %tr
+            %td= p.product_name
+            %td.numeric= p.price
+            %td
+              .btn-toolbar.no-margins.pull-right= link_to t('Assign', default: 'Assign'), 
+                                                          new_product_alias_path(:alias => p.product_name), 
+                                                          class: 'btn btn-warning btn-mini', 
+                                                          remote: true,
+                                                          data: { toggle: 'modal', target: '#modal-window' }
+  - else
+    .alert.alert-success= t 'All products were recognized', default: 'All products were recognized.'

@@ -1,9 +1,5 @@
-%pre= Sale.find(2).file.copy_to_local_file.inspect
-
-%pre= current_user.available_stores.to_yaml
-%pre= current_user.roles.to_yaml
-
-%pre= Store.all.inspect
+%h1 
+=pie_chart(SaleItem::by_product(for_chart: true, stores: current_user.managed_stores.where(active: true)))
 
 %h1 Demo#index
 %pre= (can? :manage, @sale_items) ? "YES!" : "No!"

@@ -40,7 +40,7 @@ Crp::Application.configure do
   # number of complex assets.
   # config.assets.debug = true <- that was default setting
   config.assets.debug = false # <- this solves verry slow asset loading issue
-  config.log_level = :error
+  config.log_level = :info
   config.i18n.available_locales = [:en, :pl]
   
 end

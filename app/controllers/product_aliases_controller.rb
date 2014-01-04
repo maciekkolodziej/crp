@@ -24,7 +24,7 @@ class ProductAliasesController < ApplicationController
   # GET /product_aliases/new
   def new
     @product_alias = ProductAlias.new
-    @product_alias.attributes = { product_id: params[:product_id] }
+    @product_alias.attributes = { product_id: params[:product_id], :alias => params[:alias] }
     respond_to do |format|
       format.html
       format.js { render('shared/build_modal') }

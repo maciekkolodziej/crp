@@ -8,26 +8,6 @@ class ProductsController < ApplicationController
   def gender
     'male' 
   end
-  
-  def import
-    Product.destroy_all
-    CrpProduct.where('type_id != ? AND active = true', 4).each do |old|
-      Product.new(id: old.id, 
-                  name: old.name.blank? ? old.symbol : old.name, 
-                  unit_id: old.uom_id,
-                  active: old.active,
-                  purchasable: old.supply_method_id == 1 ? true : false,
-                  inventoried: old.type_id == 1 ? true : false,
-                  cost_price: old.cost_price,
-                  sellable: old.sellable,
-                  register_code: old.sale_code,
-                  register_name: old.sellable ? old.symbol : nil,
-                  category_id: old.category_id,
-                  vat_rate_id: VatRate.find_by(symbol: old.vat_id).present? ? VatRate.find_by(symbol: old.vat_id).id : nil
-                 ).save
-    end
-    redirect_to products_path, notice: "#{Product.count} records imported."
-  end
 
   # GET /products
   def index

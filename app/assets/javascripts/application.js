@@ -13,18 +13,22 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
-//= require jquery-fileupload/basic
-//= require jquery-fileupload/vendor/tmpl
+//= require jquery-fileupload
 //= require_tree .
 //= require wice_grid
 //= require jquery.ui.all
+//= require select2
+//= require select2_locale_pl
 //= require cocoon
 //= require turbolinks
 //= require twitter/bootstrap
 //= require twitter-bootstrap-hover-dropdown.min.js 
 
 $(document).ready(function() {
+	$('input.ui-date-picker').datepicker();
 	$('.dropdown-toggle').dropdownHover();
+	$('form .input .controls select').not('.custom-dropdown').select2({'width': 'resolve'});
+	$('#modal-window').on('shown', function() { $('form .input .controls select').select2({'width': 'resolve'}); });
 	
 	// Activate tooltips
 	$('a').tooltip({placement: 'bottom'});
@@ -97,7 +101,7 @@ $(document).ready(function() {
 		// Else (no records)
 		else {
 			number_of_columns = $(this).find('.wice-grid-title-row th').length;
-			$(this).find('.wice-grid tbody').append('<tr class="grey"><td colspan=' + number_of_columns + '>No records found</td></tr>');
+			$(this).find('.wice-grid tbody').append('<tr class="grey"><td colspan=' + number_of_columns + '>' + t('No records found') + '</td></tr>');
 		}
 		
 		// Removes border between summary rows
@@ -117,14 +121,16 @@ $(document).ready(function() {
 		$(this).find('.batch-action-link').click(function(){
 			form = $(this).closest('form');
 			count = form.find('input:checked').length;
-			if ((count > 0) && confirm("Are you sure you want to update/delete " + count + " items?")) {
-				action_path = $(this).attr('data-controller') + '/' + $(this).attr('data-action');
-				full_path = 'http://' + window.location.host + '/' + action_path;
-				form.attr('action', full_path);
-				form.submit();
+			if (count > 0) {
+				if (confirm(t("Are you sure you want to update/delete ALL selected items?"))) {
+					action_path = $(this).attr('data-controller') + '/' + $(this).attr('data-action');
+					full_path = 'http://' + window.location.host + '/' + action_path;
+					form.attr('action', full_path);
+					form.submit();
+				}
 			}
 			else {
-				alert("You need to select at least one item.");
+				alert(t('You need to select at least one item...'));
 			}
 		});
 	});
@@ -152,11 +158,7 @@ function create_totals_row(grid_name) {
 	var column_number = 1;
 	grid.find('tr.wice-grid-title-row th').each(function(){
 		if (column_number == 1) {
-			grid.find('tr.totals').append('<td colspan="2">Totals: </td>');
-			column_number++;
-		}
-		
-		else if (column_number == 2) {
+			grid.find('tr.totals').append('<td>' + t('Totals') + ': </td>');
 			column_number++;
 		}
 		
@@ -189,11 +191,7 @@ function create_averages_row(grid_name) {
 	var column_number = 1;
 	grid.find('tr.wice-grid-title-row th').each(function(){
 		if (column_number == 1) {
-			grid.find('tr.averages').append('<td colspan="2">Averages: </td>');
-			column_number++;
-		}
-		
-		else if (column_number == 2) {
+			grid.find('tr.averages').append('<td>' + t('Averages') + ': </td>');
 			column_number++;
 		}
 		
@@ -221,3 +219,18 @@ function create_averages_row(grid_name) {
 		}
 	});
 };
+
+function t(message) {
+	switch(locale) {
+		case 'pl':
+			switch(message) {
+				case 'No records found': 							message = 'Nie znaleziono rekordów'; break;
+				case 'Averages':  									message = 'Średnie'; break;
+				case 'Totals': 										message = 'Sumy'; break;
+				case 'You need to select at least one item...': 	message = 'Należy wybrać przynajmniej jedną pozycję...'; break;
+				case 'Are you sure you want to update/delete ALL selected items?': 	message = 'Napewno zaktualizować/usunąć WSZYSTKIE wybrane pozycje?'; break;
+			}
+			break;
+	}
+	return message;
+}

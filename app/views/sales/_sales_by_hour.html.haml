@@ -1,0 +1,12 @@
+%table.table.table-hover
+  %thead
+    %tr
+      %th= t 'Hour', default: 'Hour'
+      %th.numeric= t 'activerecord.attributes.sale_item.quantity', default: 'Quantity'
+      %th.numeric= t 'activerecord.attributes.sale_item.value', default: 'Value'
+  %tbody
+    - @sale.by_hour.each do |r|
+      %tr
+        %td= r.hour
+        %td.numeric= r.quantity
+        %td.numeric= r.value

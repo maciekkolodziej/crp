@@ -1,0 +1,19 @@
+- model_class = DatabaseReset
+.page-header
+  .btn-toolbar.pull-right
+    = link_to t('Reset!', :default => 'Reset'), database_reset_path, :class => 'btn btn-primary'
+    = link_to t('.destroy', :default => t("helpers.links.destroy")), database_reset_path(@database_reset), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'
+    = link_to t('.back', :default => t("helpers.links.back")), database_resets_path, :class => 'btn'
+  
+  %h1=t '.title', :default => model_class.model_name.human.titleize
+
+%dl.dl-horizontal
+  %dt= model_class.human_attribute_name(:ip) + ':'
+  %dd= show(@database_reset.ip)
+  %dt= model_class.human_attribute_name(:hostname) + ':'
+  %dd= show(@database_reset.hostname)
+  %dt= model_class.human_attribute_name(:created_at) + ':'
+  %dd= show(@database_reset.created_at)
+  %dt= model_class.human_attribute_name(:updated_at) + ':'
+  %dd= show(@database_reset.updated_at)
+.form-actions

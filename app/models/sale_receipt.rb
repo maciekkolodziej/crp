@@ -7,6 +7,30 @@ class SaleReceipt < ActiveRecord::Base
   before_save :read_from_file
   after_save :create_items
   
+  def self.by_hour(options = {})
+    options[:stores]          ||= Store.all
+    options[:value]           ||= 'value'
+    options[:to]              ||= Sale::last_date(stores: options[:stores])
+    
+    begin
+      options[:from]          ||= Date::parse(options[:to].to_s) - 30.days
+      if options[:for_chart]
+        @chart_data = []
+        options[:stores].each do |store|
+          records = self.select("HOUR(datetime) AS hour, (SUM(sale_receipts.#{options[:value].to_s}) / COUNT(DISTINCT DATE(datetime))) AS value")
+                        .joins('JOIN sales ON sales.id = sale_receipts.sale_id')
+                        .where('date >= ? AND date <= ? AND store_id = ?', options[:from].to_s, options[:to].to_s, store.id)
+                        .group('hour')
+                        .order('hour')
+          @chart_data << {name: store.symbol, data: records.map{|r| [r.hour, r.value.to_i]}}
+        end
+        @chart_data
+      end
+    rescue
+      nil
+    end
+  end
+  
   # Converts file_content for this receipt into array of lines
   def lines
     return self.sale.file_content.lines[self.begins_at_line..self.ends_at_line]
@@ -59,15 +83,14 @@ class SaleReceipt < ActiveRecord::Base
         next
       end
       
-      # Get time
-      if time = line.match(/\d{2}:\d{2}/)
-        self.datetime = @date + ' ' + time[0]
+      if line && line.include?('ˇ')
+        # Get time
+        self.datetime = @date + ' ' + line.match(/\d{2}:\d{2}/)[0]
       end
       
-      # Get number
-      if number = line[1..6].match(/F\d{5}/)
-        self.number = number[0][1..6]
-        next
+      if line && line.include?('¦')
+        # Get number
+        self.number = line[2..5]
       end
       
       # Get total value

@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
+# Eselect2
+gem "select2-rails"
+
 # Upload multiple files with progress bar
 gem 'jquery-fileupload-rails'
 gem "paperclip", "~> 3.0"
-
-# Rails admin for back-end
-gem 'rails_admin'
 
 # Track changes in model's data
 gem 'paper_trail', '>= 3.0.0.rc2'
@@ -30,6 +30,7 @@ gem 'cocoon'
 gem 'formtastic', git: 'git://github.com/justinfrench/formtastic'
 gem 'formtastic-bootstrap'
 
+
 # Use Devise for authentication and CanCan for authorization
 gem 'devise'
 gem 'cancan'
@@ -38,7 +39,7 @@ gem 'userstamp', git: 'git://github.com/kimkong/userstamp'
 # Charting libraries
 # Chartkick also needs javascript inclusion:
 # <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
-gem 'chartkick' # for quick charts
+gem 'chartkick', git: 'git://github.com/maciekkolodziej/chartkick' # for quick charts
 gem 'google_visualr'
 
 # Grouping by date gem (day of week, hour of day)
