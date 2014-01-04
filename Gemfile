@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-source 'http://github.com'
 
 gem "eventmachine"
 
