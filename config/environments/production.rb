@@ -1,4 +1,8 @@
 Crp::Application.configure do
+  
+  # Config mailer
+  config.action_mailer.default_url_options = { host: 'crp.maciekkolodziej.pl' }
+  
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -77,6 +81,4 @@ Crp::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-  
-  config.i18n.available_locales = [:en, :pl]
 end

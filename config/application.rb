@@ -30,5 +30,25 @@ module Crp
     config.encoding = "UTF-8"
     config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
     config.autoload_paths += Dir[Rails.root.join('lib', '{**}')]
+    
+    # Don't care if the mailer can't send.
+    # config.action_mailer.raise_delivery_errors = false
+    config.action_mailer.raise_delivery_errors = true
+    
+    # Config mailer
+    config.action_mailer.delivery_method = :smtp
+    pass_file = Rails.root.join('config', 'passwords', 'smtp.pass')
+    smtp_pass = File.open(pass_file, "r").read
+    config.action_mailer.smtp_settings = {
+      address:              'maciekkolodziej.pl',
+      port:                 587,
+      domain:               'maciekkolodziej.pl',
+      user_name:            'crp',
+      password:             smtp_pass,
+      authentication:       'plain',
+      enable_starttls_auto: true  }
+    
+    # Locales
+    config.i18n.available_locales = [:en, :pl]
   end
 end
