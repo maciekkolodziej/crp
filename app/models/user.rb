@@ -18,15 +18,17 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :lockable
 
   def active_for_authentication? 
-    super && active? 
+    Rails.env == 'production' ? super && active? : super 
   end 
   
   def inactive_message 
-    if !active? 
-      :not_approved 
-    else 
-      :signed_up_but_not_approved
-    end 
+    if Rails.env == 'production'
+      if !active? 
+        :not_approved 
+      else 
+        :signed_up_but_not_approved
+      end 
+    end
   end
   
   def send_admin_mail

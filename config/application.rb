@@ -50,5 +50,9 @@ module Crp
     
     # Locales
     config.i18n.available_locales = [:en, :pl]
+    
+    # Precompile additional assets.
+    # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
+    config.assets.precompile += %w( search.js, *.js, *.scss, *.coffee, *.css, *.css.erb)
   end
 end

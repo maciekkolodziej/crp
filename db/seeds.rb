@@ -5,3 +5,23 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+Store.delete_all
+Store.create(id: 1, symbol: 'GA', name: 'SKM Gdynia Główna', active: true)
+
+User.delete_all
+User.create(id: 1, email: 'maciek@kolodziej.com.pl', password: '1234', first_name: 'Maciek', last_name: 'Kołodziej', active: true, current_store_id: 1)
+
+Role.delete_all
+Role.create([
+  {id: 1, name: 'Admin', global: true},
+  {id: 2, name: 'Owner', global: true},
+  {id: 3, name: 'Manager', global: false},
+  {id: 4, name: 'Barista', global: false},
+])
+
+UserRole.delete_all
+UserRole.create([
+  {user_id: 1, role_id: 1},
+  {user_id: 1, role_id: 2},
+  {user_id: 1, role_id: 3, store_id: 1}
+])

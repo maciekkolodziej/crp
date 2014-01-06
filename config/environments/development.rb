@@ -15,19 +15,7 @@ Crp::Application.configure do
 
   # Don't care if the mailer can't send.
   # config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
-  config.action_mailer.delivery_method = :smtp
-  pass_file = Rails.root.join('config', 'passwords', 'smtp.pass')
-  smtp_pass = File.open(pass_file, "r").read
-  config.action_mailer.smtp_settings = {
-    address:              'maciekkolodziej.pl',
-    port:                 587,
-    domain:               'maciekkolodziej.pl',
-    user_name:            'crp',
-    password:             smtp_pass,
-    authentication:       'plain',
-    enable_starttls_auto: true  }
   
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -40,5 +28,6 @@ Crp::Application.configure do
   # number of complex assets.
   # config.assets.debug = true <- that was default setting
   config.assets.debug = false # <- this solves verry slow asset loading issue
+  
   config.log_level = :info
 end
