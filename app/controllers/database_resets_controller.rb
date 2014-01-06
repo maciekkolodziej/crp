@@ -11,43 +11,49 @@ class DatabaseResetsController < ApplicationController
   def gender
     'male' 
   end
+  
+  def self.reset_interval
+    5.minutes
+  end
+  
+  def self.reset_allowed?(request)
+    # Not production AND either first reset OR interval > 5 minutes
+    !Rails.env.production? && (DatabaseReset.where(ip: request.remote_ip).blank? || (Time.now.to_i - DatabaseReset.where(ip: request.remote_ip).order('created_at DESC').first.created_at.to_i >= DatabaseResetsController::reset_interval))
+  end
 
   def do_reset
-    unless Rails.env.production?
-      reset_interval = 5.minutes
-      redirect_path = user_signed_in? ? (request.referer || locale_root_path) : (request.referer || new_user_session_path)
-      if DatabaseReset.where(ip: request.remote_ip).blank? || (Time.now.to_i - DatabaseReset.where(ip: request.remote_ip).order('created_at DESC').first.created_at.to_i >= reset_interval)
-        flash[:notice] = t('Database reset', default: 'Database has been reset.')
-        redirect_to redirect_path
-        
-        connection = ActiveRecord::Base.connection
-        connection.execute('SET FOREIGN_KEY_CHECKS = 0')
-        connection.tables.each do |table|
-          connection.execute("TRUNCATE #{table}") unless table == "schema_migrations" || table == "database_resets"
-        end
-         
-        # - IMPORTANT: SEED DATA ONLY
-        # - DO NOT EXPORT TABLE STRUCTURES
-        # - DO NOT EXPORT DATA FROM `schema_migrations`
-        sql = File.read('db/demo_data.sql')
-        statements = sql.split(/;$/)
-        statements.pop  # the last empty statement
-       
-        ActiveRecord::Base.transaction do
-          statements.each do |statement|
-            connection.execute(statement)
-          end
-        end
-        connection.execute('SET FOREIGN_KEY_CHECKS = 1')
-        
-        reset = DatabaseReset.new
-        reset.update_attributes(ip: request.remote_ip, hostname: Resolv.new.getname(request.remote_ip))
-      else
-        flash[:error] = t("Too many resets", default: "Too many resets. Wait another %{seconds} seconds.", seconds: (reset_interval - (Time.now.to_i - DatabaseReset.where(ip: request.remote_ip).order('created_at DESC').first.created_at.to_i)))
-        redirect_to redirect_path
+    redirect_path = user_signed_in? ? (request.referer || locale_root_path) : (request.referer || new_user_session_path)
+    if self.class.reset_allowed?(request)
+      flash[:notice] = t('Database reset', default: 'Database has been reset.')
+      redirect_to redirect_path
+      
+      connection = ActiveRecord::Base.connection
+      connection.execute('SET FOREIGN_KEY_CHECKS = 0')
+      connection.tables.each do |table|
+        connection.execute("TRUNCATE #{table}") unless table == "schema_migrations" || table == "database_resets"
       end
+      # - IMPORTANT: SEED DATA ONLY
+      # - DO NOT EXPORT TABLE STRUCTURES
+      # - DO NOT EXPORT DATA FROM `schema_migrations`
+      sql = File.read('db/demo_data.sql')
+      statements = sql.split(/;$/)
+      statements.pop  # the last empty statement
+     
+      ActiveRecord::Base.transaction do
+        statements.each do |statement|
+          connection.execute(statement)
+        end
+      end
+      connection.execute('SET FOREIGN_KEY_CHECKS = 1')
+      
+      reset = DatabaseReset.new
+      reset.update_attributes(ip: request.remote_ip, hostname: Resolv.new.getname(request.remote_ip))
     else
-      flash[:error] = t('Reset impossible', default: 'Production mode. Reset impossible')
+      if Rails.env.production?
+        flash[:error] = t('Reset impossible', default: 'Production mode. Reset impossible')
+      else
+        flash[:error] = t("Too many resets", default: "Too many resets. Wait another %{seconds} seconds.", seconds: (self.class.reset_interval - (Time.now.to_i - DatabaseReset.where(ip: request.remote_ip).order('created_at DESC').first.created_at.to_i)))
+      end
       redirect_to redirect_path
     end
   end

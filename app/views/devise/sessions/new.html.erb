@@ -1,12 +1,9 @@
-<%- 
-unless Rails.env.production?
-	if
-		message = [t('database_reset_1', default: 'This is <strong>Demo</strong> Application. Demo database may have been changed by other users.'), 
-				   @template.link_to(t('Click here', default: 'Click here'), reset_database_path), 
-				   t('database_reset_2', default: 'to bring it back to original state.') ]
-				   .join(' ').html_safe
-		flash.now[:info] = message
-	end
+<%- if DatabaseResetsController::reset_allowed?(request)
+	message = [t('database_reset_1', default: 'This is <strong>Demo</strong> Application. Demo database may have been changed by other users.'), 
+			   @template.link_to(t('Click here', default: 'Click here'), reset_database_path), 
+			   t('database_reset_2', default: 'to bring it back to original state.') ]
+			   .join(' ').html_safe
+	flash.now[:info] = message
 end %>
 <%- @container_class = 'container-signin' %>
 <%= semantic_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
