@@ -35,6 +35,8 @@ module Crp
     # config.action_mailer.raise_delivery_errors = false
     config.action_mailer.raise_delivery_errors = true
     
+    config.secret_key_base = ENV['SECRET_TOKEN']
+    
     # Config mailer
     config.action_mailer.delivery_method = :smtp
     pass_file = Rails.root.join('config', 'passwords', 'smtp.pass')
@@ -44,7 +46,7 @@ module Crp
       port:                 587,
       domain:               'maciekkolodziej.pl',
       user_name:            'crp',
-      password:             smtp_pass,
+      password:             ENV['SMTP_PASS'],
       authentication:       'plain',
       enable_starttls_auto: true  }
     

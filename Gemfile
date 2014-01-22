@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 source 'http://gems.github.com'
 
+gem 'dotenv-rails'
 gem "eventmachine"
 
 # Eselect2
