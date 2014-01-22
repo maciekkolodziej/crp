@@ -46,6 +46,12 @@ class DatabaseResetsController < ApplicationController
       end
       connection.execute('SET FOREIGN_KEY_CHECKS = 1')
       
+      # Remove all files from data/sales
+      FileUtils.rm Dir.glob(Rails.root.join('data/sales/*'))
+      
+      # Restore sale report files from data/demo/sales
+      FileUtils.cp Dir.glob(Rails.root.join('data/demo/sales/*')), Rails.root.join('data/sales')
+      
       reset = DatabaseReset.new
       reset.update_attributes(ip: request.remote_ip, hostname: Resolv.new.getname(request.remote_ip))
     else
