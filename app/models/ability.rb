@@ -43,6 +43,7 @@ class Ability
       can [:read, :create], Product
       can [:manage], ProductPrice, store_id: current_user.current_store_id
       can [:read], Store, id: current_user.current_store_id
+      can [:change_store], User
     elsif current_user.has_role?('Barista')
       can :create, Taking, store_id: current_user.current_store_id
     end
