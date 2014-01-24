@@ -49,13 +49,13 @@ class Sale < ActiveRecord::Base
       records = self.select("DATE_FORMAT(date, '%Y-%m') AS month, store_id, symbol AS store_symbol, #{options[:agregate].to_s}(#{options[:value].to_s}) AS value")
                     .joins(:store)
                     .where('date >= ? AND date <= ?', options[:from].to_s, options[:to].to_s)
+                    .where(store_id: options[:stores].map{|s| s.id})
                     .group('month, store_symbol')
                     .order('month')
           
       if options[:for_chart]
         @chart_data = []
         stores = records.map(&:store_symbol).uniq
-        logger.error stores
         stores.each do |store|
           @chart_data << {name: store, data: records.where(stores: { symbol: store }).map{|r| [I18n::l(Date::parse(r.month.to_s + '-01'), format: "%b %y"), r.value.to_i]}}
         end
