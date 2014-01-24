@@ -102,7 +102,7 @@ pl:
   last number of months:
     one: "ostatni 1 miesiąc"
     few: 'ostatnie %{count} miesiące'
-    many: 'ostatnie %{count} miesiący'
+    many: 'ostatnie %{count} miesięcy'
   Saved files: Zapisane pliki
   Click here: Kliknij tutaj
   database_reset_1: "Aplikacja <strong>demonstracyjna</strong>. Baza danych mogła zostać zmieniona przez innych użytkowników. "

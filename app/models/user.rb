@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
   
   def managed_stores
     if self.has_global_role?
-      Store.all
+      Store.all.order(:symbol)
     else
       stores.includes(:roles).references(:roles).where(roles: { name: 'Manager' })
     end

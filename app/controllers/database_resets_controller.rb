@@ -35,7 +35,7 @@ class DatabaseResetsController < ApplicationController
       # - IMPORTANT: SEED DATA ONLY
       # - DO NOT EXPORT TABLE STRUCTURES
       # - DO NOT EXPORT DATA FROM `schema_migrations`
-      sql = File.read('db/demo_data.sql')
+      sql = File.read('data/demo/demo_db.sql')
       statements = sql.split(/;$/)
       statements.pop  # the last empty statement
      

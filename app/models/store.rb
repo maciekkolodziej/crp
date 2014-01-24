@@ -12,4 +12,6 @@ class Store < ActiveRecord::Base
   has_many :takings, dependent: :restrict_with_error
   
   scope :active, -> {where(active: true)}
+  
+  default_scope order: :symbol
 end

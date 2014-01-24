@@ -7,18 +7,17 @@
 - if can?(:read, Sale)
   .row-fluid
     .span6
-      = pie_chart(SaleItem::by_product(for_chart: true, stores: current_user.managed_stores.active), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ' ' + t('by product', default: 'by product')})
+      = pie_chart(SaleItem::by_product(for_chart: true, stores: current_user.managed_stores.active), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ' ' + t('by product', default: 'by product') + ': ' + t('last number of days', default: 'last 90 days', count: 90)})
     .span6
-      = pie_chart(SaleItem::by_category(for_chart: true, stores: current_user.managed_stores.active), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ' ' + t('by category', default: 'by category') })
+      = pie_chart(SaleItem::by_category(for_chart: true, stores: current_user.managed_stores.active), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ' ' + t('by category', default: 'by category') + ': ' + t('last number of days', default: 'last 90 days', count: 90) })
 
   .row-fluid
     .span6
-      = line_chart(Taking.by_day(for_chart: true, stores: current_user.managed_stores.where(active: true)), library: { pointSize: 3, title: t('activerecord.models.sale.many', default: 'Sales') + ': ' + t('last number of days', default: 'last 30 days', count: 30)})
+      = line_chart(Sale.by_day(for_chart: true, stores: current_user.managed_stores.where(active: true)), library: { pointSize: 3, title: t('activerecord.models.sale.many', default: 'Sales') + ': ' + t('last number of days', default: 'last 30 days', count: 30)})
     .span6
-      = column_chart(Taking.by_month(agregate: :sum, for_chart: true, stores: current_user.managed_stores.where(active: true)), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ': ' + t('last number of months', default: 'last 24 months', count: 24), isStacked: true })
-
+      = column_chart(Sale.by_month(agregate: :sum, for_chart: true, stores: current_user.managed_stores.where(active: true)), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ': ' + t('last number of months', default: 'last 12 months', count: 12), isStacked: true })
 .row-fluid
   .span6
     = column_chart(SaleReceipt.by_hour(for_chart: true, stores: current_user.managed_stores.where(active: true)), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ' ' + t('by hours', default: 'by hours') + ': ' + t('last number of days', default: 'last 30 days', count: 30)})
   .span6
-    = column_chart(Taking.by_day_of_week(for_chart: true, stores: current_user.managed_stores.where(active: true)), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ' ' + t('by day of week', default: 'by day of week') + ': ' + t('last number of days', default: 'last 90 days', count: 90)})
+    = column_chart(Sale.by_day_of_week(for_chart: true, stores: current_user.managed_stores.where(active: true)), library: { title: t('activerecord.models.sale.many', default: 'Sales') + ' ' + t('by day of week', default: 'by day of week') + ': ' + t('last number of days', default: 'last 90 days', count: 90)})

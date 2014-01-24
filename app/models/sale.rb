@@ -36,6 +36,88 @@ class Sale < ActiveRecord::Base
    end
   end
   
+  def self.by_month(options = {})
+    options[:stores]          ||= Store.all
+    options[:agregate]        ||= 'AVG'
+    options[:value]           ||= 'value'
+    begin
+      options[:to]              ||= self::last_date
+      options[:from]            ||= Date::parse(options[:to].to_s) - 12.months
+      
+      records = self.select("DATE_FORMAT(date, '%Y-%m') AS month, store_id, symbol AS store_symbol, #{options[:agregate].to_s}(#{options[:value].to_s}) AS value")
+                    .joins(:store)
+                    .where('date >= ? AND date <= ?', options[:from].to_s, options[:to].to_s)
+                    .group('month, store_symbol')
+                    .order('month')
+          
+      if options[:for_chart]
+        @chart_data = []
+        stores = records.map(&:store_symbol).uniq
+        logger.error stores
+        stores.each do |store|
+          @chart_data << {name: store, data: records.where(stores: { symbol: store }).map{|r| [I18n::l(Date::parse(r.month.to_s + '-01'), format: "%b %y"), r.value.to_i]}}
+        end
+        @chart_data
+      else
+        records
+      end
+    rescue
+      nil
+    end
+  end
+  
+  def self.by_day(options = {})
+    options[:stores]            ||= Store.all
+    
+    begin
+      options[:to]              ||= self::last_date
+      options[:from]            ||= Date::parse(options[:to].to_s) - 31.days
+      
+      records = self.where('date >= ? AND date <= ?', options[:from].to_s, options[:to].to_s)
+                    .order('date')
+                    
+      if options[:for_chart]
+        @chart_data = []
+        options[:stores].each do |store|
+          @chart_data << {name: store.symbol, data: records.where(store_id: store.id).map{|r| [r.date, r.value.to_i]}}
+        end
+        @chart_data
+      else
+        records
+      end
+    rescue
+      nil
+    end
+  end
+  
+  def self.by_day_of_week(options = {})
+    options[:stores]          ||= Store.all
+    options[:agregate]        ||= 'AVG'
+    options[:value]           ||= 'value'
+    
+    begin
+      options[:to]              ||= self::last_date
+      options[:from]            ||= Date::parse(options[:to].to_s) - 90.days
+    
+      records = self.select("WEEKDAY(date) AS weekday, store_id, #{options[:agregate].to_s}(#{options[:value].to_s}) AS value")
+                    .where('date >= ? AND date <= ?', options[:from].to_s, options[:to].to_s)
+                    .group('weekday')
+                    .order('weekday')
+          
+      if options[:for_chart]
+        @chart_data = []
+        options[:stores].each do |store|
+          @chart_data << {name: store.symbol, data: records.where(store_id: store.id).map{|r| [Crp::WEEKDAYS[I18n.locale][r.weekday], r.value.to_i]}}
+        end
+        @chart_data
+      else
+        records
+      end
+    rescue
+      nil
+    end
+  end
+  
   def items_by_category(options={})
     options[:agregate]        ||= 'SUM'
     options[:value]           ||= 'value'

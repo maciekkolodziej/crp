@@ -1,6 +1,6 @@
 <%- if DatabaseResetsController::reset_allowed?(request)
 	message = [t('database_reset_1', default: 'This is <strong>Demo</strong> Application. Demo database may have been changed by other users.'), 
-			   @template.link_to(t('Click here', default: 'Click here'), reset_database_path), 
+			   @template.link_to(t('Click here', default: 'Click here'), reset_database_path, data: { no_turbolink: true }), 
 			   t('database_reset_2', default: 'to bring it back to original state.') ]
 			   .join(' ').html_safe
 	flash.now[:info] = message
