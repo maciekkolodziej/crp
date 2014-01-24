@@ -9,8 +9,8 @@
     = f.input :sellable
     = f.input :register_code, wrapper_html: {class: 'sellable'}
     = f.input :register_name, wrapper_html: {class: 'sellable'}
-    = f.input :category_id, as: :select, collection: to_dropdown(:product_category, attribute: :name), wrapper_html: {class: 'sellable'}
-    = f.input :vat_rate_id, as: :select, collection: to_dropdown(:vat_rate), wrapper_html: {class: 'sellable'}
+    = f.input :category, as: :select, collection: to_dropdown(:product_category, attribute: :name), wrapper_html: {class: 'sellable'}
+    = f.input :vat_rate, as: :select, collection: to_dropdown(:vat_rate), wrapper_html: {class: 'sellable'}
 
   = f.actions do
     = f.action :submit, :as => :input, button_html: { class: 'btn btn-primary' }
