@@ -39,6 +39,8 @@ class Ability
       cannot [:update, :destroy], Role
     elsif current_user.has_role?('Manager') 
       can [:create, :read, :example_file], Sale, store_id: current_user.current_store_id
+      can [:read], SaleReceipt, sale: { store_id: current_user.current_store_id }
+      can [:read], SaleItem, sale_receipt: { sale: { store_id: current_user.current_store_id} }
       can [:manage], Taking, store_id: current_user.current_store_id
       can [:read, :create], Product
       can [:manage], ProductPrice, store_id: current_user.current_store_id

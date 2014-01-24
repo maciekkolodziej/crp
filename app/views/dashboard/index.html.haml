@@ -1,7 +1,7 @@
 .page-header
   .btn-toolbar.pull-right
     = link_to_if can?(:create, Sale), t('helpers.links.new', :default => 'New', gender: 'female') + ' ' + t('activerecord.models.sale.one', default: 'Sale'), new_sale_path, :class => 'btn btn-primary'
-    = link_to_if can?(:create, Taking), t('helpers.links.new', :default => 'New', gender: 'male') + ' ' + t('activerecord.models.taking.one', default: 'Taking'), new_taking_path, :class => 'btn btn-warning'
+    = link_to_if can?(:create, Taking) && !Rails.env.demo?, t('helpers.links.new', :default => 'New', gender: 'male') + ' ' + t('activerecord.models.taking.one', default: 'Taking'), new_taking_path, :class => 'btn btn-warning'
   %h1= t("Dashboard", default: "Dashboard")
 
 - if can?(:read, Sale)
