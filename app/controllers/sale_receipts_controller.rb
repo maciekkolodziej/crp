@@ -16,7 +16,7 @@ class SaleReceiptsController < ApplicationController
     
     conditions = current_ability.model_adapter(SaleReceipt, :read).conditions
     conditions['sales.store_id'] = current_user.current_store_id
-    @sale_receipts_grid = initialize_grid(SaleReceipt, per_page: records_per_page, include: [:sale], conditions: conditions, name: 'sale_receipts_grid')
+    @sale_receipts_grid = initialize_grid(SaleReceipt, per_page: records_per_page, include: [:sale], conditions: conditions, name: 'sale_receipts_grid', order: 'datetime', order_direction: 'DESC')
   end
 
   # GET /sale_receipts/1

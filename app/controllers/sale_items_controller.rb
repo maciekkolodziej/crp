@@ -17,7 +17,7 @@ class SaleItemsController < ApplicationController
     
     conditions = current_ability.model_adapter(SaleItem, :read).conditions
     conditions['sales.store_id'] = current_user.current_store_id
-    @sale_items_grid = initialize_grid(SaleItem, per_page: records_per_page, joins: ['JOIN sale_receipts ON sale_receipts.id = sale_items.sale_receipt_id', 'JOIN sales ON sales.id = sale_receipts.sale_id'], conditions: conditions, name: 'sale_items_grid')
+    @sale_items_grid = initialize_grid(SaleItem, per_page: records_per_page, joins: ['JOIN sale_receipts ON sale_receipts.id = sale_items.sale_receipt_id', 'JOIN sales ON sales.id = sale_receipts.sale_id'], conditions: conditions, name: 'sale_items_grid', order: 'sale_receipts.datetime', order_direction: 'DESC')
   end
 
   # GET /sale_items/1

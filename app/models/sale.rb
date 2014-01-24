@@ -1,6 +1,8 @@
 class Sale < ActiveRecord::Base
   stampable
   
+  default_scope order('date DESC')
+  
   # Relations
   belongs_to :store
   has_many :sale_receipts, dependent: :destroy

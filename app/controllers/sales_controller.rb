@@ -20,7 +20,7 @@ class SalesController < ApplicationController
     
     conditions = current_ability.model_adapter(Sale, :read).conditions
     conditions[:store_id] = current_user.current_store_id
-    @sales_grid = initialize_grid(Sale, per_page: records_per_page, conditions: conditions, name: 'sales_grid')
+    @sales_grid = initialize_grid(Sale, per_page: records_per_page, conditions: conditions, name: 'sales_grid', order: 'date', order_direction: 'DESC')
   end
 
   # GET /sales/1
