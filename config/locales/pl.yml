@@ -113,7 +113,9 @@ pl:
   Reset!: Resetuj
   unrecognized_products_alert: Wśród pozycji sprzedażny znajdują się nierozpoznane produkty. 
   add_alias: aby dodać aliasy nazw dla brakujących produktów.
-  
+  demo application: "Aplikacja <strong>demonstracyjna</strong>."
+  download test files: "Możesz pobrać następujące pliki w celach testowych: "
+    
   unauthorized: 
     manage:
       all: Brak dostępu!

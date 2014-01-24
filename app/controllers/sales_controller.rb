@@ -31,13 +31,27 @@ class SalesController < ApplicationController
 
   # GET /sales/new
   def new
+    message = [t('demo application', default: 'This is <strong>Demo</strong> Application.'), 
+         t('download test files', default: 'You may download following files for testing purposes: ')]
+         .join(' ')
+    path = "data/demo/example_sales/#{current_user.current_store.id}/"
+    files = Dir.entries(Rails.root.join(path)).select{|f| !File.directory? f}
+    links = files.map{|file| view_context.link_to(file, example_file_path(store_id: current_user.current_store.id, filename: file))}
+    message << links.join(', ')
+    flash.now[:info] = message.html_safe
+    
     @sale = Sale.new
     respond_to do |format|
       format.html
       format.js { render('shared/build_modal') }
     end
   end
-
+  
+  #GET /sales/example_file/:store_id/:filename
+  def example_file
+    send_file "data/demo/example_sales/#{params[:store_id]}/#{params[:filename]}.#{params[:format]}", :type=>"plain/text", :x_sendfile=>true
+  end
+  
   # GET /sales/1/edit
   def edit
     redirect_to request.referer ? request.referer : root_path

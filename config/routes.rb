@@ -20,6 +20,7 @@ Crp::Application.routes.draw do
     
     get 'unrecognized_products' => 'sales#unrecognized_products', as: :unrecognized_products
     get 'reset_database' => 'database_resets#do_reset', as: :reset_database
+    get 'example_file/:store_id/:filename' => 'sales#example_file', as: :example_file
     
     get 'session/per_page' => 'session#per_page', as: :per_page
     post 'session/per_page' => 'session#update_per_page', as: :update_per_page
