@@ -5,16 +5,33 @@
 			   .join(' ').html_safe
 	flash.now[:info] = message
 end %>
+
 <%- @container_class = 'container-signin' %>
+
 <%= semantic_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <h2 class="form-signin-heading"><%= t('sign_in!', default: 'Sign in') %></h2>
+  
   <%= f.inputs do %>
 	  <%= f.input :email, as: :email, :autofocus => true, label: false, placeholder: t('Email', default: 'Email') %>
 	  <%= f.input :password, as: :password, label: false, placeholder: t('Password', default: 'Password') %>
 	  <%= f.input :remember_me, label: t('remember_me', default: 'Remember Me'), as: :boolean %>
   <% end -%>  
+  
   <%= f.actions do %>
   	<%= f.action :submit, label: t('sign_in!', default: 'Sign In').capitalize, as: :input, button_html: { class: 'btn btn-primary' } %>
   <% end -%>
+  
 <% end %>
+  
+<%- if !Rails.env.production? %>
+  	<div class="well well-small" style="margin-top: 20px;">
+	  <dl class="dl-horizontal">
+	  	<dt>admin@demo.pl</dt>
+	  	<dd>admin</dd>
+	  	<dt>manager@demo.pl</dt>
+	  	<dd>manager</dd>
+	  </dl>
+	</div>
+<% end %>
+  
 <%= render "devise/shared/links" %>
