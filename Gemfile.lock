@@ -47,6 +47,7 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.0)
     atomic (1.1.14)
+    bcrypt-ruby (3.1.2)
     bcrypt-ruby (3.1.2-x86-mingw32)
     builder (3.1.4)
     cancan (1.6.10)
@@ -124,7 +125,7 @@ GEM
     mime-types (1.25)
     minitest (4.7.5)
     multi_json (1.8.2)
-    mysql2 (0.3.13)
+    mysql2 (0.3.17)
     orm_adapter (0.4.0)
     paper_trail (3.0.0.rc2)
       activerecord (>= 3.0, < 5.0)
@@ -204,6 +205,7 @@ GEM
       kaminari (>= 0.13.0)
 
 PLATFORMS
+  ruby
   x86-mingw32
 
 DEPENDENCIES
@@ -230,7 +232,7 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   jquery-ui-rails
-  mysql2
+  mysql2 (= 0.3.17)
   paper_trail (>= 3.0.0.rc2)
   paperclip (~> 3.0)
   rails (= 4.0.0)

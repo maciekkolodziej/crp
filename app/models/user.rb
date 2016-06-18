@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   end
   
   def send_admin_mail
-    AdminMailer.new_user(self).deliver
+    #AdminMailer.new_user(self).deliver
   end
   
   def username
