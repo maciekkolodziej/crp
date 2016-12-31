@@ -50,6 +50,6 @@ $ rails s
 ## Usage
 Visit ```http://localhost:3000```
 
-Login with ```admin@demo.pl``` / ```admin```.
+Login with ```admin@inevi.pl``` / ```admin```.
 
 Have fun!

@@ -103,3 +103,7 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+group :development do
+  gem "capistrano", "~> 3.7"
+end
