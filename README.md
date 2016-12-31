@@ -17,7 +17,7 @@ from any day,
 
 ## Installation
 Prerequisites
-* Ruby 2.3.1 or later https://www.ruby-lang.org/en/
+* Ruby 2.2.2 or later https://www.ruby-lang.org/en/
 * Bundler 1.12.5 or later http://bundler.io/
 * Git 2.4.9 or later https://git-scm.com/
   
