@@ -50,9 +50,6 @@ $ rails s
 ## Usage
 Visit ```http://localhost:3000```
 
-* you may build your own database,
-* or **load example data** by visting ```http://localhost:3000/reset_database```.
-
 Login with ```admin@demo.pl``` / ```admin```.
 
 Have fun!

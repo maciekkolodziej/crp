@@ -18,7 +18,7 @@ class DatabaseResetsController < ApplicationController
   
   def self.reset_allowed?(request)
     # Not production AND either first reset OR interval > 5 minutes
-    !Rails.env.production? && (DatabaseReset.where(ip: request.remote_ip).blank? || (Time.now.to_i - DatabaseReset.where(ip: request.remote_ip).order('created_at DESC').first.created_at.to_i >= DatabaseResetsController::reset_interval))
+    Rails.env.demo? && (DatabaseReset.where(ip: request.remote_ip).blank? || (Time.now.to_i - DatabaseReset.where(ip: request.remote_ip).order('created_at DESC').first.created_at.to_i >= DatabaseResetsController::reset_interval))
   end
 
   def do_reset

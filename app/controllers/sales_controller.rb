@@ -31,14 +31,16 @@ class SalesController < ApplicationController
 
   # GET /sales/new
   def new
-    message = [t('demo application', default: 'This is <strong>Demo</strong> Application.'), 
-         t('download test files', default: 'You may download following files for testing purposes: ')]
-         .join(' ')
-    path = "data/demo/example_sales/#{current_user.current_store.id}/"
-    files = Dir.entries(Rails.root.join(path)).select{|f| !File.directory? f}
-    links = files.map{|file| view_context.link_to(file, example_file_path(store_id: current_user.current_store.id, filename: file))}
-    message << links.join(', ')
-    flash.now[:info] = message.html_safe
+    if Rails.env.demo?
+      message = [t('demo application', default: 'This is <strong>Demo</strong> Application.'),
+           t('download test files', default: 'You may download following files for testing purposes: ')]
+           .join(' ')
+      path = "data/demo/example_sales/#{current_user.current_store.id}/"
+      files = Dir.entries(Rails.root.join(path)).select{|f| !File.directory? f}
+      links = files.map{|file| view_context.link_to(file, example_file_path(store_id: current_user.current_store.id, filename: file))}
+      message << links.join(', ')
+      flash.now[:info] = message.html_safe
+    end
     
     @sale = Sale.new
     respond_to do |format|
