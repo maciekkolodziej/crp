@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 source 'http://gems.github.com'
 
 gem 'dotenv-rails'
-gem "eventmachine"
+gem 'json', '~> 1.8.3'
 
 # Eselect2
 gem "select2-rails"
@@ -51,9 +51,6 @@ gem 'groupdate'
 
 # Use Action Mailer for sending log messages
 gem 'actionmailer'
-
-# Use Thin server instead of Webrick (verry slow on Windows)
-gem 'thin'
 
 # Use twitter bootstrap theme - without 'less'
 gem 'twitter-bootstrap-rails'
