@@ -16,10 +16,8 @@ capybara-*.html
 rerun.txt
 pickle-email-*.html
 .project
-config/initializers/secret_token.rb
 *.pass
 config/database.yml
-config/passwords/*
 data/*
 *.sql
 .env

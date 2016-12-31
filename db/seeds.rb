@@ -9,7 +9,8 @@ Store.delete_all
 Store.create(id: 1, symbol: 'GA', name: 'SKM Gdynia Główna', active: true)
 
 User.delete_all
-User.create(id: 1, email: 'maciek@kolodziej.com.pl', password: '1234', first_name: 'Maciek', last_name: 'Kołodziej', active: true, current_store_id: 1)
+User.create(id: 1, email: 'admin@demo.pl', password: 'admin', first_name: 'Mr', last_name: 'Admin',
+            active: true, current_store_id: 1)
 
 Role.delete_all
 Role.create([

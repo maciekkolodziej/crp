@@ -43,7 +43,7 @@ gem 'userstamp', git: 'git://github.com/kimkong/userstamp'
 # Charting libraries
 # Chartkick also needs javascript inclusion:
 # <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
-gem 'chartkick', git: 'git://github.com/maciekkolodziej/chartkick' # for quick charts
+gem 'chartkick', git: 'git@gitlab.inevi.pl:mkolodziej/chartkick.git' # for quick charts
 gem 'google_visualr'
 
 # Grouping by date gem (day of week, hour of day)
@@ -60,7 +60,7 @@ gem 'haml'
 gem 'haml-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+gem 'rails', '~> 4.0.0'
 
 # Use mysql as the database for Active Record
 gem 'mysql2', '0.3.17'

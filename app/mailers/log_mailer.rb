@@ -1,5 +1,5 @@
 class LogMailer < ActionMailer::Base
-  default from: '"CRP" <crp@maciekkolodziej.pl>',
+  default from: '"CRP" <crp@inevi.pl>',
           to: "maciek@kolodziej.com.pl"
           
   def sale_report(sale)

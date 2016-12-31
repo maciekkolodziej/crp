@@ -1,7 +1,7 @@
 Crp::Application.configure do
   
   # Config mailer
-  config.action_mailer.default_url_options = { host: 'crp_demo.maciekkolodziej.pl' }
+  config.action_mailer.default_url_options = { host: 'crp-demo.maciekkolodziej.pl' }
   
   # Settings specified here will take precedence over those in config/application.rb.
 

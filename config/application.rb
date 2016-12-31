@@ -39,13 +39,11 @@ module Crp
     
     # Config mailer
     config.action_mailer.delivery_method = :smtp
-    pass_file = Rails.root.join('config', 'passwords', 'smtp.pass')
-    smtp_pass = File.open(pass_file, "r").read
     config.action_mailer.smtp_settings = {
-      address:              'maciekkolodziej.pl',
+      address:              'smtp.zoho.com',
       port:                 587,
-      domain:               'maciekkolodziej.pl',
-      user_name:            'crp',
+      domain:               'inevi.pl',
+      user_name:            'mailer@inevi.pl',
       password:             ENV['SMTP_PASS'],
       authentication:       'plain',
       enable_starttls_auto: true  }
